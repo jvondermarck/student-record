@@ -46,6 +46,9 @@ public class MainGUI extends Application implements Observer {
         // We create a second tab to record the modules of a student
         recordModuleTab();
 
+        // The third tab is to view the information of a specific student
+        viewRecordTab();
+
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/student/img/logo-mtu.jpg")));
         primaryStage.getIcons().add(icon);
 
@@ -79,6 +82,17 @@ public class MainGUI extends Application implements Observer {
         new RecordModuleGUI(paneRecordModule, controller);
 
         recordModule.setContent(paneRecordModule);
+    }
+
+    public void viewRecordTab(){
+        Tab viewRecord = new Tab("View record");
+        viewRecord.setClosable(false);
+        tabPane.getTabs().add(viewRecord);
+
+        BorderPane paneBorderView = new BorderPane();
+        new ViewRecordGUI(paneBorderView, controller);
+
+        viewRecord.setContent(paneBorderView);
     }
 
     @Override

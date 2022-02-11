@@ -5,11 +5,7 @@ import com.student.model.Observer;
 import com.student.model.Student;
 import com.student.model.University;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -20,17 +16,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class RecordModuleGUI implements Observer {
 
-    private SettingController controller;
-    private ComboBox<Student> cboStudent;
-    private TextField txtModuleName;
-    private TextField txtGrade;
+    private final SettingController controller;
+    private final ComboBox<Student> cboStudent;
+    private final TextField txtModuleName;
+    private final TextField txtGrade;
 
     public RecordModuleGUI(BorderPane paneRoot, SettingController controller)
     {
@@ -126,7 +119,7 @@ public class RecordModuleGUI implements Observer {
     public void setUpCombobox()
     {
         // when we click on the student we want in the combobox we convert the object class to a string to show in the combobox
-        cboStudent.setConverter(new StringConverter<Student>() {
+        cboStudent.setConverter(new StringConverter<>() {
             @Override
             public String toString(Student student) {
                 if (student == null) return null;
@@ -136,8 +129,8 @@ public class RecordModuleGUI implements Observer {
             @Override
             public Student fromString(String idNumber) {
                 Student student = null;
-                for(Student student1 : cboStudent.getItems()){
-                    if(student1.getId().equals(Integer.parseInt(idNumber))){
+                for (Student student1 : cboStudent.getItems()) {
+                    if (student1.getId().equals(Integer.parseInt(idNumber))) {
                         student = student1;
                         break;
                     }
@@ -152,10 +145,10 @@ public class RecordModuleGUI implements Observer {
         cboStudent.setItems(wordsList);
 
         // we now convert all the Student object into a fullname string
-        cboStudent.setCellFactory(new Callback<ListView<Student>, ListCell<Student>>() {
+        cboStudent.setCellFactory(new Callback<>() {
             @Override
             public ListCell<Student> call(ListView<Student> param) {
-                return new ListCell<Student>() {
+                return new ListCell<>() {
                     @Override
                     public void updateItem(Student student, boolean empty) {
                         super.updateItem(student, empty);
@@ -168,10 +161,6 @@ public class RecordModuleGUI implements Observer {
                     }
                 };
             }
-        });
-
-        cboStudent.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-            System.out.println(newValue.getFullname() + " -- " + newValue.getId());
         });
     }
 

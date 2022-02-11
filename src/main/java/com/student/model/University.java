@@ -100,9 +100,9 @@ public class University {
     public void retrieveContactDatabase()
     {
         listStudentDatabase.clear();
-        //InputStream inputStreamm = ClassLoader.getSystemClassLoader().getResourceAsStream("src/main/java/covid/version1/databse_student.csv");
+        //InputStream inputStreamm = ClassLoader.getSystemClassLoader().getResourceAsStream("src/main/java/covid/version1/database_student.csv");
         try {
-            try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/student/databse_student.csv"))) {
+            try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/student/database_student.csv"))) {
                 String line;
                 br.readLine(); // we skip the header line
                 while ((line = br.readLine()) != null) {

@@ -1,12 +1,9 @@
 package com.student.model;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Student {
 
@@ -17,7 +14,7 @@ public class Student {
     private final int id;
 
     // Module variable
-    private Set<Module> moduleStudent;
+    private final List<Module> listModule;
 
     // Database variables
     private File csvFileStudent;
@@ -30,7 +27,9 @@ public class Student {
         this.lastName = lastname;
         this.dateBirth = dateBirth;
         this.id = id;
-        this.moduleStudent = new HashSet<>();
+
+        this.listModule = new ArrayList<>();
+        retrieveModuleDatabase();
     }
 
     // We set up the csv file, we instantiate the File and FileWriter variable to be able to append the database
@@ -39,8 +38,8 @@ public class Student {
         csvFileStudent = null;
         csvFileModule = null;
         try {
-            //csvFileStudent = new File(Objects.requireNonNull(getClass().getResource("/databse_student.csv")).toURI());
-            csvFileStudent = new File("src/main/java/com/student/databse_student.csv");
+            //csvFileStudent = new File(Objects.requireNonNull(getClass().getResource("/database_student.csv")).toURI());
+            csvFileStudent = new File("src/main/java/com/student/database_student.csv");
             csvWriterStudent = new FileWriter(csvFileStudent, true);
 
             csvFileModule = new File("src/main/java/com/student/database_module.csv");
@@ -67,11 +66,11 @@ public class Student {
             }
             if(csvFileModule.length() == 0)
             {
+                csvWriterModule.append("ID");
+                csvWriterModule.append(",");
                 csvWriterModule.append("Module");
                 csvWriterModule.append(",");
                 csvWriterModule.append("Grade");
-                csvWriterModule.append(",");
-                csvWriterModule.append("ID");
                 csvWriterModule.append("\n");
             }
         } catch(IOException e)
@@ -106,15 +105,36 @@ public class Student {
 
     public void addModuleDatabase(String name, int grade)
     {
-        this.moduleStudent.add(new Module(name, grade));
-        List<List<String>> rows = List.of(Arrays.asList(name, Integer.toString(grade),Integer.toString(this.id)));
+        this.listModule.add(new Module(name, grade));
+        List<List<String>> rows = List.of(Arrays.asList(Integer.toString(this.id), name, Integer.toString(grade)));
         setupDatabase(); // We instantiate the variable File and FileWrite to be able to write on the CSV file
         addDataDatabase(csvWriterModule, rows);
     }
 
-    public Set<Module> getModule()
+    public void retrieveModuleDatabase()
     {
-        return this.moduleStudent;
+        listModule.clear();
+        try {
+            try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/student/database_module.csv"))) {
+                String line;
+                br.readLine(); // we skip the header line
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    if(Integer.parseInt(values[0]) == this.id) // If in the database the id of the Student is equal to the student we want
+                    {
+                        Module module = new Module(values[1], Integer.parseInt(values[2]));
+                        listModule.add(module);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Module> getModule()
+    {
+        return this.listModule;
     }
 
     public String getFirstname() {
