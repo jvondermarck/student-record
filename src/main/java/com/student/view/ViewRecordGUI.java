@@ -1,14 +1,18 @@
 package com.student.view;
 
 import com.student.controller.SettingController;
+import com.student.model.Module;
 import com.student.model.Observer;
 import com.student.model.Student;
 import com.student.model.University;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -16,19 +20,20 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import java.util.Objects;
 
-public class RecordModuleGUI implements Observer {
+public class ViewRecordGUI implements Observer {
 
     private final SettingController controller;
+    private final TableView<Module> tableView;
     private final ComboBox<Student> cboStudent;
-    private final TextField txtModuleName;
-    private final TextField txtGrade;
+    private final Label lblInfoStudent;
 
-    public RecordModuleGUI(BorderPane paneRoot, SettingController controller)
+    public ViewRecordGUI(BorderPane paneRoot, SettingController controller)
     {
         this.controller = controller;
-        this.controller.addObserver(this); // we add the class to our Observer, like that the model will be able to trigger the Update() method in case of adding a contact for example
+        this.controller.addObserver(this);
 
         // We put in a pane the logo of the application
         HBox boxTitle = new HBox();
@@ -42,8 +47,6 @@ public class RecordModuleGUI implements Observer {
         boxTitle.setAlignment(Pos.CENTER);
         boxTitle.getStyleClass().add("main-logo-title");
 
-        paneRoot.setTop(boxTitle);
-
         // We create a title and a logo next to the label
         GridPane gridTitle = new GridPane();
         imageView = new ImageView();
@@ -53,67 +56,55 @@ public class RecordModuleGUI implements Observer {
         imageView.setPreserveRatio(true);
         gridTitle.add(imageView, 0,0);
 
-        Label lblTitle = new Label("Student module");
+        Label lblTitle = new Label("Record Student");
         lblTitle.getStyleClass().add("main-title"); // css File
-        gridTitle.setPadding(new Insets(0,0,30,20));
         gridTitle.add(lblTitle, 1,0);
+        gridTitle.setPadding(new Insets(0,0,20,0));
 
         // Then we draw a pane to put the 4 inputs (textfield) and 4 labels
-        GridPane gridInputField = new GridPane();
+        GridPane gridInputCombobox = new GridPane();
         Label lblStudent = new Label("Select a student");
         cboStudent = new ComboBox<>();
         setUpCombobox();
-        gridInputField.add(lblStudent, 0,0);
-        gridInputField.add(cboStudent, 0,1);
+        gridInputCombobox.add(lblStudent, 0,0);
+        gridInputCombobox.add(cboStudent, 0,1);
 
-        Label lblModule = new Label("Choose module");
-        txtModuleName = new TextField();
-        gridInputField.add(lblModule, 2,0);
-        gridInputField.add(txtModuleName,3,0);
+        lblInfoStudent = new Label("");
+        gridInputCombobox.add(lblInfoStudent, 0,2);
+        GridPane.setMargin(lblInfoStudent, new Insets(15, 0,0,0));
+        GridPane.setHalignment(lblInfoStudent, HPos.CENTER); // To align horizontally in the cell
+        GridPane.setValignment(lblInfoStudent, VPos.CENTER); // To align vertically in the cell
+        GridPane.setHalignment(lblStudent, HPos.CENTER); // To align horizontally in the cell
+        GridPane.setValignment(lblStudent, VPos.CENTER); // To align vertically in the cell
+        GridPane.setMargin(lblStudent, new Insets(0,0,10,0));
 
-        Label lblGrade = new Label("Choose grade");
-        txtGrade = new TextField();
-        gridInputField.add(lblGrade, 2,1);
-        gridInputField.add(txtGrade,3,1);
+        // tableView view to show the arrayList of Contacts that we add when we click on the Add button
+        tableView = new TableView<>();
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // We center the text of the tableView
+        tableView.setPlaceholder(new Label("No module."));
+        tableView.getStyleClass().add("tableView-column"); // css File
 
-        gridInputField.getStyleClass().add("gridInputTab2"); // css File
+        TableColumn<Module, String> tableModule = new TableColumn<>("Module");
+        tableModule.setCellValueFactory(new PropertyValueFactory<>("moduleName")); // it will take the getter of getFirstname() in the Student class
+        tableModule.getStyleClass().add("tableView-column");
 
-        // We set some margin to put some space between each textfield and labels
-        GridPane.setMargin(lblStudent, new Insets(20,0,0,50));
-        GridPane.setMargin(lblModule, new Insets(0,0,0,0));
-        GridPane.setMargin(txtGrade, new Insets(20,0,0,0));
+        TableColumn<Module, String> tableGrade = new TableColumn<>("Grade");
+        tableGrade.setCellValueFactory(new PropertyValueFactory<>("gradeModule"));
 
-        // We create the add, remove, list buttons
-        HBox hboxModule = new HBox();
-        Button btnAdd = new Button("Add the module");
-        hboxModule.getChildren().add(btnAdd);
-        hboxModule.setAlignment(Pos.CENTER);
+        // We add the 4 columns into the tableView
+        tableView.getColumns().add(tableModule);
+        tableView.getColumns().add(tableGrade);
 
-        GridPane gridAllPane = new GridPane();
-        gridAllPane.add(gridTitle, 0,0);
-        gridAllPane.add(gridInputField, 0,1);
-        gridAllPane.add(hboxModule, 0,2);
+        GridPane gridPaneAll = new GridPane();
+        gridPaneAll.add(gridTitle, 0, 0);
+        gridPaneAll.add(gridInputCombobox, 0, 1);
+        gridPaneAll.add(tableView, 0, 2);
+        gridPaneAll.setAlignment(Pos.CENTER);
+        GridPane.setMargin(tableView, new Insets(30,0,30,0));
 
-        GridPane.setMargin(hboxModule, new Insets(30,0,0,0)); // We add a bit of margin to put some space
-
-        paneRoot.setCenter(gridAllPane);
+        paneRoot.setTop(boxTitle);
+        paneRoot.setCenter(gridPaneAll);
         paneRoot.getStyleClass().add("paneRoot-tab1");
-
-        btnAdd.setOnAction(event -> {
-            if(checkTextfieldEmpty()){ // If not empty
-                this.controller.addModuleStudent(cboStudent.getSelectionModel().getSelectedItem(),
-                        txtModuleName.getText(), Integer.parseInt(txtGrade.getText()));
-                cboStudent.getSelectionModel().clearSelection();
-                txtGrade.setText("");
-                txtModuleName.setText("");
-            }
-        });
-
-        txtGrade.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[0-9]*$")) { // if value is not a number in regex, we put empty string  (we use *$ to accept no digit like + or IDK)
-                txtGrade.setText(newValue.replaceAll("[^0-9]", "")); // replaces all occurrences of "non digit value" to "empty string"
-            }
-        });
     }
 
     public void setUpCombobox()
@@ -162,13 +153,15 @@ public class RecordModuleGUI implements Observer {
                 };
             }
         });
-    }
 
-    // we check before adding a module to the student if we all textfield and datepicker are not empty
-    public boolean checkTextfieldEmpty()
-    {
-        return !cboStudent.getSelectionModel().isEmpty() && !txtModuleName.getText().isEmpty() &&
-                !txtGrade.getText().isEmpty();
+        cboStudent.getSelectionModel().selectedItemProperty().addListener((options, oldValue, student) -> {
+            tableView.getItems().clear();
+            for(int i=0; i<student.getModule().size(); i++)
+            {
+                tableView.getItems().add(student.getModule().get(i));
+            }
+            lblInfoStudent.setText("ID : " + student.getId() + " - Birth : " + student.getDateBirth());
+        });
     }
 
     @Override

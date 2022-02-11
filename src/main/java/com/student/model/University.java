@@ -40,6 +40,7 @@ public class University {
     public void addModuleStudent(Student student, String name, int grade)
     {
         student.addModuleDatabase(name, grade);
+        notifyObservers();
     }
 
     public boolean checkAlreadyInList(int IDContact)
