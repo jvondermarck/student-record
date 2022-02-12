@@ -9,61 +9,46 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import org.controlsfx.control.NotificationPane;
-import org.controlsfx.control.Notifications;
-import org.controlsfx.control.action.Action;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
-public class AddStudentGUI implements Observer {
+public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
 
-    private final SettingController controller;
-    private final TableView<Student> tableView;
-    private final TextField txtFirstname;
-    private final TextField txtLastname;
-    private final TextField txtID;
-    private final DatePicker txtDateBirth;
-    private final DateTimeFormatter formatterDate;
+    private SettingController controller;
+    private TableView<Student> tableView;
+    private TextField txtFirstname;
+    private TextField txtLastname;
+    private TextField txtID;
+    private DatePicker txtDateBirth;
+    private DateTimeFormatter formatterDate;
+    private BorderPane paneRoot;
 
-    public AddStudentGUI(BorderPane paneRoot, SettingController controller)
-    {
+    public AddStudentGUI(){  }
+
+    @Override
+    public void setUpGUI(BorderPane paneRoot, SettingController controller) {
+        super.setUpGUI(paneRoot, controller);
+        this.paneRoot = paneRoot;
         this.controller = controller;
-        this.controller.addObserver(this); // we add the class to our Observer, like that the model will be able to trigger the Update() method in case of adding a contact for example
+    }
 
-        // We put in a pane the logo of the application
+    @Override
+    public void createWindow()
+    {
         HBox boxTitle = new HBox();
-
-        ImageView imageView = new ImageView();
-        Image imgLogo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/student/img/banner-mtu-sized.jpg")));
-        imageView.setImage(imgLogo);
-        imageView.setFitWidth(225);
-        imageView.setPreserveRatio(true);
-        boxTitle.getChildren().add(imageView);
-        boxTitle.setAlignment(Pos.CENTER);
-        boxTitle.getStyleClass().add("main-logo-title");
-
-        paneRoot.setTop(boxTitle);
-
-        // We create a title and a logo next to the label
         GridPane gridCheckin = new GridPane();
-        imageView = new ImageView();
-        imgLogo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/student/img/survey.png")));
-        imageView.setImage(imgLogo);
-        imageView.setFitWidth(30);
-        imageView.setPreserveRatio(true);
-        gridCheckin.add(imageView, 0,0);
+
+        createTitleView(boxTitle, gridCheckin); // To avoid duplicate code we use a template
+        this.paneRoot.setTop(boxTitle);
 
         Label lblTitle = new Label("Registration Student");
         lblTitle.getStyleClass().add("main-title"); // css File
@@ -249,9 +234,9 @@ public class AddStudentGUI implements Observer {
             }
         });
 
-        paneRoot.setCenter(gridAllStudentPanes);
-        paneRoot.setBottom(boxFooter);
-        paneRoot.getStyleClass().add("paneRoot-tab1");
+        this.paneRoot.setCenter(gridAllStudentPanes);
+        this.paneRoot.setBottom(boxFooter);
+        this.paneRoot.getStyleClass().add("paneRoot-tab1");
     }
 
     // we create a list of <Contact> and send it in our model thanks to the controller

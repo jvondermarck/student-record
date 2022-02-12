@@ -15,7 +15,6 @@ public class LauncherStudent {
         // View
         MainGUI mainView = new MainGUI();
         mainView.setController(controller);
-        universityMTU.addObservers(mainView);
         mainView.main(args);
     }
 }

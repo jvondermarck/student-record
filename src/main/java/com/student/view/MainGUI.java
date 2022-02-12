@@ -2,7 +2,6 @@ package com.student.view;
 
 import com.student.controller.SettingController;
 import com.student.model.Observer;
-import com.student.model.University;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -14,9 +13,9 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class MainGUI extends Application implements Observer {
+public class MainGUI extends Application {
 
-    private static SettingController controller;
+    private static SettingController controller; // Variable to communicate with the model
     private TabPane tabPane;
 
     public void setController(SettingController control)
@@ -33,7 +32,7 @@ public class MainGUI extends Application implements Observer {
         // We import the font Marianne to be able to see that font on every computer
         Font.loadFont(getClass().getResourceAsStream("/com/student/font/Marianne.ttf"), 10);
 
-        primaryStage.setTitle("Student Record");
+        primaryStage.setTitle("Student Record"); // Title of the application
 
         // The main principal pane of the GUI
         BorderPane root = new BorderPane();
@@ -41,13 +40,15 @@ public class MainGUI extends Application implements Observer {
         root.setCenter(tabPane);
 
         // We create the first tab which is to add a student
-        addStudentTab();
+        //addStudentTab();
+        addTab("Student", new AddStudentGUI());
 
         // We create a second tab to record the modules of a student
-        recordModuleTab();
+        //recordModuleTab();
+        addTab("Record module", new RecordModuleGUI());
 
         // The third tab is to view the information of a specific student
-        viewRecordTab();
+        addTab("View module", new ViewRecordGUI());
 
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/student/img/logo-mtu.jpg")));
         primaryStage.getIcons().add(icon);
@@ -59,49 +60,19 @@ public class MainGUI extends Application implements Observer {
         primaryStage.show();
     }
 
-    public void addStudentTab(){
-        // Tab where we will add a contact
-        Tab addStudent = new Tab("Student");
-        addStudent.setClosable(false);
-        tabPane.getTabs().add(addStudent);
+    public void addTab(String tabName, IGUI window)
+    {
+        // Tab where we will add the window
+        Tab tab = new Tab(tabName);
+        tab.setClosable(false);
+        tabPane.getTabs().add(tab);
 
-        // Another class (AddStudentGUI) will take care of displaying the student tab
-        BorderPane paneAddStudent = new BorderPane();
-        new AddStudentGUI(paneAddStudent, controller);
+        BorderPane paneTab = new BorderPane();
+        window.setUpGUI(paneTab, controller);
+        controller.addObserver((Observer) window); // // we add the class to our Observer, like that the model will be able to trigger the Update() method in case of adding a contact for example
+        window.createWindow();
 
         // We display the layout in the tab
-        addStudent.setContent(paneAddStudent);
-    }
-
-    public void recordModuleTab(){
-        Tab recordModule = new Tab("Record module");
-        recordModule.setClosable(false);
-        tabPane.getTabs().add(recordModule);
-
-        BorderPane paneRecordModule = new BorderPane();
-        new RecordModuleGUI(paneRecordModule, controller);
-
-        recordModule.setContent(paneRecordModule);
-    }
-
-    public void viewRecordTab(){
-        Tab viewRecord = new Tab("View record");
-        viewRecord.setClosable(false);
-        tabPane.getTabs().add(viewRecord);
-
-        BorderPane paneBorderView = new BorderPane();
-        new ViewRecordGUI(paneBorderView, controller);
-
-        viewRecord.setContent(paneBorderView);
-    }
-
-    @Override
-    public void updateView(University university) {
-
-    }
-
-    @Override
-    public void displayError(University university, String errorMessage) {
-
+        tab.setContent(paneTab);
     }
 }
