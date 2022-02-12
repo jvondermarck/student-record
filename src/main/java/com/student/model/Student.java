@@ -72,6 +72,7 @@ public class Student {
                 csvWriterModule.append(",");
                 csvWriterModule.append("Grade");
                 csvWriterModule.append("\n");
+                // TODO : create an unique ID for each module to identify them better
             }
         } catch(IOException e)
         {
@@ -130,6 +131,11 @@ public class Student {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void deleteModule(Module module){
+        this.listModule.remove(module);
+        // TODO : remove from csv module
     }
 
     public List<Module> getModule()

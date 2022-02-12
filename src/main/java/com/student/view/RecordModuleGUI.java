@@ -4,8 +4,10 @@ import com.student.controller.SettingController;
 import com.student.model.Observer;
 import com.student.model.Student;
 import com.student.model.University;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -32,13 +34,8 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         HBox boxTitle = new HBox();
         GridPane gridTitle = new GridPane();
 
-        createTitleView(boxTitle, gridTitle); // To avoid duplicate code we use a template
-        this.paneRoot.setTop(boxTitle);
-
-        Label lblTitle = new Label("Student module");
-        lblTitle.getStyleClass().add("main-title"); // css File
+        createTitleView(boxTitle, gridTitle, "Student module"); // To avoid duplicate code we use a template
         gridTitle.setPadding(new Insets(0,0,30,20));
-        gridTitle.add(lblTitle, 1,0);
 
         // Then we draw a pane to put the 4 inputs (textfield) and 4 labels
         GridPane gridInputField = new GridPane();
@@ -52,17 +49,21 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         txtModuleName = new TextField();
         gridInputField.add(lblModule, 2,0);
         gridInputField.add(txtModuleName,3,0);
+        GridPane.setHalignment(lblModule, HPos.CENTER); // To align horizontally in the cell
+        GridPane.setValignment(lblModule, VPos.CENTER); // To align vertically in the cell
 
         Label lblGrade = new Label("Choose grade");
         txtGrade = new TextField();
         gridInputField.add(lblGrade, 2,1);
         gridInputField.add(txtGrade,3,1);
+        GridPane.setHalignment(lblGrade, HPos.CENTER); // To align horizontally in the cell
+        GridPane.setValignment(lblGrade, VPos.CENTER); // To align vertically in the cell
 
         gridInputField.getStyleClass().add("gridInputTab2"); // css File
 
         // We set some margin to put some space between each textfield and labels
         GridPane.setMargin(lblStudent, new Insets(20,0,0,50));
-        GridPane.setMargin(lblModule, new Insets(0,0,0,0));
+        GridPane.setMargin(lblGrade, new Insets(18,0,0,0));
         GridPane.setMargin(txtGrade, new Insets(20,0,0,0));
 
         // We create the add, remove, list buttons

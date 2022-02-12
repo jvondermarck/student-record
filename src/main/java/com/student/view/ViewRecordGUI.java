@@ -38,13 +38,7 @@ public class ViewRecordGUI extends TemplateGUI implements Observer, IGUI {
         HBox boxTitle = new HBox();
         GridPane gridTitle = new GridPane();
 
-        createTitleView(boxTitle, gridTitle); // To avoid duplicate code we use a template
-        this.paneRoot.setTop(boxTitle);
-
-        Label lblTitle = new Label("Record Student");
-        lblTitle.getStyleClass().add("main-title"); // css File
-        gridTitle.add(lblTitle, 1,0);
-        gridTitle.setPadding(new Insets(0,0,20,0));
+        createTitleView(boxTitle, gridTitle, "Record Student"); // To avoid duplicate code we use a template
 
         // Then we draw a pane to put the 4 inputs (textfield) and 4 labels
         GridPane gridInputCombobox = new GridPane();
@@ -95,15 +89,19 @@ public class ViewRecordGUI extends TemplateGUI implements Observer, IGUI {
     public void setUpCombobox()
     {
         createComboboxStudent(cboStudent); // we call the template class to avoid dupliacted code
+        cboStudent.getSelectionModel().clearSelection();
 
         // when we click on the student we want in the combobox we convert the object class to a string to show in the combobox
         cboStudent.getSelectionModel().selectedItemProperty().addListener((options, oldValue, student) -> {
             tableView.getItems().clear();
-            for(int i=0; i<student.getModule().size(); i++)
+            if(student != null) // to avoid any problem we make sure that a student is well selected in the combobox
             {
-                tableView.getItems().add(student.getModule().get(i));
+                for(int i=0; i<student.getModule().size(); i++)
+                {
+                    tableView.getItems().add(student.getModule().get(i));
+                }
+                lblInfoStudent.setText("ID : " + student.getId() + " - Birth : " + student.getDateBirth());
             }
-            lblInfoStudent.setText("ID : " + student.getId() + " - Birth : " + student.getDateBirth());
         });
     }
 

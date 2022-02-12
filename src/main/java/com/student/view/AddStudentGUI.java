@@ -47,13 +47,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         HBox boxTitle = new HBox();
         GridPane gridCheckin = new GridPane();
 
-        createTitleView(boxTitle, gridCheckin); // To avoid duplicate code we use a template
-        this.paneRoot.setTop(boxTitle);
-
-        Label lblTitle = new Label("Registration Student");
-        lblTitle.getStyleClass().add("main-title"); // css File
-        gridCheckin.add(lblTitle, 1,0);
-        gridCheckin.setPadding(new Insets(0,0,20,0));
+        createTitleView(boxTitle, gridCheckin, "Registration Student"); // To avoid duplicate code we use a template
 
         // Then we draw a pane to put the 4 inputs (textfield) and 4 labels
         GridPane gridInputField = new GridPane();
