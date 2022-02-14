@@ -74,7 +74,18 @@ ComboBox>.list-cell {
     -fx-pref-width: 200;
 }
 
-
+.tooltip {
+    -fx-background-color: #d74343;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+    -fx-background: rgba(30,30,30);
+    -fx-text-fill: white;
+    -fx-background-insets: 0;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 10, 0.0 , 0 , 3 );
+    -fx-font-size: 0.85em;
+    -fx-alignment: center;
+    -fx-font: 15px "Marianne";
+}
 
 
 

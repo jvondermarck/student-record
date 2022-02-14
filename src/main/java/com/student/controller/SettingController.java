@@ -35,7 +35,7 @@ public class SettingController {
         return this.university.getListStudent();
     }
 
-    public void addModuleStudent(Student student, String name, int grade) { this.university.addModuleStudent(student, name, grade);};
+    public void addModuleStudent(Student student, String name, int grade) { this.university.addModuleStudent(student, name, grade);}
 
     public List<Student> getAllStudentDatabase()
     {

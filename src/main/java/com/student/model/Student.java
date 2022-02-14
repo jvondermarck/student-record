@@ -1,6 +1,8 @@
 package com.student.model;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,26 +56,9 @@ public class Student {
     public void checkDatabaseEmpty() {
         try {
             if(csvFileStudent.length() == 0)
-            {
-                csvWriterStudent.append("Firstname");
-                csvWriterStudent.append(",");
-                csvWriterStudent.append("Lastname");
-                csvWriterStudent.append(",");
-                csvWriterStudent.append("ID");
-                csvWriterStudent.append(",");
-                csvWriterStudent.append("DateBirth");
-                csvWriterStudent.append("\n");
-            }
+                csvWriterStudent.append("Firstname,Lastname,ID,DateBirth\n");
             if(csvFileModule.length() == 0)
-            {
-                csvWriterModule.append("ID");
-                csvWriterModule.append(",");
-                csvWriterModule.append("Module");
-                csvWriterModule.append(",");
-                csvWriterModule.append("Grade");
-                csvWriterModule.append("\n");
-                // TODO : create an unique ID for each module to identify them better
-            }
+                csvWriterModule.append("ID,IDStudent,Module,Grade\n");
         } catch(IOException e)
         {
             e.printStackTrace();
@@ -88,7 +73,6 @@ public class Student {
                 fileWriter.append(String.join(",", row));
                 fileWriter.append("\n");
             }
-
             fileWriter.flush();
             fileWriter.close();
         } catch(IOException e)
@@ -107,9 +91,23 @@ public class Student {
     public void addModuleDatabase(String name, int grade)
     {
         this.listModule.add(new Module(name, grade));
-        List<List<String>> rows = List.of(Arrays.asList(Integer.toString(this.id), name, Integer.toString(grade)));
+        List<List<String>> rows = List.of(Arrays.asList(Long.toString(getLines()), Integer.toString(this.id), name, Integer.toString(grade)));
         setupDatabase(); // We instantiate the variable File and FileWrite to be able to write on the CSV file
         addDataDatabase(csvWriterModule, rows);
+    }
+
+    // get the number of lines of the database module to increment the ID which is unique for each row
+    public long getLines() {
+        long number = 0;
+        try {
+            number = Files.lines(Paths.get("src/main/java/com/student/database_module.csv")).count();
+            if(number == 0) {
+                number = 1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return number;
     }
 
     public void retrieveModuleDatabase()
@@ -121,9 +119,9 @@ public class Student {
                 br.readLine(); // we skip the header line
                 while ((line = br.readLine()) != null) {
                     String[] values = line.split(",");
-                    if(Integer.parseInt(values[0]) == this.id) // If in the database the id of the Student is equal to the student we want
+                    if(Integer.parseInt(values[1]) == this.id) // If in the database the id of the Student is equal to the student we want
                     {
-                        Module module = new Module(values[1], Integer.parseInt(values[2]));
+                        Module module = new Module(values[2], Integer.parseInt(values[3]));
                         listModule.add(module);
                     }
                 }
@@ -133,19 +131,10 @@ public class Student {
         }
     }
 
-    public void deleteModule(Module module){
-        this.listModule.remove(module);
-        // TODO : remove from csv module
+    public List<Module> getModule() { return this.listModule;
     }
 
-    public List<Module> getModule()
-    {
-        return this.listModule;
-    }
-
-    public String getFirstname() {
-        return this.firstName;
-    }
+    public String getFirstname() { return this.firstName; }
 
     public String getLastname() { return this.lastName; }
 

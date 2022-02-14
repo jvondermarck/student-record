@@ -59,20 +59,7 @@ public class ViewRecordGUI extends TemplateGUI implements Observer, IGUI {
 
         // tableView view to show the arrayList of Contacts that we add when we click on the Add button
         tableView = new TableView<>();
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // We center the text of the tableView
-        tableView.setPlaceholder(new Label("No module."));
-        tableView.getStyleClass().add("tableView-column"); // css File
-
-        TableColumn<Module, String> tableModule = new TableColumn<>("Module");
-        tableModule.setCellValueFactory(new PropertyValueFactory<>("moduleName")); // it will take the getter of getFirstname() in the Student class
-        tableModule.getStyleClass().add("tableView-column");
-
-        TableColumn<Module, String> tableGrade = new TableColumn<>("Grade");
-        tableGrade.setCellValueFactory(new PropertyValueFactory<>("gradeModule"));
-
-        // We add the 4 columns into the tableView
-        tableView.getColumns().add(tableModule);
-        tableView.getColumns().add(tableGrade);
+        setUpListViewModule(tableView, cboStudent);
 
         GridPane gridPaneAll = new GridPane();
         gridPaneAll.add(gridTitle, 0, 0);
@@ -93,13 +80,8 @@ public class ViewRecordGUI extends TemplateGUI implements Observer, IGUI {
 
         // when we click on the student we want in the combobox we convert the object class to a string to show in the combobox
         cboStudent.getSelectionModel().selectedItemProperty().addListener((options, oldValue, student) -> {
-            tableView.getItems().clear();
             if(student != null) // to avoid any problem we make sure that a student is well selected in the combobox
             {
-                for(int i=0; i<student.getModule().size(); i++)
-                {
-                    tableView.getItems().add(student.getModule().get(i));
-                }
                 lblInfoStudent.setText("ID : " + student.getId() + " - Birth : " + student.getDateBirth());
             }
         });
@@ -111,7 +93,7 @@ public class ViewRecordGUI extends TemplateGUI implements Observer, IGUI {
     }
 
     @Override
-    public void displayError(University university, String errorMessage) {
+    public void displayError(String errorMessage) {
 
     }
 }

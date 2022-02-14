@@ -1,6 +1,7 @@
 package com.student.view;
 
 import com.student.controller.SettingController;
+import com.student.model.Module;
 import com.student.model.Observer;
 import com.student.model.Student;
 import com.student.model.University;
@@ -20,6 +21,7 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
     private TextField txtModuleName;
     private TextField txtGrade;
     private BorderPane paneRoot;
+    private TableView<Module> tableView;
 
     @Override
     public void setUpGUI(BorderPane paneRoot, SettingController controller) {
@@ -40,6 +42,7 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         // Then we draw a pane to put the 4 inputs (textfield) and 4 labels
         GridPane gridInputField = new GridPane();
         Label lblStudent = new Label("Select a student");
+        lblStudent.setStyle(" -fx-font-size: 17px; ");
         cboStudent = new ComboBox<>();
         createComboboxStudent(cboStudent); // we call the template to avoid dupliacted code
         gridInputField.add(lblStudent, 0,0);
@@ -72,12 +75,17 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         hboxModule.getChildren().add(btnAdd);
         hboxModule.setAlignment(Pos.CENTER);
 
+        tableView = new TableView<>();
+        setUpListViewModule(tableView, cboStudent);
+
         GridPane gridAllPane = new GridPane();
         gridAllPane.add(gridTitle, 0,0);
         gridAllPane.add(gridInputField, 0,1);
         gridAllPane.add(hboxModule, 0,2);
+        gridAllPane.add(tableView, 0,3);
 
         GridPane.setMargin(hboxModule, new Insets(30,0,0,0)); // We add a bit of margin to put some space
+        GridPane.setMargin(tableView, new Insets(30,50,30,50)); // We add a bit of margin to put some space
 
         paneRoot.setCenter(gridAllPane);
         paneRoot.getStyleClass().add("paneRoot-tab1");
@@ -91,6 +99,7 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
                 txtModuleName.setText("");
             }
         });
+
 
         txtGrade.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("[0-9]*$")) { // if value is not a number in regex, we put empty string  (we use *$ to accept no digit like + or IDK)
@@ -112,7 +121,7 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
     }
 
     @Override
-    public void displayError(University university, String errorMessage) {
+    public void displayError(String errorMessage) {
 
     }
 }

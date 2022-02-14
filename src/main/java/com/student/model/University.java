@@ -1,5 +1,7 @@
 package com.student.model;
 
+import com.student.view.AddStudentGUI;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -33,7 +35,10 @@ public class University {
                 System.out.println("NumberFormatException : Bad number value, might be too long...");
             }
         } else {
-            notifyObserversError("This ID number is already existing.");
+            for(Observer observer : listObserver){
+                if(observer instanceof AddStudentGUI)
+                    observer.displayError("This ID number is already existing.");
+            }
         }
     }
 
@@ -89,12 +94,6 @@ public class University {
     public void notifyObservers(){
         for(Observer observer : listObserver){
             observer.updateView(this);
-        }
-    }
-
-    public void notifyObserversError(String errorMessage){
-        for(Observer observer : listObserver){
-            observer.displayError(this, errorMessage);
         }
     }
 

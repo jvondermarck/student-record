@@ -5,6 +5,7 @@ import com.student.model.Observer;
 import com.student.model.Student;
 import com.student.model.University;
 import javafx.application.Platform;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -13,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,6 +33,8 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
     private DatePicker txtDateBirth;
     private DateTimeFormatter formatterDate;
     private BorderPane paneRoot;
+    private GridPane gridInputField;
+    private Tooltip tooltip;
 
     public AddStudentGUI(){  }
 
@@ -39,6 +43,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         super.setUpGUI(paneRoot, controller);
         this.paneRoot = paneRoot;
         this.controller = controller;
+        this.tooltip = new Tooltip();
     }
 
     @Override
@@ -50,7 +55,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         createTitleView(boxTitle, gridCheckin, "Registration Student"); // To avoid duplicate code we use a template
 
         // Then we draw a pane to put the 4 inputs (textfield) and 4 labels
-        GridPane gridInputField = new GridPane();
+        gridInputField = new GridPane();
         Label lblFirstname = new Label("First Name");
         txtFirstname = new TextField();
         gridInputField.add(lblFirstname, 0,0);
@@ -140,12 +145,15 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
 
         btnAdd.setOnAction(event -> {
             if(checkTextfieldEmpty()){ // If not empty
+                tooltip.hide();
                 // we add the student into the ArrayList of <Student> and display it in the TableView
                 addContact(txtFirstname.getText(), txtLastname.getText(), txtID.getText(), formatterDate.format(txtDateBirth.getValue()));
                 txtFirstname.setText("");
                 txtLastname.setText("");
                 txtID.setText("");
                 txtDateBirth.setValue(LocalDate.now());
+            } else {
+                displayError("Please fill all fields.");
             }
         });
 
@@ -289,7 +297,14 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
     }
 
     @Override
-    public void displayError(University university, String errorMessage) {
-        //Notifications.create().title("Error").text(errorMessage).showError();
+    public void displayError(String errorMessage) {
+        tooltip.setText(errorMessage);
+        tooltip.getStyleClass().add("tooltip");
+        Bounds bounds = gridInputField.localToScreen(gridInputField.getBoundsInLocal());
+        double tooltipMiddle = tooltip.getWidth()/2;
+        double tooltipHeight = tooltip.getHeight();
+        double nodeMiddle = gridInputField.getWidth()/2;
+        Tooltip.install(gridInputField, tooltip);
+        tooltip.show(gridInputField, bounds.getMinX() + nodeMiddle + tooltipMiddle, bounds.getMinY() - tooltipHeight - 55);
     }
 }
