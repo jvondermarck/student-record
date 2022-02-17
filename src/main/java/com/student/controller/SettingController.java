@@ -40,23 +40,28 @@ public class SettingController {
     public void addStudent(TextField txtFirstname, TextField txtLastname, TextField txtID, DatePicker txtDateBirth, DateTimeFormatter formatterDate)
     {
         if(this.addStudentGUI.checkTextfieldEmpty()){ // If not empty
-            // we add the student into the ArrayList of <Student> and display it in the TableView
-            List<String> student = new ArrayList<>();
-            student.add(txtFirstname.getText());
-            student.add(txtLastname.getText());
-            student.add(txtID.getText());
-            student.add(formatterDate.format(txtDateBirth.getValue()));
+            if(txtFirstname.getText().length() < 3 || txtLastname.getText().length() < 3)
+            {
+                this.addStudentGUI.displayMessage("Error : Please name too short.", ColorMsg.ERROR.getColor());
+            } else {
+                // we add the student into the ArrayList of <Student> and display it in the TableView
+                List<String> student = new ArrayList<>();
+                student.add(txtFirstname.getText());
+                student.add(txtLastname.getText());
+                student.add(txtID.getText());
+                student.add(formatterDate.format(txtDateBirth.getValue()));
 
-            // We clear the inputs
-            txtFirstname.setText("");
-            txtLastname.setText("");
-            txtID.setText("");
-            txtDateBirth.setValue(LocalDate.now());
+                // We clear the inputs
+                txtFirstname.setText("");
+                txtLastname.setText("");
+                txtID.setText("");
+                txtDateBirth.setValue(LocalDate.now());
 
-            // we send the contact value to the model
-            this.university.addStudent(student);
-            // we display a succes message
-            this.addStudentGUI.displayMessage("Success : student added.", ColorMsg.SUCCESS.getColor());
+                // we send the contact value to the model
+                this.university.addStudent(student);
+                // we display a succes message
+                this.addStudentGUI.displayMessage("Success : Student added.", ColorMsg.SUCCESS.getColor());
+            }
         } else {
             this.addStudentGUI.displayMessage("Error : Please fill in all fields.", ColorMsg.ERROR.getColor());
         }
@@ -69,11 +74,10 @@ public class SettingController {
             Student selectedItems = tableView.getSelectionModel().getSelectedItems().get(0);
             this.addStudentGUI.resetTable();
             this.university.deleteStudent(selectedItems);
-            this.addStudentGUI.displayMessage("Warning : student deleted.", ColorMsg.SUCCESS.getColor());
+            this.addStudentGUI.displayMessage("Warning : Student deleted.", ColorMsg.SUCCESS.getColor());
         } else {
-            this.addStudentGUI.displayMessage("Error : please select a student.", ColorMsg.ERROR.getColor());
+            this.addStudentGUI.displayMessage("Error : Please select a student.", ColorMsg.ERROR.getColor());
         }
-
     }
 
     public void saveStudentDatabase()
@@ -96,7 +100,7 @@ public class SettingController {
             txtModuleName.setText("");
             this.recordModuleGUI.updateListView(tableView, cboStudent);
         } else {
-            this.recordModuleGUI.displayMessage("Error : please fill all input.", ColorMsg.ERROR.getColor());
+            this.recordModuleGUI.displayMessage("Error : Please fill all input.", ColorMsg.ERROR.getColor());
         }
     }
 

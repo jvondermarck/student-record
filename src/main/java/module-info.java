@@ -5,6 +5,6 @@ module com.student.student {
     exports com.student.controller;
     exports com.student.view;
     exports com.student.model;
-    exports com.student;
     exports com.student.utilities;
+    exports com.student.launcher;
 }

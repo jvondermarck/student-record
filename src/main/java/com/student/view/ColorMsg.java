@@ -7,7 +7,7 @@ public enum ColorMsg {
     private final java.lang.String msg;
     final String color;
 
-    private ColorMsg(String text, String color) {
+    ColorMsg(String text, String color) {
         this.msg = text;
         this.color = color;
     }

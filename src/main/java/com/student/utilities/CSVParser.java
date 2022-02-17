@@ -4,9 +4,11 @@ import com.student.model.Module;
 import com.student.model.Student;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 public class CSVParser {
 
@@ -18,14 +20,16 @@ public class CSVParser {
 
     private static final String studentDBPath = "src/main/java/com/student/database_student.csv";
     private static final String moduleDBPath = "src/main/java/com/student/database_module.csv";
+    //private static final String studentDBPath = "src/main/resources/com/student/database_student.csv";
+    //private static final String moduleDBPath = "src/main/resources/com/student/database_module.csv";
 
     // We set up the csv file, we instantiate the File and FileWriter variable to be able to append the database
     public static void setupDatabase()
     {
         try {
-            //csvFileStudent = new File(Objects.requireNonNull(getClass().getResource("/database_student.csv")).toURI());
-            csvFileStudent = new File(studentDBPath);
-            csvWriterStudent = new FileWriter(csvFileStudent, true);
+            //csvFileStudent = new File(Objects.requireNonNull(loader.getResource("/ressources/database_student")).getFile());
+           csvFileStudent = new File(studentDBPath);
+           csvWriterStudent = new FileWriter(csvFileStudent, true);
 
             csvFileModule = new File(moduleDBPath);
             csvWriterModule = new FileWriter(csvFileModule, true);

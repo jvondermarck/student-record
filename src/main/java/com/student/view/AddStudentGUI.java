@@ -15,7 +15,6 @@ import javafx.scene.layout.HBox;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -157,7 +156,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
             for (Student contact : controller.getAllStudentDatabase()){
                 tableView.getItems().add(contact);
             }
-            displayMessage("Success : database loaded.", ColorMsg.SUCCESS.getColor());
+            displayMessage("Success : Database loaded.", ColorMsg.SUCCESS.getColor());
             btnRemove.setDisable(true);
             btnAdd.setDisable(true);
         });
@@ -217,7 +216,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
                     txtDateBirth.setValue(txtDateBirth.getConverter().fromString(txtDateBirth.getEditor().getText()));
                 } catch (DateTimeParseException e) {
                     txtDateBirth.getEditor().setText(txtDateBirth.getConverter().toString(txtDateBirth.getValue()));
-                    displayMessage("Error : enter valid date (dd/mm/yyyy).", ColorMsg.ERROR.getColor());
+                    displayMessage("Error : Enter valid date (dd/mm/yyyy).", ColorMsg.ERROR.getColor());
                 }
             }
         });

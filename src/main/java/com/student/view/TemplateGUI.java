@@ -171,9 +171,7 @@ public class TemplateGUI implements IGUI {
         // We check if a message is already being displayed
         if(messageDisplayed){
             // we wait that the message end, to display the next message
-            visiblePause.setOnFinished( event -> {
-                setPauseDuration(lblError, errorMessage, colorHexa);
-            });
+            visiblePause.setOnFinished( event -> setPauseDuration(lblError, errorMessage, colorHexa));
         } else {
             messageDisplayed = true;
             lblError.setVisible(true);
