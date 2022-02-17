@@ -3,10 +3,13 @@ package com.student.view;
 import com.student.controller.SettingController;
 import com.student.model.Module;
 import com.student.model.Student;
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -15,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 
 import java.util.Objects;
@@ -26,11 +30,14 @@ public class TemplateGUI implements IGUI {
 
     private SettingController controller;
     private BorderPane paneRoot;
+    private PauseTransition visiblePause;
+    private boolean messageDisplayed;
 
     @Override
     public void setUpGUI(BorderPane paneRoot, SettingController controller) {
         this.controller = controller;
         this.paneRoot = paneRoot;
+        this.visiblePause = new PauseTransition();
     }
 
     @Override
@@ -64,6 +71,16 @@ public class TemplateGUI implements IGUI {
         lblTitle.getStyleClass().add("main-title"); // css File
         gridTitle.add(lblTitle, 1,0);
         gridTitle.setPadding(new Insets(0,0,20,0));
+    }
+
+    public void createErrorLabel(Label lblError, GridPane gridPane)
+    {
+        lblError.setVisible(false);
+        lblError.getStyleClass().add("tooltip");
+        gridPane.add(lblError, 2,0);
+        GridPane.setMargin(lblError, new Insets(0,0,0,100));
+        GridPane.setHalignment(lblError, HPos.CENTER); // To align horizontally in the cell
+        GridPane.setValignment(lblError, VPos.CENTER); // To align vertically in the cell
     }
 
     public void createComboboxStudent(ComboBox<Student> cboStudent)
@@ -131,6 +148,11 @@ public class TemplateGUI implements IGUI {
         tableView.getColumns().add(tableModule);
         tableView.getColumns().add(tableGrade);
 
+        updateListView(tableView, cboStudent);
+    }
+
+    public void updateListView(TableView<Module> tableView, ComboBox<Student> cboStudent)
+    {
         // when we click on the student we want in the combobox we convert the object class to a string to show in the combobox
         cboStudent.getSelectionModel().selectedItemProperty().addListener((options, oldValue, student) -> {
             tableView.getItems().clear();
@@ -142,5 +164,34 @@ public class TemplateGUI implements IGUI {
                 }
             }
         });
+    }
+
+    public void showMessageTemplate(Label lblError, String errorMessage, String colorHexa)
+    {
+        // We check if a message is already being displayed
+        if(messageDisplayed){
+            // we wait that the message end, to display the next message
+            visiblePause.setOnFinished( event -> {
+                setPauseDuration(lblError, errorMessage, colorHexa);
+            });
+        } else {
+            messageDisplayed = true;
+            lblError.setVisible(true);
+            setPauseDuration(lblError, errorMessage, colorHexa);
+        }
+    }
+
+    private void setPauseDuration(Label lblError, String errorMessage, String colorHexa)
+    {
+        visiblePause = new PauseTransition(
+                Duration.seconds(4)
+        );
+        lblError.setText(errorMessage);
+        lblError.setStyle(" -fx-background-color: " + colorHexa + "; ");
+        visiblePause.setOnFinished( e -> {
+            lblError.setVisible(false);
+            messageDisplayed = false;
+        });
+        visiblePause.play();
     }
 }

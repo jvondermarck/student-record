@@ -1,6 +1,7 @@
 package com.student.model;
 
 import com.student.view.AddStudentGUI;
+import com.student.view.ColorMsg;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -37,7 +38,7 @@ public class University {
         } else {
             for(Observer observer : listObserver){
                 if(observer instanceof AddStudentGUI)
-                    observer.displayError("This ID number is already existing.");
+                    observer.displayMessage("This ID number is already existing.", ColorMsg.ERROR.getColor());
             }
         }
     }

@@ -22,6 +22,7 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
     private TextField txtGrade;
     private BorderPane paneRoot;
     private TableView<Module> tableView;
+    private Label lblError;
 
     @Override
     public void setUpGUI(BorderPane paneRoot, SettingController controller) {
@@ -35,8 +36,10 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
     {
         HBox boxTitle = new HBox();
         GridPane gridTitle = new GridPane();
+        lblError = new Label();
 
         createTitleView(boxTitle, gridTitle, "Student module"); // To avoid duplicate code we use a template
+        createErrorLabel(lblError, gridTitle);
         gridTitle.setPadding(new Insets(0,0,30,20));
 
         // Then we draw a pane to put the 4 inputs (textfield) and 4 labels
@@ -92,18 +95,21 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
 
         btnAdd.setOnAction(event -> {
             if(checkTextfieldEmpty()){ // If not empty
+                displayMessage("Success : " + cboStudent.getSelectionModel().getSelectedItem().getFirstname() + "'s module added.", ColorMsg.ERROR.getColor());
                 this.controller.addModuleStudent(cboStudent.getSelectionModel().getSelectedItem(),
                         txtModuleName.getText(), Integer.parseInt(txtGrade.getText()));
-                cboStudent.getSelectionModel().clearSelection();
                 txtGrade.setText("");
                 txtModuleName.setText("");
+                updateListView(tableView, cboStudent);
+            } else {
+                displayMessage("Error : please fill all input.", ColorMsg.ERROR.getColor());
             }
         });
-
 
         txtGrade.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("[0-9]*$")) { // if value is not a number in regex, we put empty string  (we use *$ to accept no digit like + or IDK)
                 txtGrade.setText(newValue.replaceAll("[^0-9]", "")); // replaces all occurrences of "non digit value" to "empty string"
+                displayMessage("Error : please only put numbers.", ColorMsg.ERROR.getColor());
             }
         });
     }
@@ -121,7 +127,7 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
     }
 
     @Override
-    public void displayError(String errorMessage) {
-
+    public void displayMessage(String errorMessage, String colorHexa) {
+        showMessageTemplate(lblError, errorMessage, colorHexa);
     }
 }

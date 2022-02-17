@@ -17,6 +17,9 @@ public class MainGUI extends Application {
 
     private static SettingController controller; // Variable to communicate with the model, this need to be static otherwise when the JavaFX window will launch it won't acces to this variable
     private TabPane tabPane; // The principal TabPane which will contains different tabs
+    private AddStudentGUI addStudent;
+    private RecordModuleGUI recordModule;
+    private ViewRecordGUI viewRecord;
 
     public void setController(SettingController control)
     {
@@ -40,14 +43,19 @@ public class MainGUI extends Application {
         root.getStyleClass().add("tab-pane");
         root.setCenter(tabPane);
 
+        addStudent = new AddStudentGUI();
+        recordModule = new RecordModuleGUI();
+        viewRecord = new ViewRecordGUI();
+        controller.setUpView(this);
+
         // We create the first tab which is to add a student
-        addTab("Student", new AddStudentGUI());
+        addTab("Student", addStudent);
 
         // We create a second tab to record the modules of a student
-        addTab("Record module", new RecordModuleGUI());
+        addTab("Record module", recordModule);
 
         // The third tab is to view the information of a specific student
-        addTab("View module", new ViewRecordGUI());
+        addTab("View module", viewRecord);
 
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/student/img/logo-mtu.jpg")));
         primaryStage.getIcons().add(icon);
@@ -56,6 +64,7 @@ public class MainGUI extends Application {
         mainScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/student/stylesheet.css")).toExternalForm());
 
         primaryStage.setScene(mainScene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
@@ -73,5 +82,17 @@ public class MainGUI extends Application {
 
         // We display the layout in the tab
         tab.setContent(paneTab);
+    }
+
+    public AddStudentGUI getAddStudent() {
+        return this.addStudent;
+    }
+
+    public RecordModuleGUI getRecordModule() {
+        return this.recordModule;
+    }
+
+    public ViewRecordGUI getViewRecord() {
+        return this.viewRecord;
     }
 }

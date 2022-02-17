@@ -6,23 +6,28 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.io.Serializable;
 
-public class Student {
+public class Student implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 7392105208659553468L;
     // Student variables
     private final String firstName;
     private final String lastName;
     private final String dateBirth;
     private final int id;
 
+    // transient = which specifies that the attribute it qualifies should not be included in a serialization process
+
     // Module variable
-    private final List<Module> listModule;
+    private transient final List<Module> listModule;
 
     // Database variables
-    private File csvFileStudent;
-    private FileWriter csvWriterStudent;
-    private File csvFileModule;
-    private FileWriter csvWriterModule;
+    private transient File csvFileStudent;
+    private transient FileWriter csvWriterStudent;
+    private transient File csvFileModule;
+    private transient FileWriter csvWriterModule;
 
     public Student(String firstname, String lastname, int id, String dateBirth) {
         this.firstName = firstname;
@@ -65,10 +70,23 @@ public class Student {
         }
     }
 
-    public void addDataDatabase(FileWriter fileWriter, List<List<String>> rowsData){
+    public void addDataDatabase(FileWriter fileWriter, List<List<String>> rowsData) {
+        /*
+        checkDatabaseEmpty();  // check if it is the first time we use the database (check if empty or not to put the header or not)
+        WriteReader reader = null;
+        try {
+            reader = new WriteReader();
+        } catch(IOException ignored)
+        {
+
+        }
+        reader.addStudent(this);
+        reader.deserialize();
+
+         */
+
         try {
             checkDatabaseEmpty();  // check if it is the first time we use the database (check if empty or not to put the header or not)
-
             for (List<String> row : rowsData) {
                 fileWriter.append(String.join(",", row));
                 fileWriter.append("\n");
@@ -79,6 +97,7 @@ public class Student {
         {
             e.printStackTrace();
         }
+
     }
 
     public void addStudentDatabase()
@@ -131,8 +150,7 @@ public class Student {
         }
     }
 
-    public List<Module> getModule() { return this.listModule;
-    }
+    public List<Module> getModule() { return this.listModule;}
 
     public String getFirstname() { return this.firstName; }
 
@@ -143,4 +161,14 @@ public class Student {
     public String getDateBirth() { return this.dateBirth; }
 
     public String getFullname() { return this.firstName + " " + this.lastName; }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateBirth='" + dateBirth + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

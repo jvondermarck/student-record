@@ -5,17 +5,13 @@ import com.student.model.Observer;
 import com.student.model.Student;
 import com.student.model.University;
 import javafx.application.Platform;
-import javafx.geometry.Bounds;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.util.Duration;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -34,7 +30,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
     private DateTimeFormatter formatterDate;
     private BorderPane paneRoot;
     private GridPane gridInputField;
-    private Tooltip tooltip;
+    private Label lblError;
 
     public AddStudentGUI(){  }
 
@@ -43,7 +39,6 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         super.setUpGUI(paneRoot, controller);
         this.paneRoot = paneRoot;
         this.controller = controller;
-        this.tooltip = new Tooltip();
     }
 
     @Override
@@ -51,8 +46,10 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
     {
         HBox boxTitle = new HBox();
         GridPane gridCheckin = new GridPane();
+        lblError = new Label();
 
         createTitleView(boxTitle, gridCheckin, "Registration Student"); // To avoid duplicate code we use a template
+        createErrorLabel(lblError, gridCheckin);
 
         // Then we draw a pane to put the 4 inputs (textfield) and 4 labels
         gridInputField = new GridPane();
@@ -143,38 +140,26 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         boxFooter.setAlignment(Pos.CENTER);
         boxFooter.setSpacing(15);
 
-        btnAdd.setOnAction(event -> {
-            if(checkTextfieldEmpty()){ // If not empty
-                tooltip.hide();
-                // we add the student into the ArrayList of <Student> and display it in the TableView
-                addContact(txtFirstname.getText(), txtLastname.getText(), txtID.getText(), formatterDate.format(txtDateBirth.getValue()));
-                txtFirstname.setText("");
-                txtLastname.setText("");
-                txtID.setText("");
-                txtDateBirth.setValue(LocalDate.now());
-            } else {
-                displayError("Please fill all fields.");
-            }
-        });
+        // we call the controller to add a student if everything is okay
+        btnAdd.setOnAction(event -> this.controller.addStudent(txtFirstname, txtLastname, txtID, txtDateBirth, formatterDate));
 
         // We remove the Student which has been clicked-on, on the TableView
-        btnRemove.setOnAction(event -> {
-            if(checkTextfieldEmpty()) // If not empty
-            {
-                Student selectedItems = tableView.getSelectionModel().getSelectedItems().get(0);
-                controller.deleteStudent(selectedItems);
-                resetTable();
-            }
-        });
+        btnRemove.setOnAction(event -> controller.deleteStudent(tableView));
 
-        btnList.setOnAction(event -> displayListStudent());
+        btnList.setOnAction(event -> {
+            displayListStudent();
+            btnRemove.setDisable(false);
+            btnAdd.setDisable(false);
+        });
 
         btnLoad.setOnAction(event -> {
             tableView.getItems().clear();
             for (Student contact : controller.getAllStudentDatabase()){
                 tableView.getItems().add(contact);
             }
-
+            displayMessage("Success : database loaded.", ColorMsg.SUCCESS.getColor());
+            btnRemove.setDisable(true);
+            btnAdd.setDisable(true);
         });
 
         btnSave.setOnAction(event -> controller.saveStudentDatabase());
@@ -232,6 +217,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
                     txtDateBirth.setValue(txtDateBirth.getConverter().fromString(txtDateBirth.getEditor().getText()));
                 } catch (DateTimeParseException e) {
                     txtDateBirth.getEditor().setText(txtDateBirth.getConverter().toString(txtDateBirth.getValue()));
+                    displayMessage("Error : enter valid date (dd/mm/yyyy).", ColorMsg.ERROR.getColor());
                 }
             }
         });
@@ -239,17 +225,6 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         this.paneRoot.setCenter(gridAllStudentPanes);
         this.paneRoot.setBottom(boxFooter);
         this.paneRoot.getStyleClass().add("paneRoot-tab1");
-    }
-
-    // we create a list of <Contact> and send it in our model thanks to the controller
-    public void addContact(String firstname, String lastname, String ID, String dateBirth)
-    {
-        List<String> student = new ArrayList<>();
-        student.add(firstname);
-        student.add(lastname);
-        student.add(ID);
-        student.add(dateBirth);
-        this.controller.addStudent(student);
     }
 
     public void resetTable()
@@ -289,6 +264,8 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         {
             resetTable();
         }
+
+        displayMessage("Success : ArrayList loaded.", ColorMsg.SUCCESS.getColor());
     }
 
     @Override
@@ -297,14 +274,8 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
     }
 
     @Override
-    public void displayError(String errorMessage) {
-        tooltip.setText(errorMessage);
-        tooltip.getStyleClass().add("tooltip");
-        Bounds bounds = gridInputField.localToScreen(gridInputField.getBoundsInLocal());
-        double tooltipMiddle = tooltip.getWidth()/2;
-        double tooltipHeight = tooltip.getHeight();
-        double nodeMiddle = gridInputField.getWidth()/2;
-        Tooltip.install(gridInputField, tooltip);
-        tooltip.show(gridInputField, bounds.getMinX() + nodeMiddle + tooltipMiddle, bounds.getMinY() - tooltipHeight - 55);
+    public void displayMessage(String errorMessage, String colorHexa) {
+        //ColorMsg.ERROR.getColor();
+        showMessageTemplate(lblError, errorMessage, colorHexa);
     }
 }

@@ -90,10 +90,11 @@ public class ViewRecordGUI extends TemplateGUI implements Observer, IGUI {
     @Override
     public void updateView(University university) {
         setUpCombobox();
+        updateListView(tableView, cboStudent);
     }
 
     @Override
-    public void displayError(String errorMessage) {
+    public void displayMessage(String errorMessage, String colorHexa) {
 
     }
 }
