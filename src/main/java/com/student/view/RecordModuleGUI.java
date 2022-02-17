@@ -93,18 +93,7 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         paneRoot.setCenter(gridAllPane);
         paneRoot.getStyleClass().add("paneRoot-tab1");
 
-        btnAdd.setOnAction(event -> {
-            if(checkTextfieldEmpty()){ // If not empty
-                displayMessage("Success : " + cboStudent.getSelectionModel().getSelectedItem().getFirstname() + "'s module added.", ColorMsg.ERROR.getColor());
-                this.controller.addModuleStudent(cboStudent.getSelectionModel().getSelectedItem(),
-                        txtModuleName.getText(), Integer.parseInt(txtGrade.getText()));
-                txtGrade.setText("");
-                txtModuleName.setText("");
-                updateListView(tableView, cboStudent);
-            } else {
-                displayMessage("Error : please fill all input.", ColorMsg.ERROR.getColor());
-            }
-        });
+        btnAdd.setOnAction(event -> this.controller.addModuleStudent(cboStudent, txtGrade, txtModuleName, tableView));
 
         txtGrade.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("[0-9]*$")) { // if value is not a number in regex, we put empty string  (we use *$ to accept no digit like + or IDK)

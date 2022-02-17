@@ -1,9 +1,11 @@
 package com.student.controller;
 
+import com.student.model.Module;
 import com.student.model.Observer;
 import com.student.model.Student;
 import com.student.model.University;
 import com.student.view.*;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -25,7 +27,6 @@ public class SettingController {
     public SettingController(University university)
     {
         this.university = university;
-
     }
 
     public void setUpView(MainGUI view)
@@ -57,7 +58,7 @@ public class SettingController {
             // we display a succes message
             this.addStudentGUI.displayMessage("Success : student added.", ColorMsg.SUCCESS.getColor());
         } else {
-            this.addStudentGUI.displayMessage("Error : Please fill all fields.", ColorMsg.ERROR.getColor());
+            this.addStudentGUI.displayMessage("Error : Please fill in all fields.", ColorMsg.ERROR.getColor());
         }
     }
 
@@ -85,7 +86,19 @@ public class SettingController {
         return this.university.getListStudent();
     }
 
-    public void addModuleStudent(Student student, String name, int grade) { this.university.addModuleStudent(student, name, grade);}
+    public void addModuleStudent(ComboBox<Student> cboStudent, TextField txtGrade, TextField txtModuleName, TableView<Module> tableView) {
+        if(this.recordModuleGUI.checkTextfieldEmpty()){ // If not empty
+            this.recordModuleGUI.displayMessage("Success : " + cboStudent.getSelectionModel().getSelectedItem().getFirstname() + "'s module added.", ColorMsg.SUCCESS.getColor());
+            Student student = cboStudent.getSelectionModel().getSelectedItem();
+            this.university.addModuleStudent(student, txtModuleName.getText(), Integer.parseInt(txtGrade.getText()));
+
+            txtGrade.setText("");
+            txtModuleName.setText("");
+            this.recordModuleGUI.updateListView(tableView, cboStudent);
+        } else {
+            this.recordModuleGUI.displayMessage("Error : please fill all input.", ColorMsg.ERROR.getColor());
+        }
+    }
 
     public List<Student> getAllStudentDatabase()
     {

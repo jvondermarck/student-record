@@ -1,11 +1,9 @@
 package com.student.model;
 
+import com.student.utilities.CSVParser;
 import com.student.view.AddStudentGUI;
 import com.student.view.ColorMsg;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +18,7 @@ public class University {
         this.listObserver = new ArrayList<>();
         this.listStudent = new ArrayList<>();
         this.listStudentDatabase = new ArrayList<>();
+        CSVParser.setupDatabase();
     }
 
     public void addStudent(List<String> list)
@@ -101,20 +100,7 @@ public class University {
     public void retrieveContactDatabase()
     {
         listStudentDatabase.clear();
-        //InputStream inputStreamm = ClassLoader.getSystemClassLoader().getResourceAsStream("src/main/java/covid/version1/database_student.csv");
-        try {
-            try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/student/database_student.csv"))) {
-                String line;
-                br.readLine(); // we skip the header line
-                while ((line = br.readLine()) != null) {
-                    String[] values = line.split(",");
-                    Student contact = new Student(values[0], values[1], Integer.parseInt(values[2]), values[3]);
-                    listStudentDatabase.add(contact);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        CSVParser.retrieveContactDatabase(listStudentDatabase);
     }
 
     public List<Student> getListStudent() {
