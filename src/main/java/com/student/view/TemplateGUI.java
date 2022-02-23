@@ -108,7 +108,7 @@ public class TemplateGUI implements IGUI {
 
         // we retrieve the ArrayList of students from our database
         ObservableList<Student> wordsList = FXCollections.observableArrayList();
-        wordsList.addAll(this.controller.getAllStudentDatabase());
+        wordsList.addAll(this.controller.getStudentList());
         cboStudent.setItems(wordsList);
 
         // we now convert all the Student object into a fullname string

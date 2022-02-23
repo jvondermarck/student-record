@@ -59,8 +59,6 @@ public class SettingController {
 
                 // we send the contact value to the model
                 this.university.addStudent(student);
-                // we display a succes message
-                this.addStudentGUI.displayMessage("Success : Student added.", ColorMsg.SUCCESS.getColor());
             }
         } else {
             this.addStudentGUI.displayMessage("Error : Please fill in all fields.", ColorMsg.ERROR.getColor());
@@ -102,11 +100,6 @@ public class SettingController {
         } else {
             this.recordModuleGUI.displayMessage("Error : Please fill all input.", ColorMsg.ERROR.getColor());
         }
-    }
-
-    public List<Student> getAllStudentDatabase()
-    {
-        return this.university.getListContactDatabase();
     }
 
     public void addObserver(Observer observer) { this.university.addObservers(observer);}

@@ -42,22 +42,22 @@ public class Student implements Serializable {
         retrieveModuleDatabase();
     }
 
-    public void addStudentDatabase()
-    {
-        List<List<String>> rows = List.of(Arrays.asList(this.firstName, this.lastName, this.id, this.dateBirth));
-        CSVParser.addDataDatabase(CSVParser.csvWriterStudent, rows);
-        //WriteReader.addStudent(this);
-        // TODO : db
-    }
+    //public void addStudentDatabase()
+    //{
+    //    List<List<String>> rows = List.of(Arrays.asList(this.firstName, this.lastName, this.id, this.dateBirth));
+    //    CSVParser.addDataDatabase(CSVParser.csvWriterStudent, rows);
+    //    //WriteReader.addStudent(this);
+    //    // TODO : db
+    //}
 
-    public void addModuleDatabase(String name, int grade)
+    public void addModule(String name, int grade)
     {
         Module module = new Module(name, grade, id);
         this.listModule.add(module);
-        List<List<String>> rows = List.of(Arrays.asList(Long.toString(CSVParser.getLines()), this.id, name, Integer.toString(grade)));
-        CSVParser.addDataDatabase(CSVParser.csvWriterModule, rows);
+        //List<List<String>> rows = List.of(Arrays.asList(Long.toString(CSVParser.getLines()), this.id, name, Integer.toString(grade)));
+        //CSVParser.addDataDatabase(CSVParser.csvWriterModule, rows);
         //WriteReader.addModule(module);
-        // TODO : db
+        // TODO : CSV MODULE
     }
 
     public void retrieveModuleDatabase()
@@ -81,6 +81,6 @@ public class Student implements Serializable {
 
     @Override
     public String toString() {
-        return "Student{" + "firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", dateBirth='" + dateBirth + '\'' + ", id=" + id + '}';
+        return this.getFirstname() + "," + this.lastName + "," + this.id + "," + this.dateBirth;
     }
 }

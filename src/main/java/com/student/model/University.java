@@ -11,14 +11,13 @@ public class University {
 
     private final List<Observer> listObserver;
     private final List<Student> listStudent;
-    private final List<Student> listStudentDatabase;
 
     public University()
     {
         this.listObserver = new ArrayList<>();
         this.listStudent = new ArrayList<>();
-        this.listStudentDatabase = new ArrayList<>();
         CSVParser.setupDatabase();
+        CSVParser.retrieveContactDatabase(listStudent);
     }
 
     public void addStudent(List<String> list)
@@ -26,14 +25,15 @@ public class University {
         // We check if the student we want to add is not already in the ArrayList, so we check the ID
         if(!checkAlreadyInList(list.get(2)))
         {
-            try{
-                Student student = new Student(list.get(0), list.get(1),
-                        list.get(2), list.get(3));
-                this.listStudent.add(student);
-                notifyObservers();
-            } catch(NumberFormatException ex){ // handle bad parsing of the string value to integer
-                System.out.println("NumberFormatException : Bad number value, might be too long...");
+            Student student = new Student(list.get(0), list.get(1),
+                    list.get(2), list.get(3));
+            this.listStudent.add(student);
+            // we display a succes message
+            for(Observer observer : listObserver){
+                if(observer instanceof AddStudentGUI)
+                    observer.displayMessage("Success : Student added.", ColorMsg.SUCCESS.getColor());
             }
+            notifyObservers();
         } else {
             for(Observer observer : listObserver){
                 if(observer instanceof AddStudentGUI)
@@ -44,7 +44,7 @@ public class University {
 
     public void addModuleStudent(Student student, String name, int grade)
     {
-        student.addModuleDatabase(name, grade);
+        student.addModule(name, grade);
         notifyObservers();
     }
 
@@ -54,15 +54,6 @@ public class University {
 
         // We check the list of students first
         for(Student student : listStudent)
-            if(student.getId().equals(IDContact))
-            {
-                alreadyInArray = true;
-                break;
-            }
-
-        // Then we check the database
-        retrieveContactDatabase();
-        for(Student student : listStudentDatabase)
             if(student.getId().equals(IDContact))
             {
                 alreadyInArray = true;
@@ -80,10 +71,7 @@ public class University {
 
     public void saveStudentDatabase()
     {
-        for(Student student : listStudent)
-            student.addStudentDatabase();
-
-        this.listStudent.clear(); // we delete the list of Contact because we just saved it to the database
+        CSVParser.addDataDatabase(listStudent);
         notifyObservers();
     }
 
@@ -99,8 +87,8 @@ public class University {
 
     public void retrieveContactDatabase()
     {
-        listStudentDatabase.clear();
-        CSVParser.retrieveContactDatabase(listStudentDatabase);
+        //listStudentDatabase.clear();
+        //CSVParser.retrieveContactDatabase(listStudentDatabase);
         //WriteReader.deserializeStudent(listStudentDatabase);
         // TODO : db
     }
@@ -109,8 +97,8 @@ public class University {
         return listStudent;
     }
 
-    public List<Student> getListContactDatabase() {
-        retrieveContactDatabase();
-        return listStudentDatabase;
-    }
+    //public List<Student> getListContactDatabase() {
+    //    retrieveContactDatabase();
+    //    return listStudentDatabase;
+    //}
 }

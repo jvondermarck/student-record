@@ -33,10 +33,6 @@ public class Module implements Serializable {
 
     @Override
     public String toString() {
-        return "Module{" +
-                "moduleName='" + moduleName + '\'' +
-                ", gradeModule=" + gradeModule +
-                ", id=" + id +
-                '}';
+        return this.id + "," + this.moduleName + "," + this.gradeModule;
     }
 }

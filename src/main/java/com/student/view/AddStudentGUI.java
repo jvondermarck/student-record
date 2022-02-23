@@ -139,6 +139,8 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         boxFooter.setAlignment(Pos.CENTER);
         boxFooter.setSpacing(15);
 
+        loadStudent(); // we load automatically
+
         // we call the controller to add a student if everything is okay
         btnAdd.setOnAction(event -> this.controller.addStudent(txtFirstname, txtLastname, txtID, txtDateBirth, formatterDate));
 
@@ -147,18 +149,14 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
 
         btnList.setOnAction(event -> {
             displayListStudent();
-            btnRemove.setDisable(false);
-            btnAdd.setDisable(false);
+            //btnRemove.setDisable(false);
+            //btnAdd.setDisable(false);
         });
 
         btnLoad.setOnAction(event -> {
-            tableView.getItems().clear();
-            for (Student contact : controller.getAllStudentDatabase()){
-                tableView.getItems().add(contact);
-            }
-            displayMessage("Success : Database loaded.", ColorMsg.SUCCESS.getColor());
-            btnRemove.setDisable(true);
-            btnAdd.setDisable(true);
+            loadStudent();
+            //btnRemove.setDisable(true);
+            //btnAdd.setDisable(true);
         });
 
         btnSave.setOnAction(event -> controller.saveStudentDatabase());
@@ -231,6 +229,15 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
             txtID.setText(selectedItems.getId());
             txtDateBirth.setValue(LocalDate.parse(selectedItems.getDateBirth(), formatterDate));
         }
+    }
+
+    public void loadStudent()
+    {
+        tableView.getItems().clear();
+        for (Student contact : controller.getStudentList()){
+            tableView.getItems().add(contact);
+        }
+        displayMessage("Success : Database loaded.", ColorMsg.SUCCESS.getColor());
     }
 
     // we check before adding a student in the arraylist if we all textfield and datepicker are not empty

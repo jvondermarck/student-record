@@ -23,41 +23,52 @@ public class CSVParser {
     // We set up the csv file, we instantiate the File and FileWriter variable to be able to append the database
     public static void setupDatabase()
     {
-        try {
-            //csvFileStudent = new File(Objects.requireNonNull(loader.getResource("/ressources/database_student")).getFile());
-           csvFileStudent = new File(studentDBPath);
-           csvWriterStudent = new FileWriter(csvFileStudent, true);
+        //csvFileStudent = new File(Objects.requireNonNull(loader.getResource("/ressources/database_student")).getFile());
+        csvFileStudent = new File(studentDBPath);
+        //csvWriterStudent = new FileWriter(csvFileStudent, true);
 
-            csvFileModule = new File(moduleDBPath);
-            csvWriterModule = new FileWriter(csvFileModule, true);
-        } catch(IOException e)
-        {
-            e.printStackTrace();
-        }
+        csvFileModule = new File(moduleDBPath);
+        //csvWriterModule = new FileWriter(csvFileModule, true);
     }
 
     // If CSV file empty, we create the header
     private static void checkDatabaseEmpty() {
         try {
             if(csvFileStudent.length() == 0)
-                csvWriterStudent.append("Firstname,Lastname,ID,DateBirth\n");
+                csvWriterStudent.write("Firstname,Lastname,ID,DateBirth\n");
+                csvWriterStudent.write("\n");
             if(csvFileModule.length() == 0)
-                csvWriterModule.append("ID,IDStudent,Module,Grade\n");
+                csvWriterModule.write("ID,IDStudent,Module,Grade\n");
         } catch(IOException e)
         {
             e.printStackTrace();
         }
     }
 
-    public static void addDataDatabase(FileWriter fileWriter, List<List<String>> rowsData) {
+    public static void addDataDatabase(List<Student> listStudent) {
         try {
-            checkDatabaseEmpty();  // check if it is the first time we use the database (check if empty or not to put the header or not)
-            for (List<String> row : rowsData) {
-                fileWriter.append(String.join(",", row));
-                fileWriter.append("\n");
+            //checkDatabaseEmpty();  // check if it is the first time we use the database (check if empty or not to put the header or not)
+            csvWriterStudent = new FileWriter(csvFileStudent);
+            csvWriterStudent.write("Firstname,Lastname,ID,DateBirth\n");
+            for(Student student : listStudent) {
+                csvWriterStudent.write(student.toString());
+                csvWriterStudent.write("\n");
             }
-            fileWriter.flush();
-            fileWriter.close();
+            csvWriterStudent.flush();
+            csvWriterStudent.close();
+
+            int incrementId = 1;
+            csvWriterModule = new FileWriter(csvFileModule);
+            csvWriterModule.write("ID,IDStudent,Module,Grade\n");
+            for(Student student : listStudent) {
+                for(Module module : student.getModule()) {
+                    csvWriterModule.write(incrementId + "," + module.toString());
+                    csvWriterModule.write("\n");
+                    incrementId++;
+                }
+            }
+            csvWriterModule.flush();
+            csvWriterModule.close();
         } catch(IOException e)
         {
             e.printStackTrace();
