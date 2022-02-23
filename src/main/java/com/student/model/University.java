@@ -24,11 +24,11 @@ public class University {
     public void addStudent(List<String> list)
     {
         // We check if the student we want to add is not already in the ArrayList, so we check the ID
-        if(!checkAlreadyInList(Integer.parseInt(list.get(2))))
+        if(!checkAlreadyInList(list.get(2)))
         {
             try{
                 Student student = new Student(list.get(0), list.get(1),
-                        Integer.parseInt(list.get(2)), list.get(3));
+                        list.get(2), list.get(3));
                 this.listStudent.add(student);
                 notifyObservers();
             } catch(NumberFormatException ex){ // handle bad parsing of the string value to integer
@@ -48,13 +48,13 @@ public class University {
         notifyObservers();
     }
 
-    public boolean checkAlreadyInList(int IDContact)
+    public boolean checkAlreadyInList(String IDContact)
     {
         boolean alreadyInArray = false;
 
         // We check the list of students first
         for(Student student : listStudent)
-            if(student.getId() == IDContact)
+            if(student.getId().equals(IDContact))
             {
                 alreadyInArray = true;
                 break;
@@ -63,7 +63,7 @@ public class University {
         // Then we check the database
         retrieveContactDatabase();
         for(Student student : listStudentDatabase)
-            if(student.getId() == IDContact)
+            if(student.getId().equals(IDContact))
             {
                 alreadyInArray = true;
                 break;
@@ -101,6 +101,8 @@ public class University {
     {
         listStudentDatabase.clear();
         CSVParser.retrieveContactDatabase(listStudentDatabase);
+        //WriteReader.deserializeStudent(listStudentDatabase);
+        // TODO : db
     }
 
     public List<Student> getListStudent() {

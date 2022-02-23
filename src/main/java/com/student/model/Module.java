@@ -1,14 +1,22 @@
 package com.student.model;
 
-public class Module {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Module implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 5952316905054943169L;
 
     String moduleName;
     int gradeModule;
+    String id;
 
-    public Module(String name, int grade)
+    public Module(String name, int grade, String id)
     {
         this.moduleName = name;
         this.gradeModule = grade;
+        this.id = id;
     }
 
     public String getModuleName() {
@@ -17,5 +25,18 @@ public class Module {
 
     public int getGradeModule() {
         return gradeModule;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "Module{" +
+                "moduleName='" + moduleName + '\'' +
+                ", gradeModule=" + gradeModule +
+                ", id=" + id +
+                '}';
     }
 }

@@ -7,6 +7,8 @@ public class WriteReader extends ObjectOutputStream implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1103313081811883669L;
+    public static ObjectInputStream objectinputstream;
+    public static ObjectOutputStream oos;
 
 
     public WriteReader() throws IOException {
@@ -21,98 +23,116 @@ public class WriteReader extends ObjectOutputStream implements Serializable {
         reset();
     }
 
-    public void addStudent(Student student)
+    public static void addStudent(Student student)
     {
+        List<Student> retrieve = new ArrayList<>();
+        deserializeStudent(retrieve);
+
         try {
-            FileOutputStream f;
-            File file = new File("c://hello.txt");
-            if (file.length() == 0)
-                f = new FileOutputStream("src/main/java/com/student/test.ser", false);
-            else
-                f = new FileOutputStream("src/main/java/com/student/test.ser", true);
-
-            BufferedOutputStream  bis = new BufferedOutputStream(f, 4096 );
-            ObjectOutputStream o = new ObjectOutputStream(bis);
-
-            // Write objects to file
-            o.writeObject(student);
-            o.flush();
-
-            o.close();
-            f.close();
-
-            //FileInputStream fi = new FileInputStream("src/main/java/com/student/test.txt");
-            //ObjectInputStream oi = new ObjectInputStream(fi);
-/*
-            ArrayList<Student> studentList = new ArrayList<>();
-
-            try {
-                //FileInputStream fis = new FileInputStream("src/main/java/com/student/test.txt");
-                //ObjectInputStream os = new ObjectInputStream(fis);
-
-                try (FileInputStream fis = new FileInputStream("src/main/java/com/student/test.txt")) {
-                    ObjectInputStream os = new ObjectInputStream(fis);
-                    Student student1 = (Student) os.readObject();
-                    studentList.add(student1);
-                    Student student2 = (Student) os.readObject();
-                    studentList.add(student2);
-                    os.close();
-                    fis.close();
-                } catch (EOFException e) {
-                    return;
-                }
-
-            } catch (IOException | ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            if (oos == null){ //se é o primeiro objeto a guardar inicia a stream
+                oos = new ObjectOutputStream(new FileOutputStream("src/main/java/com/student/test.ser"));
             }
 
-            for(Student s : studentList)
-                System.out.println("hello " + s.getFullname());
+            for(Student s1 : retrieve)
+            {
+                oos.writeObject(s1);
+            }
+            oos.writeObject(student);
 
+            oos.flush();
+            System.out.println("Done");
 
- */
-
-            // Read objects
-            //Student student1 = (Student) oi.readObject();
-            //Person pr2 = (Person) oi.readObject();
-
-            //System.out.println("lol " +  student1.getFullname());
-            //System.out.println(pr2.toString());
-
-            //oi.close();
-            //fi.close();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
-    public void deserialize() {
-        // personmutable.ser file must exist in the current directory
-        ArrayList<Student> namesList;
-        File fileObject = new File("src/main/java/com/student/test.ser");
+    public static void deserializeStudent(List<Student> namesList) {
+        try {
+            if (oos != null){ //se é o primeiro objeto a guardar inicia a stream
+                oos.close(); //tenta fechar a stream de saída
+                oos = null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        try  {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/main/java/com/student/test.ser"))) {
+            while (true) {
+                namesList.add((Student) ois.readObject());
+            }
+        } catch (EOFException ex) {
+            // fim da leitura aqui
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
-            FileInputStream fis = new FileInputStream(fileObject);
-            ObjectInputStream ois = new ObjectInputStream(fis);
+    public static void addModule(Module module)
+    {
+        List<Module> retrieve = new ArrayList<>();
+        deserializeModule(retrieve);
 
-            Object obj = ois.readObject();
-            Iterable<?> ar = (Iterable<?>) obj;
-
-            namesList = new ArrayList<>();
-            for (Object x : ar) {
-                namesList.add((Student) x);
+        try {
+            if (oos == null){ //se é o primeiro objeto a guardar inicia a stream
+                oos = new ObjectOutputStream(new FileOutputStream("src/main/java/com/student/module.ser"));
             }
 
-            for(Student s : namesList)
-                System.out.println("hello " + s.getFullname());
+            for(Module s1 : retrieve)
+            {
+                oos.writeObject(s1);
+            }
+            oos.writeObject(module);
 
-        } catch (IOException | ClassNotFoundException e) {
+            oos.flush();
+            System.out.println("Done");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void deserializeModule(List<Module> namesList) {
+        try {
+            if (oos != null){ //se é o primeiro objeto a guardar inicia a stream
+                oos.close(); //tenta fechar a stream de saída
+                oos = null;
+            }
+        } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/main/java/com/student/module.ser"))) {
+            while (true) {
+                namesList.add((Module) ois.readObject());
+            }
+        } catch (EOFException ex) {
+            // fim da leitura aqui
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void deserializeModuleStudent(List<Module> namesList, String id) {
+        try {
+            if (oos != null){ //se é o primeiro objeto a guardar inicia a stream
+                oos.close(); //tenta fechar a stream de saída
+                oos = null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/main/java/com/student/module.ser"))) {
+            while (true) {
+                Module module = (Module) ois.readObject();
+                if(module.id.equals(id))
+                    namesList.add(module);
+            }
+        } catch (EOFException ex) {
+            // fim da leitura aqui
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }

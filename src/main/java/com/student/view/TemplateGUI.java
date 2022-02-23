@@ -158,9 +158,12 @@ public class TemplateGUI implements IGUI {
             tableView.getItems().clear();
             if(student != null) // to avoid any problem we make sure that a student is well selected in the combobox
             {
-                for(int i=0; i<student.getModule().size(); i++)
+                if(student.getModule() != null)
                 {
-                    tableView.getItems().add(student.getModule().get(i));
+                    for(int i=0; i<student.getModule().size(); i++)
+                    {
+                        tableView.getItems().add(student.getModule().get(i));
+                    }
                 }
             }
         });

@@ -194,18 +194,8 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
                 // And we display in the four textfield the Student information
                 txtFirstname.setText(selectedItems.getFirstname());
                 txtLastname.setText(selectedItems.getLastname());
-                txtID.setText(Integer.toString(selectedItems.getId()));
+                txtID.setText(selectedItems.getId());
                 txtDateBirth.setValue(LocalDate.parse(selectedItems.getDateBirth(), formatterDate));
-            }
-        });
-
-        txtID.textProperty().addListener((observable, oldValue, newValue) -> {
-            /* if(!newValue.matches("^[R][0-9]{8}"))
-               txtID.setText(newValue.replaceAll("^[^R][^0-9]", "")); // replaces all occurrences of "non digit value" to "empty string"
-            */
-
-            if (!newValue.matches("[0-9]*$")) { // if value is not a number in regex, we put empty string  (we use *$ to accept no digit like + or IDK)
-                txtID.setText(newValue.replaceAll("[^0-9]", "")); // replaces all occurrences of "non digit value" to "empty string"
             }
         });
 
@@ -238,7 +228,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
             Student selectedItems = tableView.getItems().get(0);
             txtFirstname.setText(selectedItems.getFirstname());
             txtLastname.setText(selectedItems.getLastname());
-            txtID.setText(Integer.toString(selectedItems.getId()));
+            txtID.setText(selectedItems.getId());
             txtDateBirth.setValue(LocalDate.parse(selectedItems.getDateBirth(), formatterDate));
         }
     }

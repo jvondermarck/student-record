@@ -2,13 +2,10 @@ package com.student.utilities;
 
 import com.student.model.Module;
 import com.student.model.Student;
-
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Objects;
 
 public class CSVParser {
 
@@ -81,7 +78,7 @@ public class CSVParser {
         return number;
     }
 
-    public static void retrieveModuleDatabase(List<Module> listModule, Integer id)
+    public static void retrieveModuleDatabase(List<Module> listModule, String id)
     {
         try {
             try (BufferedReader br = new BufferedReader(new FileReader(moduleDBPath))) {
@@ -89,9 +86,9 @@ public class CSVParser {
                 br.readLine(); // we skip the header line
                 while ((line = br.readLine()) != null) {
                     String[] values = line.split(",");
-                    if(Integer.parseInt(values[1]) == id) // If in the database the id of the Student is equal to the student we want
+                    if(values[1].equals(id)) // If in the database the id of the Student is equal to the student we want
                     {
-                        Module module = new Module(values[2], Integer.parseInt(values[3]));
+                        Module module = new Module(values[2], Integer.parseInt(values[3]), values[1]);
                         listModule.add(module);
                     }
                 }
@@ -110,7 +107,7 @@ public class CSVParser {
                 br.readLine(); // we skip the header line
                 while ((line = br.readLine()) != null) {
                     String[] values = line.split(",");
-                    Student contact = new Student(values[0], values[1], Integer.parseInt(values[2]), values[3]);
+                    Student contact = new Student(values[0], values[1], values[2], values[3]);
                     listStudentDatabase.add(contact);
                 }
             }

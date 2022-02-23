@@ -17,12 +17,22 @@ public class Student implements Serializable {
     private final String firstName;
     private final String lastName;
     private final String dateBirth;
-    private final int id;
+    private final String id;
 
     // Module variable
-    private transient final List<Module> listModule; // transient = which specifies that the attribute it qualifies should not be included in a serialization process
+    private final transient List<Module> listModule; // transient = which specifies that the attribute it qualifies should not be included in a serialization process
 
-    public Student(String firstname, String lastname, int id, String dateBirth) {
+    public Student(String id) {
+        this.firstName = null;
+        this.lastName = null;
+        this.dateBirth = null;
+        this.id = id;
+
+        this.listModule = new ArrayList<>();
+        retrieveModuleDatabase();
+    }
+
+    public Student(String firstname, String lastname, String id, String dateBirth) {
         this.firstName = firstname;
         this.lastName = lastname;
         this.dateBirth = dateBirth;
@@ -34,21 +44,27 @@ public class Student implements Serializable {
 
     public void addStudentDatabase()
     {
-        List<List<String>> rows = List.of(Arrays.asList(this.firstName, this.lastName, Integer.toString(id), this.dateBirth));
+        List<List<String>> rows = List.of(Arrays.asList(this.firstName, this.lastName, this.id, this.dateBirth));
         CSVParser.addDataDatabase(CSVParser.csvWriterStudent, rows);
+        //WriteReader.addStudent(this);
+        // TODO : db
     }
 
     public void addModuleDatabase(String name, int grade)
     {
-        this.listModule.add(new Module(name, grade));
-        List<List<String>> rows = List.of(Arrays.asList(Long.toString(CSVParser.getLines()), Integer.toString(this.id), name, Integer.toString(grade)));
+        Module module = new Module(name, grade, id);
+        this.listModule.add(module);
+        List<List<String>> rows = List.of(Arrays.asList(Long.toString(CSVParser.getLines()), this.id, name, Integer.toString(grade)));
         CSVParser.addDataDatabase(CSVParser.csvWriterModule, rows);
+        //WriteReader.addModule(module);
+        // TODO : db
     }
 
     public void retrieveModuleDatabase()
     {
-        listModule.clear();
+        this.listModule.clear();
         CSVParser.retrieveModuleDatabase(listModule, this.id);
+        //WriteReader.deserializeModuleStudent(listModule, this.id);
     }
 
     public List<Module> getModule() { return this.listModule;}
@@ -57,7 +73,7 @@ public class Student implements Serializable {
 
     public String getLastname() { return this.lastName; }
 
-    public Integer getId() { return id; }
+    public String getId() { return id; }
 
     public String getDateBirth() { return this.dateBirth; }
 
