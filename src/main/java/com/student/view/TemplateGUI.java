@@ -4,6 +4,7 @@ import com.student.controller.SettingController;
 import com.student.model.Module;
 import com.student.model.Student;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
@@ -22,6 +23,7 @@ import javafx.util.Duration;
 import javafx.util.StringConverter;
 
 import java.util.Objects;
+import java.util.Optional;
 
 // This method is used by all the GUI Window classes to share in one class partially redundant code, this will avoid duplicated code and too many lines of code
 // The class which will want to use that class will need to extend it
@@ -195,4 +197,27 @@ public class TemplateGUI implements IGUI {
         });
         visiblePause.play();
     }
+
+    public void exitButton(){
+        // we create two buttons to save and exit OR to exit without saving
+        ButtonType btnSave1 = new ButtonType("Save and exit", ButtonBar.ButtonData.YES);
+        ButtonType btnExit1 = new ButtonType("Exit without saving", ButtonBar.ButtonData.NO);
+
+        // we create the alert which will appear on the screen
+        Alert alert = new Alert(Alert.AlertType.WARNING,
+                "You should maybe save your data before exit the application.\n", btnSave1, btnExit1);
+
+        alert.setTitle("Exit the application");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.orElse(null) == btnExit1) // if clicked on "Exit without saving"
+        {
+            Platform.exit(); // we stop the application
+        } else { // if clicked on "Save and exit"
+            controller.saveStudentDatabase(); // we save everything in the database
+            Platform.exit(); // and we exit
+        }
+    }
+
 }

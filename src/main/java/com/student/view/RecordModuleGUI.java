@@ -73,10 +73,13 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         GridPane.setMargin(txtGrade, new Insets(20,0,0,0));
 
         // We create the add, remove, list buttons
+        /*
         HBox hboxModule = new HBox();
         Button btnAdd = new Button("Add the module");
         hboxModule.getChildren().add(btnAdd);
         hboxModule.setAlignment(Pos.CENTER);
+
+         */
 
         tableView = new TableView<>();
         setUpListViewModule(tableView, cboStudent);
@@ -84,13 +87,26 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         GridPane gridAllPane = new GridPane();
         gridAllPane.add(gridTitle, 0,0);
         gridAllPane.add(gridInputField, 0,1);
-        gridAllPane.add(hboxModule, 0,2);
-        gridAllPane.add(tableView, 0,3);
+        //gridAllPane.add(hboxModule, 0,2);
+        gridAllPane.add(tableView, 0,2);
 
-        GridPane.setMargin(hboxModule, new Insets(30,0,0,0)); // We add a bit of margin to put some space
+        //GridPane.setMargin(hboxModule, new Insets(30,0,0,0)); // We add a bit of margin to put some space
         GridPane.setMargin(tableView, new Insets(30,50,30,50)); // We add a bit of margin to put some space
 
+        // The two last buttons : load, save and exit
+        HBox boxFooter = new HBox();
+        Button btnAdd = new Button("Add module");
+        Button btnSave = new Button("Save");
+        Button btnExit = new Button("Exit");
+        HBox.setMargin(btnAdd, new Insets(0,0,0,200));
+        HBox.setMargin(btnSave, new Insets(0,0,0,0));
+        HBox.setMargin(btnExit, new Insets(0,0,0,200));
+        boxFooter.getChildren().addAll(btnAdd, btnSave, btnExit);
+        boxFooter.setAlignment(Pos.CENTER);
+        boxFooter.setSpacing(10);
+
         paneRoot.setCenter(gridAllPane);
+        paneRoot.setBottom(boxFooter);
         paneRoot.getStyleClass().add("paneRoot-tab1");
 
         btnAdd.setOnAction(event -> this.controller.addModuleStudent(cboStudent, txtGrade, txtModuleName, tableView));
@@ -101,6 +117,11 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
                 displayMessage("Error : please only put numbers.", ColorMsg.ERROR.getColor());
             }
         });
+
+        btnSave.setOnAction(event -> controller.saveStudentDatabase());
+
+        // When exiting the app, we ask the user to save, or quit without saving
+        btnExit.setOnAction(event -> exitButton());
     }
 
     // we check before adding a module to the student if we all textfield and datepicker are not empty

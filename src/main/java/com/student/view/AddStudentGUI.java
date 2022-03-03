@@ -147,42 +147,14 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         // We remove the Student which has been clicked-on, on the TableView
         btnRemove.setOnAction(event -> controller.deleteStudent(tableView));
 
-        btnList.setOnAction(event -> {
-            displayListStudent();
-            //btnRemove.setDisable(false);
-            //btnAdd.setDisable(false);
-        });
+        btnList.setOnAction(event -> displayListStudent());
 
-        btnLoad.setOnAction(event -> {
-            loadStudent();
-            //btnRemove.setDisable(true);
-            //btnAdd.setDisable(true);
-        });
+        btnLoad.setOnAction(event -> loadStudent());
 
         btnSave.setOnAction(event -> controller.saveStudentDatabase());
 
         // When exiting the app, we ask the user to save, or quit without saving
-        btnExit.setOnAction(event -> {
-            // we create two buttons to save and exit OR to exit without saving
-            ButtonType btnSave1 = new ButtonType("Save and exit", ButtonBar.ButtonData.APPLY);
-            ButtonType btnExit1 = new ButtonType("Exit without saving", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-            // we create the alert which will appear on the screen
-            Alert alert = new Alert(Alert.AlertType.WARNING,
-                    "You should maybe save before exit the application\n", btnSave1, btnExit1);
-
-            alert.setTitle("Exit the application");
-
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.orElse(null) == btnExit1) // if clicked on "Exit without saving"
-            {
-                Platform.exit(); // we stop the application
-            } else { // if clicked on "Save and exit"
-                controller.saveStudentDatabase(); // we save everything in the database
-                Platform.exit(); // and we exit
-            }
-        });
+        btnExit.setOnAction(event -> exitButton());
 
         // when we click on a row we update the list to show the data to the textfield
         tableView.setOnMouseClicked((MouseEvent event) -> {

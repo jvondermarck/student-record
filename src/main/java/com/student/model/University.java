@@ -1,6 +1,7 @@
 package com.student.model;
 
 import com.student.utilities.CSVParser;
+import com.student.utilities.WriteReader;
 import com.student.view.AddStudentGUI;
 import com.student.view.ColorMsg;
 
@@ -16,8 +17,14 @@ public class University {
     {
         this.listObserver = new ArrayList<>();
         this.listStudent = new ArrayList<>();
-        CSVParser.setupDatabase();
-        CSVParser.retrieveContactDatabase(listStudent);
+        //CSVParser.setupDatabase();
+        //CSVParser.retrieveContactDatabase(listStudent);
+
+        WriteReader.deserializeStudent(listStudent); // We deserialize all the students in a list
+        for(Student student : listStudent){ // For each student we retrieve their module
+            student.retrieveModuleDatabase();
+        }
+
     }
 
     public void addStudent(List<String> list)
@@ -71,7 +78,8 @@ public class University {
 
     public void saveStudentDatabase()
     {
-        CSVParser.addDataDatabase(listStudent);
+        //CSVParser.addDataDatabase(listStudent);
+        WriteReader.addStudent(listStudent);
         notifyObservers();
     }
 
@@ -85,20 +93,8 @@ public class University {
         }
     }
 
-    public void retrieveContactDatabase()
-    {
-        //listStudentDatabase.clear();
-        //CSVParser.retrieveContactDatabase(listStudentDatabase);
-        //WriteReader.deserializeStudent(listStudentDatabase);
-        // TODO : db
-    }
-
     public List<Student> getListStudent() {
         return listStudent;
     }
 
-    //public List<Student> getListContactDatabase() {
-    //    retrieveContactDatabase();
-    //    return listStudentDatabase;
-    //}
 }

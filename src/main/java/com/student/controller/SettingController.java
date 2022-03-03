@@ -40,7 +40,7 @@ public class SettingController {
     public void addStudent(TextField txtFirstname, TextField txtLastname, TextField txtID, DatePicker txtDateBirth, DateTimeFormatter formatterDate)
     {
         if(this.addStudentGUI.checkTextfieldEmpty()){ // If not empty
-            if(txtFirstname.getText().length() < 3 || txtLastname.getText().length() < 3)
+            if(txtFirstname.getText().length() < 2 || txtLastname.getText().length() < 2)
             {
                 this.addStudentGUI.displayMessage("Error : Please name too short.", ColorMsg.ERROR.getColor());
             } else {

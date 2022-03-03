@@ -8,9 +8,9 @@ public class Module implements Serializable {
     @Serial
     private static final long serialVersionUID = 5952316905054943169L;
 
-    String moduleName;
-    int gradeModule;
-    String id;
+    private final String moduleName;
+    private final int gradeModule;
+    private final String id;
 
     public Module(String name, int grade, String id)
     {
