@@ -1,11 +1,9 @@
 package com.student.model;
 
-import com.student.utilities.CSVParser;
-import com.student.utilities.WriteReader;
+import com.student.utilities.ObjectParser;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.io.Serializable;
 
@@ -52,6 +50,11 @@ public class Student implements Serializable {
         this.listModule.add(module);
     }
 
+    public void deleteModule(Module module)
+    {
+        this.listModule.remove(module);
+    }
+
     public void retrieveModuleDatabase()
     {
         if(this.listModule == null) {
@@ -60,7 +63,7 @@ public class Student implements Serializable {
             this.listModule.clear();
         }
         //CSVParser.retrieveModuleDatabase(listModule, this.id);
-        WriteReader.deserializeModuleStudent(listModule, this.id);
+        ObjectParser.deserializeModuleStudent(listModule, this.id);
     }
 
     public List<Module> getModule() { return this.listModule;}

@@ -1,7 +1,6 @@
 package com.student.model;
 
-import com.student.utilities.CSVParser;
-import com.student.utilities.WriteReader;
+import com.student.utilities.ObjectParser;
 import com.student.view.AddStudentGUI;
 import com.student.view.ColorMsg;
 
@@ -20,7 +19,7 @@ public class University {
         //CSVParser.setupDatabase();
         //CSVParser.retrieveContactDatabase(listStudent);
 
-        WriteReader.deserializeStudent(listStudent); // We deserialize all the students in a list
+        ObjectParser.deserializeStudent(listStudent); // We deserialize all the students in a list
         for(Student student : listStudent){ // For each student we retrieve their module
             student.retrieveModuleDatabase();
         }
@@ -55,6 +54,12 @@ public class University {
         notifyObservers();
     }
 
+    public void deleteModuleStudent(Student student, Module module)
+    {
+        student.deleteModule(module);
+        notifyObservers();
+    }
+
     public boolean checkAlreadyInList(String IDContact)
     {
         boolean alreadyInArray = false;
@@ -79,7 +84,7 @@ public class University {
     public void saveStudentDatabase()
     {
         //CSVParser.addDataDatabase(listStudent);
-        WriteReader.addStudent(listStudent);
+        ObjectParser.addStudent(listStudent);
         notifyObservers();
     }
 

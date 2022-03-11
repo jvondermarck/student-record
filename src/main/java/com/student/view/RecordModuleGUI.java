@@ -10,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -95,13 +96,13 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
 
         // The two last buttons : load, save and exit
         HBox boxFooter = new HBox();
-        Button btnAdd = new Button("Add module");
+        Button btnAdd = new Button("Add");
+        Button btnDelete = new Button("Delete");
         Button btnSave = new Button("Save");
         Button btnExit = new Button("Exit");
-        HBox.setMargin(btnAdd, new Insets(0,0,0,200));
-        HBox.setMargin(btnSave, new Insets(0,0,0,0));
-        HBox.setMargin(btnExit, new Insets(0,0,0,200));
-        boxFooter.getChildren().addAll(btnAdd, btnSave, btnExit);
+        HBox.setMargin(btnAdd, new Insets(0,0,0,180));
+        HBox.setMargin(btnExit, new Insets(0,0,0,150));
+        boxFooter.getChildren().addAll(btnAdd, btnDelete, btnSave, btnExit);
         boxFooter.setAlignment(Pos.CENTER);
         boxFooter.setSpacing(10);
 
@@ -118,10 +119,26 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
             }
         });
 
-        btnSave.setOnAction(event -> controller.saveStudentDatabase());
+        btnSave.setOnAction(event -> {
+            controller.saveStudentDatabase();
+            displayMessage("Success : Saved in database.", ColorMsg.SUCCESS.getColor());
+        });
 
         // When exiting the app, we ask the user to save, or quit without saving
         btnExit.setOnAction(event -> exitButton());
+
+        btnDelete.setOnAction(event -> controller.deleteStudentModule(cboStudent, tableView));
+
+        // when we click on a row we update the list to show the data to the textfield
+        tableView.setOnMouseClicked((MouseEvent event) -> {
+            if(!tableView.getItems().isEmpty() && !tableView.getSelectionModel().getSelectedItems().isEmpty())
+            {
+                Module selectedItems = tableView.getSelectionModel().getSelectedItems().get(0); // We retrieve the Student that we clicked-on and cast it as a <Student>
+                // And we display in the four textfield the Student information
+                txtModuleName.setText(selectedItems.getModuleName());
+                txtGrade.setText(Integer.toString(selectedItems.getGradeModule()));
+            }
+        });
     }
 
     // we check before adding a module to the student if we all textfield and datepicker are not empty
@@ -139,5 +156,18 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
     @Override
     public void displayMessage(String errorMessage, String colorHexa) {
         showMessageTemplate(lblError, errorMessage, colorHexa);
+    }
+
+    public void resetTable()
+    {
+        if(tableView.getItems().isEmpty())
+        {
+            txtModuleName.setText("");
+            txtGrade.setText("");
+        } else {
+            Module selectedItems = tableView.getItems().get(0);
+            txtModuleName.setText(selectedItems.getModuleName());
+            txtGrade.setText(Integer.toString(selectedItems.getGradeModule()));
+        }
     }
 }

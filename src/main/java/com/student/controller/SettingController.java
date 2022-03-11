@@ -78,6 +78,20 @@ public class SettingController {
         }
     }
 
+    public void deleteStudentModule(ComboBox<Student> cboStudent, TableView<Module> moduleTableView)
+    {
+        if(this.recordModuleGUI.checkTextfieldEmpty()) // If not empty
+        {
+            Module module = moduleTableView.getSelectionModel().getSelectedItems().get(0);
+            Student student = cboStudent.getSelectionModel().getSelectedItem();
+            this.recordModuleGUI.resetTable();
+            this.university.deleteModuleStudent(student, module);
+            this.recordModuleGUI.displayMessage("Warning : Module deleted.", ColorMsg.SUCCESS.getColor());
+        } else {
+            this.recordModuleGUI.displayMessage("Error : Please select a module.", ColorMsg.ERROR.getColor());
+        }
+    }
+
     public void saveStudentDatabase()
     {
         this.university.saveStudentDatabase();

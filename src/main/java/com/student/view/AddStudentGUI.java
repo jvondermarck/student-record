@@ -147,11 +147,17 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         // We remove the Student which has been clicked-on, on the TableView
         btnRemove.setOnAction(event -> controller.deleteStudent(tableView));
 
-        btnList.setOnAction(event -> displayListStudent());
+        btnList.setOnAction(event -> {
+            displayListStudent();
+            displayMessage("Success : ArrayList loaded.", ColorMsg.SUCCESS.getColor());
+        });
 
         btnLoad.setOnAction(event -> loadStudent());
 
-        btnSave.setOnAction(event -> controller.saveStudentDatabase());
+        btnSave.setOnAction(event -> {
+            controller.saveStudentDatabase();
+            displayMessage("Success : Saved in database.", ColorMsg.SUCCESS.getColor());
+        });
 
         // When exiting the app, we ask the user to save, or quit without saving
         btnExit.setOnAction(event -> exitButton());
@@ -232,8 +238,6 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         {
             resetTable();
         }
-
-        displayMessage("Success : ArrayList loaded.", ColorMsg.SUCCESS.getColor());
     }
 
     @Override
