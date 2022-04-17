@@ -1,11 +1,12 @@
 package com.student.model;
 
-import com.student.utilities.ObjectParser;
-
 import java.io.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
+
+import static java.time.Instant.now;
 
 public class Student implements Serializable {
 
@@ -13,25 +14,16 @@ public class Student implements Serializable {
     private static final long serialVersionUID = 7392105208659553468L;
 
     // Student variables
-    private final String firstName;
-    private final String lastName;
-    private final String dateBirth;
-    private final String id;
+    private String firstName;
+    private String lastName;
+    private Date dateBirth;
+    private Integer id;
 
     // Module variable
     private transient List<Module> listModule; // transient = which specifies that the attribute it qualifies should not be included in a serialization process
 
-    public Student(String id) {
-        this.firstName = null;
-        this.lastName = null;
-        this.dateBirth = null;
-        this.id = id;
-
-        this.listModule = new ArrayList<>();
-        retrieveModuleDatabase();
-    }
-
-    public Student(String firstname, String lastname, String id, String dateBirth) {
+    // DATABASE
+    public Student(String firstname, String lastname, int id, java.sql.Date dateBirth) {
         this.firstName = firstname;
         this.lastName = lastname;
         this.dateBirth = dateBirth;
@@ -41,13 +33,20 @@ public class Student implements Serializable {
         //retrieveModuleDatabase();
     }
 
+    public void setStudent(String firstname, String lastname, int id, java.sql.Date dateBirth){
+        this.firstName = firstname;
+        this.lastName = lastname;
+        this.dateBirth = dateBirth;
+        this.id = id;
+    }
+
     public void addModule(String name, int grade)
     {
-        Module module = new Module(name, grade, id);
-        if(this.listModule == null) {
-            this.listModule = new ArrayList<>();
-        }
-        this.listModule.add(module);
+        //Module module = new Module(name, grade, id);
+        //if(this.listModule == null) {
+        //    this.listModule = new ArrayList<>();
+        //}
+        //this.listModule.add(module);
     }
 
     public void deleteModule(Module module)
@@ -57,13 +56,12 @@ public class Student implements Serializable {
 
     public void retrieveModuleDatabase()
     {
-        if(this.listModule == null) {
-            this.listModule = new ArrayList<>();
-        } else {
-            this.listModule.clear();
-        }
-        //CSVParser.retrieveModuleDatabase(listModule, this.id);
-        ObjectParser.deserializeModuleStudent(listModule, this.id);
+        //if(this.listModule == null) {
+        //    this.listModule = new ArrayList<>();
+        //} else {
+        //    this.listModule.clear();
+        //}
+        //ObjectParser.deserializeModuleStudent(listModule, this.id);
     }
 
     public List<Module> getModule() { return this.listModule;}
@@ -72,9 +70,9 @@ public class Student implements Serializable {
 
     public String getLastname() { return this.lastName; }
 
-    public String getId() { return id; }
+    public Integer getId() { return this.id; }//id;
 
-    public String getDateBirth() { return this.dateBirth; }
+    public java.sql.Date getDateBirth() { return this.dateBirth; }
 
     public String getFullname() { return this.firstName + " " + this.lastName; }
 

@@ -120,7 +120,7 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         });
 
         btnSave.setOnAction(event -> {
-            controller.saveStudentDatabase();
+            //controller.saveStudentDatabase();
             displayMessage("Success : Saved in database.", ColorMsg.SUCCESS.getColor());
         });
 

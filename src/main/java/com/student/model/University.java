@@ -1,51 +1,37 @@
 package com.student.model;
 
-import com.student.utilities.ObjectParser;
 import com.student.view.AddStudentGUI;
 import com.student.view.ColorMsg;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class University {
 
-    private final List<Observer> listObserver;
-    private final List<Student> listStudent;
+    public static List<Observer> listObserver;
 
     public University()
     {
-        this.listObserver = new ArrayList<>();
-        this.listStudent = new ArrayList<>();
-        //CSVParser.setupDatabase();
-        //CSVParser.retrieveContactDatabase(listStudent);
-
-        ObjectParser.deserializeStudent(listStudent); // We deserialize all the students in a list
-        for(Student student : listStudent){ // For each student we retrieve their module
-            student.retrieveModuleDatabase();
-        }
-
+        listObserver = new ArrayList<>();
     }
 
-    public void addStudent(List<String> list)
+    public void saveStudentDatabase(Student student)
     {
-        // We check if the student we want to add is not already in the ArrayList, so we check the ID
-        if(!checkAlreadyInList(list.get(2)))
-        {
-            Student student = new Student(list.get(0), list.get(1),
-                    list.get(2), list.get(3));
-            this.listStudent.add(student);
-            // we display a succes message
-            for(Observer observer : listObserver){
-                if(observer instanceof AddStudentGUI)
-                    observer.displayMessage("Success : Student added.", ColorMsg.SUCCESS.getColor());
-            }
-            notifyObservers();
-        } else {
-            for(Observer observer : listObserver){
-                if(observer instanceof AddStudentGUI)
-                    observer.displayMessage("This ID number is already existing.", ColorMsg.ERROR.getColor());
-            }
-        }
+        DBConnection.insertStudent(student);
+        notifyObservers();
+    }
+
+    public void deleteStudent(Student student)
+    {
+        DBConnection.deleteStudent(student);
+        notifyObservers();
+    }
+
+    public void updateStudent(Student student)
+    {
+        DBConnection.updateStudent(student);
+        notifyObservers();
     }
 
     public void addModuleStudent(Student student, String name, int grade)
@@ -60,36 +46,8 @@ public class University {
         notifyObservers();
     }
 
-    public boolean checkAlreadyInList(String IDContact)
-    {
-        boolean alreadyInArray = false;
-
-        // We check the list of students first
-        for(Student student : listStudent)
-            if(student.getId().equals(IDContact))
-            {
-                alreadyInArray = true;
-                break;
-            }
-
-        return alreadyInArray;
-    }
-
-    public void deleteStudent(Student student)
-    {
-        this.listStudent.remove(student);
-        notifyObservers();
-    }
-
-    public void saveStudentDatabase()
-    {
-        //CSVParser.addDataDatabase(listStudent);
-        ObjectParser.addStudent(listStudent);
-        notifyObservers();
-    }
-
     public void addObservers(Observer observer){
-        this.listObserver.add(observer);
+        listObserver.add(observer);
     }
 
     public void notifyObservers(){
@@ -97,9 +55,4 @@ public class University {
             observer.updateView(this);
         }
     }
-
-    public List<Student> getListStudent() {
-        return listStudent;
-    }
-
 }

@@ -4,7 +4,6 @@ import com.student.controller.SettingController;
 import com.student.model.Observer;
 import com.student.model.Student;
 import com.student.model.University;
-import javafx.application.Platform;
 import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -12,11 +11,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.Optional;
 
 public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
 
@@ -68,9 +68,9 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         gridInputField.add(txtID,1,1);
 
         Label lblPhone = new Label("Date birth");
-        formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         txtDateBirth = new DatePicker();
-        txtDateBirth.setValue(LocalDate.now());
+        txtDateBirth.setValue(LocalDate.parse(LocalDate.now().format(formatterDate)));
         gridInputField.add(lblPhone, 2,1);
         gridInputField.add(txtDateBirth,3,1);
 
@@ -87,8 +87,8 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         HBox hboxStudentDetail = new HBox();
         Button btnAdd = new Button("Add");
         Button btnRemove = new Button("Remove");
-        Button btnList = new Button("List");
-        hboxStudentDetail.getChildren().addAll(btnAdd, btnRemove, btnList);
+        Button btnUpdate = new Button("Update");
+        hboxStudentDetail.getChildren().addAll(btnAdd, btnRemove, btnUpdate);
         hboxStudentDetail.setAlignment(Pos.CENTER);
         hboxStudentDetail.setSpacing(15);
 
@@ -108,7 +108,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         TableColumn<Student, Integer> tableId = new TableColumn<>("ID");
         tableId.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        TableColumn<Student, Integer> tableDateBirth = new TableColumn<>("Date Birth");
+        TableColumn<Student, Date> tableDateBirth = new TableColumn<>("Date Birth");
         tableDateBirth.setCellValueFactory(new PropertyValueFactory<>("dateBirth"));
 
         // We add the 4 columns into the tableView
@@ -142,20 +142,17 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         loadStudent(); // we load automatically
 
         // we call the controller to add a student if everything is okay
-        btnAdd.setOnAction(event -> this.controller.addStudent(txtFirstname, txtLastname, txtID, txtDateBirth, formatterDate));
+        btnAdd.setOnAction(event -> this.controller.saveStudentDatabase(txtFirstname, txtLastname, txtID, txtDateBirth, formatterDate));
 
         // We remove the Student which has been clicked-on, on the TableView
         btnRemove.setOnAction(event -> controller.deleteStudent(tableView));
 
-        btnList.setOnAction(event -> {
-            displayListStudent();
-            displayMessage("Success : ArrayList loaded.", ColorMsg.SUCCESS.getColor());
-        });
+        btnUpdate.setOnAction(event -> controller.updateStudent(tableView, txtFirstname, txtLastname, txtID, txtDateBirth, formatterDate));
 
         btnLoad.setOnAction(event -> loadStudent());
 
         btnSave.setOnAction(event -> {
-            controller.saveStudentDatabase();
+
             displayMessage("Success : Saved in database.", ColorMsg.SUCCESS.getColor());
         });
 
@@ -170,8 +167,10 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
                 // And we display in the four textfield the Student information
                 txtFirstname.setText(selectedItems.getFirstname());
                 txtLastname.setText(selectedItems.getLastname());
-                txtID.setText(selectedItems.getId());
-                txtDateBirth.setValue(LocalDate.parse(selectedItems.getDateBirth(), formatterDate));
+                txtID.setText(Integer.toString(selectedItems.getId()));
+                //LocalDate lol = new java.sql.Date(selectedItems.getDateBirth().getTime()).toLocalDate();
+                txtDateBirth.setValue(LocalDate.parse(selectedItems.getDateBirth().toString(), formatterDate));
+
             }
         });
 
@@ -204,8 +203,9 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
             Student selectedItems = tableView.getItems().get(0);
             txtFirstname.setText(selectedItems.getFirstname());
             txtLastname.setText(selectedItems.getLastname());
-            txtID.setText(selectedItems.getId());
-            txtDateBirth.setValue(LocalDate.parse(selectedItems.getDateBirth(), formatterDate));
+            txtID.setText(Integer.toString(selectedItems.getId()));
+            //LocalDate lol = new java.sql.Date(selectedItems.getDateBirth().getTime()).toLocalDate();
+            txtDateBirth.setValue(LocalDate.parse(selectedItems.getDateBirth().toString(), formatterDate));
         }
     }
 

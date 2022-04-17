@@ -215,7 +215,7 @@ public class TemplateGUI implements IGUI {
         {
             Platform.exit(); // we stop the application
         } else { // if clicked on "Save and exit"
-            controller.saveStudentDatabase(); // we save everything in the database
+            //controller.saveStudentDatabase(); // we save everything in the database
             Platform.exit(); // and we exit
         }
     }

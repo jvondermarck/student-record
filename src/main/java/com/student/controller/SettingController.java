@@ -1,5 +1,6 @@
 package com.student.controller;
 
+import com.student.model.DBConnection;
 import com.student.model.Module;
 import com.student.model.Observer;
 import com.student.model.Student;
@@ -10,6 +11,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -23,10 +27,12 @@ public class SettingController {
     private AddStudentGUI addStudentGUI;
     private RecordModuleGUI recordModuleGUI;
     private ViewRecordGUI viewRecordGUI;
+    private DBConnection database;
 
-    public SettingController(University university)
+    public SettingController(University university, DBConnection db)
     {
         this.university = university;
+        this.database = db;
     }
 
     public void setUpView(MainGUI view)
@@ -37,7 +43,7 @@ public class SettingController {
         this.viewRecordGUI = mainView.getViewRecord();
     }
 
-    public void addStudent(TextField txtFirstname, TextField txtLastname, TextField txtID, DatePicker txtDateBirth, DateTimeFormatter formatterDate)
+    public void saveStudentDatabase(TextField txtFirstname, TextField txtLastname, TextField txtID, DatePicker txtDateBirth, DateTimeFormatter formatterDate)
     {
         if(this.addStudentGUI.checkTextfieldEmpty()){ // If not empty
             if(txtFirstname.getText().length() < 2 || txtLastname.getText().length() < 2)
@@ -45,11 +51,9 @@ public class SettingController {
                 this.addStudentGUI.displayMessage("Error : Please name too short.", ColorMsg.ERROR.getColor());
             } else {
                 // we add the student into the ArrayList of <Student> and display it in the TableView
-                List<String> student = new ArrayList<>();
-                student.add(txtFirstname.getText());
-                student.add(txtLastname.getText());
-                student.add(txtID.getText());
-                student.add(formatterDate.format(txtDateBirth.getValue()));
+                Student student = new Student(
+                        txtFirstname.getText(), txtLastname.getText(),
+                        Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
 
                 // We clear the inputs
                 txtFirstname.setText("");
@@ -58,7 +62,7 @@ public class SettingController {
                 txtDateBirth.setValue(LocalDate.now());
 
                 // we send the contact value to the model
-                this.university.addStudent(student);
+                this.university.saveStudentDatabase(student);
             }
         } else {
             this.addStudentGUI.displayMessage("Error : Please fill in all fields.", ColorMsg.ERROR.getColor());
@@ -78,6 +82,20 @@ public class SettingController {
         }
     }
 
+    public void updateStudent(TableView<Student> tableView, TextField txtFirstname, TextField txtLastname, TextField txtID, DatePicker txtDateBirth, DateTimeFormatter formatterDate) {
+        if(this.addStudentGUI.checkTextfieldEmpty()) // If not empty
+        {
+            Student selectedItems = tableView.getSelectionModel().getSelectedItems().get(0);
+            selectedItems.setStudent(txtFirstname.getText(), txtLastname.getText(),
+                    Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
+            this.addStudentGUI.resetTable();
+            this.university.updateStudent(selectedItems);
+            this.addStudentGUI.displayMessage("Success : Student updated.", ColorMsg.SUCCESS.getColor());
+        } else {
+            this.addStudentGUI.displayMessage("Error : Please select a student.", ColorMsg.ERROR.getColor());
+        }
+    }
+
     public void deleteStudentModule(ComboBox<Student> cboStudent, TableView<Module> moduleTableView)
     {
         if(this.recordModuleGUI.checkTextfieldEmpty()) // If not empty
@@ -92,14 +110,9 @@ public class SettingController {
         }
     }
 
-    public void saveStudentDatabase()
-    {
-        this.university.saveStudentDatabase();
-    }
-
     public List<Student> getStudentList()
     {
-        return this.university.getListStudent();
+        return DBConnection.getStudent();
     }
 
     public void addModuleStudent(ComboBox<Student> cboStudent, TextField txtGrade, TextField txtModuleName, TableView<Module> tableView) {
@@ -117,4 +130,5 @@ public class SettingController {
     }
 
     public void addObserver(Observer observer) { this.university.addObservers(observer);}
+
 }
