@@ -98,11 +98,11 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         HBox boxFooter = new HBox();
         Button btnAdd = new Button("Add");
         Button btnDelete = new Button("Delete");
-        Button btnSave = new Button("Save");
+        Button btnUpdate = new Button("Update");
         Button btnExit = new Button("Exit");
         HBox.setMargin(btnAdd, new Insets(0,0,0,180));
         HBox.setMargin(btnExit, new Insets(0,0,0,150));
-        boxFooter.getChildren().addAll(btnAdd, btnDelete, btnSave, btnExit);
+        boxFooter.getChildren().addAll(btnAdd, btnDelete, btnUpdate, btnExit);
         boxFooter.setAlignment(Pos.CENTER);
         boxFooter.setSpacing(10);
 
@@ -119,10 +119,7 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
             }
         });
 
-        btnSave.setOnAction(event -> {
-            //controller.saveStudentDatabase();
-            displayMessage("Success : Saved in database.", ColorMsg.SUCCESS.getColor());
-        });
+        btnUpdate.setOnAction(event -> this.controller.updateModuleStudent(cboStudent, txtGrade, txtModuleName, tableView));
 
         // When exiting the app, we ask the user to save, or quit without saving
         btnExit.setOnAction(event -> exitButton());

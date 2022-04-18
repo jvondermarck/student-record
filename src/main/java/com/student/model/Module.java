@@ -10,9 +10,9 @@ public class Module implements Serializable {
 
     private final String moduleName;
     private final int gradeModule;
-    private final String id;
+    private final int id;
 
-    public Module(String name, int grade, String id)
+    public Module(String name, int grade, int id)
     {
         this.moduleName = name;
         this.gradeModule = grade;
@@ -27,7 +27,7 @@ public class Module implements Serializable {
         return gradeModule;
     }
 
-    public String getId() {
+    public int getId() {
         return this.id;
     }
 

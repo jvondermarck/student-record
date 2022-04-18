@@ -96,14 +96,27 @@ public class SettingController {
         }
     }
 
+    public void updateModuleStudent(ComboBox<Student> cboStudent, TextField txtGrade, TextField txtModuleName, TableView<Module> tableView){
+        if(this.recordModuleGUI.checkTextfieldEmpty()){ // If not empty
+            Module module= tableView.getSelectionModel().getSelectedItems().get(0);
+            this.university.updateModuleStudent(module);
+
+            txtGrade.setText("");
+            txtModuleName.setText("");
+            this.recordModuleGUI.onAddChangeTableViewModule(tableView, cboStudent);
+        } else {
+            this.recordModuleGUI.displayMessage("Error : Please fill all input.", ColorMsg.ERROR.getColor());
+        }
+    }
+
     public void deleteStudentModule(ComboBox<Student> cboStudent, TableView<Module> moduleTableView)
     {
         if(this.recordModuleGUI.checkTextfieldEmpty()) // If not empty
         {
             Module module = moduleTableView.getSelectionModel().getSelectedItems().get(0);
-            Student student = cboStudent.getSelectionModel().getSelectedItem();
             this.recordModuleGUI.resetTable();
-            this.university.deleteModuleStudent(student, module);
+            this.university.deleteModuleStudent(module);
+            this.recordModuleGUI.onAddChangeTableViewModule(moduleTableView, cboStudent);
             this.recordModuleGUI.displayMessage("Warning : Module deleted.", ColorMsg.SUCCESS.getColor());
         } else {
             this.recordModuleGUI.displayMessage("Error : Please select a module.", ColorMsg.ERROR.getColor());
@@ -117,16 +130,21 @@ public class SettingController {
 
     public void addModuleStudent(ComboBox<Student> cboStudent, TextField txtGrade, TextField txtModuleName, TableView<Module> tableView) {
         if(this.recordModuleGUI.checkTextfieldEmpty()){ // If not empty
-            this.recordModuleGUI.displayMessage("Success : " + cboStudent.getSelectionModel().getSelectedItem().getFirstname() + "'s module added.", ColorMsg.SUCCESS.getColor());
             Student student = cboStudent.getSelectionModel().getSelectedItem();
-            this.university.addModuleStudent(student, txtModuleName.getText(), Integer.parseInt(txtGrade.getText()));
+            Module module = new Module(txtModuleName.getText(), Integer.parseInt(txtGrade.getText()), student.getId());
+            this.university.addModuleStudent(module);
 
             txtGrade.setText("");
             txtModuleName.setText("");
-            this.recordModuleGUI.updateListView(tableView, cboStudent);
+            this.recordModuleGUI.onAddChangeTableViewModule(tableView, cboStudent);
         } else {
             this.recordModuleGUI.displayMessage("Error : Please fill all input.", ColorMsg.ERROR.getColor());
         }
+    }
+
+    public List<Module> getModuleList(int studentID)
+    {
+        return DBConnection.getModule(studentID);
     }
 
     public void addObserver(Observer observer) { this.university.addObservers(observer);}

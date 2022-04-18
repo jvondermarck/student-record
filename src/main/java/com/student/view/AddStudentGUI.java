@@ -129,13 +129,13 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
 
         // The two last buttons : load, save and exit
         HBox boxFooter = new HBox();
-        Button btnLoad = new Button("Load");
-        Button btnSave = new Button("Save");
+        //Button btnLoad = new Button("Load");
+        //Button btnSave = new Button("Save");
         Button btnExit = new Button("Exit");
-        HBox.setMargin(btnLoad, new Insets(0,0,0,250));
-        HBox.setMargin(btnSave, new Insets(0,0,0,0));
-        HBox.setMargin(btnExit, new Insets(0,0,0,200));
-        boxFooter.getChildren().addAll(btnLoad, btnSave, btnExit);
+        //HBox.setMargin(btnLoad, new Insets(0,0,0,250));
+        //HBox.setMargin(btnSave, new Insets(0,0,0,0));
+        HBox.setMargin(btnExit, new Insets(0,0,0,550));
+        boxFooter.getChildren().addAll(btnExit);
         boxFooter.setAlignment(Pos.CENTER);
         boxFooter.setSpacing(15);
 
@@ -149,12 +149,11 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
 
         btnUpdate.setOnAction(event -> controller.updateStudent(tableView, txtFirstname, txtLastname, txtID, txtDateBirth, formatterDate));
 
-        btnLoad.setOnAction(event -> loadStudent());
+        //btnLoad.setOnAction(event -> loadStudent());
 
-        btnSave.setOnAction(event -> {
-
-            displayMessage("Success : Saved in database.", ColorMsg.SUCCESS.getColor());
-        });
+        //btnSave.setOnAction(event -> {
+        //    displayMessage("Success : Saved in database.", ColorMsg.SUCCESS.getColor());
+        //});
 
         // When exiting the app, we ask the user to save, or quit without saving
         btnExit.setOnAction(event -> exitButton());

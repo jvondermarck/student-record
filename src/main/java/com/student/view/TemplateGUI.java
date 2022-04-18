@@ -22,6 +22,7 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -157,18 +158,24 @@ public class TemplateGUI implements IGUI {
     {
         // when we click on the student we want in the combobox we convert the object class to a string to show in the combobox
         cboStudent.getSelectionModel().selectedItemProperty().addListener((options, oldValue, student) -> {
-            tableView.getItems().clear();
-            if(student != null) // to avoid any problem we make sure that a student is well selected in the combobox
+            onAddChangeTableViewModule(tableView, cboStudent);
+        });
+    }
+
+    public void onAddChangeTableViewModule(TableView<Module> tableView, ComboBox<Student> cboStudent){
+        Student s = cboStudent.getValue();
+        tableView.getItems().clear();
+        System.out.println("hello2");
+        if(s != null) // to avoid any problem we make sure that a student is well selected in the combobox
+        {
+            List<Module> listModule = s.getModule();
+            if(listModule != null)
             {
-                if(student.getModule() != null)
-                {
-                    for(int i=0; i<student.getModule().size(); i++)
-                    {
-                        tableView.getItems().add(student.getModule().get(i));
-                    }
+                for (Module module : listModule) {
+                    tableView.getItems().add(module);
                 }
             }
-        });
+        }
     }
 
     public void showMessageTemplate(Label lblError, String errorMessage, String colorHexa)

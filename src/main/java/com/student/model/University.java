@@ -34,16 +34,18 @@ public class University {
         notifyObservers();
     }
 
-    public void addModuleStudent(Student student, String name, int grade)
+    public void addModuleStudent(Module module)
     {
-        student.addModule(name, grade);
-        notifyObservers();
+        DBConnection.insertModule(module);
     }
 
-    public void deleteModuleStudent(Student student, Module module)
+    public void deleteModuleStudent(Module module)
     {
-        student.deleteModule(module);
-        notifyObservers();
+        DBConnection.deleteModule(module);
+    }
+
+    public void updateModuleStudent(Module module){
+        DBConnection.updateModule(module);
     }
 
     public void addObservers(Observer observer){

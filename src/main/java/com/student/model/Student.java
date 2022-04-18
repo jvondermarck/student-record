@@ -19,18 +19,12 @@ public class Student implements Serializable {
     private Date dateBirth;
     private Integer id;
 
-    // Module variable
-    private transient List<Module> listModule; // transient = which specifies that the attribute it qualifies should not be included in a serialization process
-
     // DATABASE
     public Student(String firstname, String lastname, int id, java.sql.Date dateBirth) {
         this.firstName = firstname;
         this.lastName = lastname;
         this.dateBirth = dateBirth;
         this.id = id;
-
-        this.listModule = new ArrayList<>();
-        //retrieveModuleDatabase();
     }
 
     public void setStudent(String firstname, String lastname, int id, java.sql.Date dateBirth){
@@ -42,16 +36,7 @@ public class Student implements Serializable {
 
     public void addModule(String name, int grade)
     {
-        //Module module = new Module(name, grade, id);
-        //if(this.listModule == null) {
-        //    this.listModule = new ArrayList<>();
-        //}
-        //this.listModule.add(module);
-    }
-
-    public void deleteModule(Module module)
-    {
-        this.listModule.remove(module);
+        //return new Module(name, grade, id);
     }
 
     public void retrieveModuleDatabase()
@@ -64,7 +49,7 @@ public class Student implements Serializable {
         //ObjectParser.deserializeModuleStudent(listModule, this.id);
     }
 
-    public List<Module> getModule() { return this.listModule;}
+    public List<Module> getModule() { return DBConnection.getModule(this.id); }
 
     public String getFirstname() { return this.firstName; }
 
@@ -79,12 +64,5 @@ public class Student implements Serializable {
     @Override
     public String toString() {
         return this.getFirstname() + "," + this.lastName + "," + this.id + "," + this.dateBirth;
-    }
-    public void setListModule(List<Module> listModule) {
-        this.listModule = listModule;
-    }
-
-    public List<Module> getListModule() {
-        return listModule;
     }
 }
