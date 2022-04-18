@@ -2,10 +2,11 @@ module com.student.student {
     requires javafx.controls;
 	requires java.sql;
     requires org.apache.derby.tools;
+    requires org.junit.jupiter.api;
     //requires javafx.fxml;
     //requires org.controlsfx.controls;
-    exports com.student.controller;
-    exports com.student.view;
-    exports com.student.model;
-    exports com.student.launcher;
+    exports ie.mtu.application.student.controller;
+    exports ie.mtu.application.student.view;
+    exports ie.mtu.application.student.model;
+    exports ie.mtu.application.student.launcher;
 }
