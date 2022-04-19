@@ -24,7 +24,7 @@ public class SettingController {
     private AddStudentGUI addStudentGUI;
     private RecordModuleGUI recordModuleGUI;
     private ViewRecordGUI viewRecordGUI;
-    private DBConnection database;
+    private final DBConnection database;
 
     public SettingController(University university, DBConnection db)
     {
@@ -40,7 +40,7 @@ public class SettingController {
         this.viewRecordGUI = mainView.getViewRecord();
     }
 
-    public void saveStudentDatabase(TextField txtFirstname, TextField txtLastname, TextField txtID, DatePicker txtDateBirth, DateTimeFormatter formatterDate)
+    public void insertStudent(TextField txtFirstname, TextField txtLastname, TextField txtID, DatePicker txtDateBirth, DateTimeFormatter formatterDate)
     {
         if(this.addStudentGUI.checkTextfieldEmpty()){ // If not empty
             if(txtFirstname.getText().length() < 2 || txtLastname.getText().length() < 2)
@@ -59,7 +59,7 @@ public class SettingController {
                 txtDateBirth.setValue(LocalDate.now());
 
                 // we send the contact value to the model
-                this.university.saveStudentDatabase(student);
+                this.university.insertStudent(student);
             }
         } else {
             this.addStudentGUI.displayMessage("Error : Please fill in all fields.", ColorMsg.ERROR.getColor());
@@ -83,40 +83,16 @@ public class SettingController {
         if(this.addStudentGUI.checkTextfieldEmpty()) // If not empty
         {
             Student selectedItems = tableView.getSelectionModel().getSelectedItems().get(0);
+            int oldId = selectedItems.getId();
             selectedItems.setStudent(txtFirstname.getText(), txtLastname.getText(),
                     Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
+
+            this.university.updateStudent(selectedItems, oldId);
+
             this.addStudentGUI.resetTable();
-            this.university.updateStudent(selectedItems);
             this.addStudentGUI.displayMessage("Success : Student updated.", ColorMsg.SUCCESS.getColor());
         } else {
             this.addStudentGUI.displayMessage("Error : Please select a student.", ColorMsg.ERROR.getColor());
-        }
-    }
-
-    public void updateModuleStudent(ComboBox<Student> cboStudent, TextField txtGrade, TextField txtModuleName, TableView<Module> tableView){
-        if(this.recordModuleGUI.checkTextfieldEmpty()){ // If not empty
-            Module module= tableView.getSelectionModel().getSelectedItems().get(0);
-            this.university.updateModuleStudent(module);
-
-            txtGrade.setText("");
-            txtModuleName.setText("");
-            this.recordModuleGUI.onAddChangeTableViewModule(tableView, cboStudent);
-        } else {
-            this.recordModuleGUI.displayMessage("Error : Please fill all input.", ColorMsg.ERROR.getColor());
-        }
-    }
-
-    public void deleteStudentModule(ComboBox<Student> cboStudent, TableView<Module> moduleTableView)
-    {
-        if(this.recordModuleGUI.checkTextfieldEmpty()) // If not empty
-        {
-            Module module = moduleTableView.getSelectionModel().getSelectedItems().get(0);
-            this.recordModuleGUI.resetTable();
-            this.university.deleteModuleStudent(module);
-            this.recordModuleGUI.onAddChangeTableViewModule(moduleTableView, cboStudent);
-            this.recordModuleGUI.displayMessage("Warning : Module deleted.", ColorMsg.SUCCESS.getColor());
-        } else {
-            this.recordModuleGUI.displayMessage("Error : Please select a module.", ColorMsg.ERROR.getColor());
         }
     }
 
@@ -125,17 +101,35 @@ public class SettingController {
         return DBConnection.getStudent();
     }
 
-    public void addModuleStudent(ComboBox<Student> cboStudent, TextField txtGrade, TextField txtModuleName, TableView<Module> tableView) {
+    public void insertModule(ComboBox<Student> cboStudent, TextField txtGrade, TextField txtModuleName, TableView<Module> tableView) {
         if(this.recordModuleGUI.checkTextfieldEmpty()){ // If not empty
             Student student = cboStudent.getSelectionModel().getSelectedItem();
             Module module = new Module(txtModuleName.getText(), Integer.parseInt(txtGrade.getText()), student.getId());
-            this.university.addModuleStudent(module);
+
+            student.insertModule(module);
 
             txtGrade.setText("");
             txtModuleName.setText("");
-            this.recordModuleGUI.onAddChangeTableViewModule(tableView, cboStudent);
+            this.recordModuleGUI.updateListView(tableView, cboStudent);
         } else {
             this.recordModuleGUI.displayMessage("Error : Please fill all input.", ColorMsg.ERROR.getColor());
+        }
+    }
+
+    public void deleteModule(ComboBox<Student> cboStudent, TableView<Module> moduleTableView)
+    {
+        if(this.recordModuleGUI.checkTextfieldEmpty()) // If not empty
+        {
+            Student student = cboStudent.getSelectionModel().getSelectedItem();
+            Module module = moduleTableView.getSelectionModel().getSelectedItems().get(0);
+
+            student.deleteModule(module);
+
+            this.recordModuleGUI.resetTable();
+            this.recordModuleGUI.updateListView(moduleTableView, cboStudent);
+            this.recordModuleGUI.displayMessage("Warning : Module deleted.", ColorMsg.SUCCESS.getColor());
+        } else {
+            this.recordModuleGUI.displayMessage("Error : Please select a module.", ColorMsg.ERROR.getColor());
         }
     }
 

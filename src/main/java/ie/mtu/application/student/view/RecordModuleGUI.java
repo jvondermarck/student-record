@@ -102,11 +102,10 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
 
         Button btnAdd = new Button("Add");
         Button btnDelete = new Button("Delete");
-        Button btnUpdate = new Button("Update");
         Button btnExit = new Button("Exit");
         HBox.setMargin(btnAdd, new Insets(0,0,0,80));
         HBox.setMargin(btnExit, new Insets(0,0,0,100));
-        boxFooter.getChildren().addAll(btnHonour, btnAdd, btnDelete, btnUpdate, btnExit);
+        boxFooter.getChildren().addAll(btnHonour, btnAdd, btnDelete, btnExit);
         boxFooter.setAlignment(Pos.CENTER);
         boxFooter.setSpacing(10);
 
@@ -114,7 +113,7 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         paneRoot.setBottom(boxFooter);
         paneRoot.getStyleClass().add("paneRoot-tab1");
 
-        btnAdd.setOnAction(event -> this.controller.addModuleStudent(cboStudent, txtGrade, txtModuleName, tableView));
+        btnAdd.setOnAction(event -> this.controller.insertModule(cboStudent, txtGrade, txtModuleName, tableView));
 
         txtGrade.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("[0-9]*$")) { // if value is not a number in regex, we put empty string  (we use *$ to accept no digit like + or IDK)
@@ -123,17 +122,15 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
             }
         });
 
-        btnUpdate.setOnAction(event -> this.controller.updateModuleStudent(cboStudent, txtGrade, txtModuleName, tableView));
-
         // When exiting the app, we ask the user to save, or quit without saving
         btnExit.setOnAction(event -> exitButton());
 
-        btnDelete.setOnAction(event -> controller.deleteStudentModule(cboStudent, tableView));
+        btnDelete.setOnAction(event -> controller.deleteModule(cboStudent, tableView));
 
         btnHonour.setOnAction(event -> {
             if(isHonourActivated){
                 isHonourActivated = false;
-                onAddChangeTableViewModule(tableView, cboStudent);
+                updateListView(tableView, cboStudent);
                 displayMessage("First-Class Honours desactivated", ColorMsg.SUCCESS.getColor());
             } else {
                 isHonourActivated = true;

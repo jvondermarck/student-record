@@ -1,29 +1,16 @@
 package ie.mtu.application.student.model;
-
-import java.io.*;
 import java.sql.Date;
 import java.util.List;
-import java.io.Serializable;
 
-import static java.time.Instant.now;
+public class Student {
 
-public class Student implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 7392105208659553468L;
-
-    // Student variables
     private String firstName;
     private String lastName;
     private Date dateBirth;
     private Integer id;
 
-    // DATABASE
     public Student(String firstname, String lastname, int id, java.sql.Date dateBirth) {
-        this.firstName = firstname;
-        this.lastName = lastname;
-        this.dateBirth = dateBirth;
-        this.id = id;
+        setStudent(firstname, lastname, id, dateBirth);
     }
 
     public void setStudent(String firstname, String lastname, int id, java.sql.Date dateBirth){
@@ -33,19 +20,14 @@ public class Student implements Serializable {
         this.id = id;
     }
 
-    public void addModule(String name, int grade)
+    public void insertModule(Module module)
     {
-        //return new Module(name, grade, id);
+        DBConnection.insertModule(module);
     }
 
-    public void retrieveModuleDatabase()
+    public void deleteModule(Module module)
     {
-        //if(this.listModule == null) {
-        //    this.listModule = new ArrayList<>();
-        //} else {
-        //    this.listModule.clear();
-        //}
-        //ObjectParser.deserializeModuleStudent(listModule, this.id);
+        DBConnection.deleteModule(module);
     }
 
     public List<Module> getModule() { return DBConnection.getModule(this.id); }

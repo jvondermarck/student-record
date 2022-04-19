@@ -1,12 +1,6 @@
 package ie.mtu.application.student.model;
 
-import java.io.Serial;
-import java.io.Serializable;
-
-public class Module implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 5952316905054943169L;
+public class Module {
 
     private final String moduleName;
     private final int gradeModule;

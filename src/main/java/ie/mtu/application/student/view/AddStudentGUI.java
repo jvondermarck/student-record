@@ -142,18 +142,12 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         loadStudent(); // we load automatically
 
         // we call the controller to add a student if everything is okay
-        btnAdd.setOnAction(event -> this.controller.saveStudentDatabase(txtFirstname, txtLastname, txtID, txtDateBirth, formatterDate));
+        btnAdd.setOnAction(event -> this.controller.insertStudent(txtFirstname, txtLastname, txtID, txtDateBirth, formatterDate));
 
         // We remove the Student which has been clicked-on, on the TableView
         btnRemove.setOnAction(event -> controller.deleteStudent(tableView));
 
         btnUpdate.setOnAction(event -> controller.updateStudent(tableView, txtFirstname, txtLastname, txtID, txtDateBirth, formatterDate));
-
-        //btnLoad.setOnAction(event -> loadStudent());
-
-        //btnSave.setOnAction(event -> {
-        //    displayMessage("Success : Saved in database.", ColorMsg.SUCCESS.getColor());
-        //});
 
         // When exiting the app, we ask the user to save, or quit without saving
         btnExit.setOnAction(event -> exitButton());

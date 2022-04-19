@@ -3,17 +3,28 @@ package ie.mtu.application.student.model;
 import ie.mtu.application.student.view.AddStudentGUI;
 import ie.mtu.application.student.view.ColorMsg;
 import ie.mtu.application.student.view.RecordModuleGUI;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that will take care of the database connection
+ * This class will create, delete, update, insert the Student and Module table
+ */
 public class DBConnection {
-	private String dbURL = "jdbc:derby:\\database\\MTUDATABASE";
-	public static Connection connection;
-	
-	public DBConnection() {
+    /**
+     * Link to the database location from a relative path of the project
+     */
+	private final String dbURL = "jdbc:derby:\\database\\MTUDATABASE";
+    /**
+     * Connection variable that will connect to the relative path @dbURL
+     */
+	private static Connection connection;
 
+    /**
+     * This constructor will connect to the database and create the Student and Module table if they don't already exist
+     */
+	public DBConnection() {
 		try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             // connect method #1 - embedded driver
@@ -22,13 +33,8 @@ public class DBConnection {
                 System.out.println("Connected to database #1");
                 DatabaseMetaData dbm = connection.getMetaData();
 
-                //Statement stmt = connection.createStatement();
-                //String sql = "DROP TABLE MODULE";
-                //stmt.executeUpdate(sql);
-
-                //stmt = connection.createStatement();
-                //sql = "DROP TABLE STUDENT";
-                //stmt.executeUpdate(sql);
+//                deleteModuleTable();
+//                deleteStudentTable();
 
                 ResultSet tables = dbm.getTables(null, null, "STUDENT", null);
                 if (!tables.next()) {
@@ -42,12 +48,35 @@ public class DBConnection {
                     createModuleTable();
                 }
             }
-         
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
     }
-	// "(id INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) PRIMARY KEY," +
+
+    public void deleteStudentTable()
+    {
+        try {
+            Statement stmt = connection.createStatement();
+            String sql = "DROP TABLE STUDENT";
+            stmt.executeUpdate(sql);
+            System.out.println("Deleted table Student in given database...");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteModuleTable()
+    {
+        try {
+            Statement stmt = connection.createStatement();
+            String sql = "DROP TABLE MODULE";
+            stmt.executeUpdate(sql);
+            System.out.println("Deleted table Module in given database...");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 	public void createStudentTable() {
 		try {
 		  Statement stmt = connection.createStatement();
@@ -67,6 +96,7 @@ public class DBConnection {
       } 
 	}
 
+    // because ON UPDATE CASCADE I won't declare the studentID as a foreign key, otherwise I'll get an error if I change the studentID
     public void createModuleTable() {
         try {
             Statement stmt = connection.createStatement();
@@ -75,7 +105,7 @@ public class DBConnection {
                     "studentID INTEGER NOT NULL," +
                     "moduleName VARCHAR(50) NOT NULL, " +
                     "grade INTEGER NOT NULL, " +
-                    "CONSTRAINT fk_moduleID FOREIGN KEY (studentID) REFERENCES STUDENT(studentID)," +
+                    //"CONSTRAINT fk_moduleID FOREIGN KEY (studentID) REFERENCES STUDENT(studentID)," +
                     "CONSTRAINT pk_moduleName PRIMARY KEY (moduleName))";
 
             stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
@@ -193,10 +223,10 @@ public class DBConnection {
         }
     }
 
-    public static void updateStudent(Student student) {
+    public static void updateStudent(Student student, int oldId) {
         try {
             Statement stmt = connection.createStatement();
-            String sql = "SELECT id FROM STUDENT WHERE studentID = " + student.getId();
+            String sql = "SELECT id FROM STUDENT WHERE studentID = " + oldId;
             ResultSet resultSet = stmt.executeQuery(sql);
             int id = 0;
             while(resultSet.next()){
@@ -212,32 +242,16 @@ public class DBConnection {
                     "', dateBirth = '" + student.getDateBirth().toString() + "' " +
                     "WHERE id=" + id ;
             stmt.executeUpdate(sql);
+
+            if(oldId != student.getId()){
+                stmt = connection.createStatement();
+                sql = "UPDATE MODULE SET studentID = " + student.getId() +
+                        " WHERE studentID=" + oldId ;
+                stmt.executeUpdate(sql);
+            }
             System.out.println("Update student in given database...");
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    public static void updateModule(Module module) {
-        if(!isDuplicatedModuleName(module.getModuleName(), module.getId())) {
-            try {
-                Statement stmt = connection.createStatement();
-                String sql = "UPDATE MODULE SET moduleName = '" + module.getModuleName() +
-                        "', grade = " + module.getGradeModule();
-
-                stmt.execute(sql);
-                for(Observer observer : University.listObserver){
-                    if(observer instanceof RecordModuleGUI)
-                        observer.displayMessage("Success : Module updated.", ColorMsg.SUCCESS.getColor());
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            for(Observer observer : University.listObserver){
-                if(observer instanceof RecordModuleGUI)
-                    observer.displayMessage("Error : duplicated module.", ColorMsg.ERROR.getColor());
-            }
         }
     }
 

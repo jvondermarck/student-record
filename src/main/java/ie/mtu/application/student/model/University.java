@@ -12,7 +12,7 @@ public class University {
         listObserver = new ArrayList<>();
     }
 
-    public void saveStudentDatabase(Student student)
+    public void insertStudent(Student student)
     {
         DBConnection.insertStudent(student);
         notifyObservers();
@@ -24,24 +24,10 @@ public class University {
         notifyObservers();
     }
 
-    public void updateStudent(Student student)
+    public void updateStudent(Student student, int oldId)
     {
-        DBConnection.updateStudent(student);
+        DBConnection.updateStudent(student, oldId);
         notifyObservers();
-    }
-
-    public void addModuleStudent(Module module)
-    {
-        DBConnection.insertModule(module);
-    }
-
-    public void deleteModuleStudent(Module module)
-    {
-        DBConnection.deleteModule(module);
-    }
-
-    public void updateModuleStudent(Module module){
-        DBConnection.updateModule(module);
     }
 
     public void addObservers(Observer observer){

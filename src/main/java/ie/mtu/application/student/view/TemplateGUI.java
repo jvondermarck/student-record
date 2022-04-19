@@ -151,18 +151,16 @@ public class TemplateGUI implements IGUI {
         tableView.getColumns().add(tableModule);
         tableView.getColumns().add(tableGrade);
 
+        cboStudent.getSelectionModel().selectedItemProperty().addListener((options, oldValue, student) -> {
+            updateListView(tableView, cboStudent);
+        });
+
         updateListView(tableView, cboStudent);
     }
 
     public void updateListView(TableView<Module> tableView, ComboBox<Student> cboStudent)
     {
         // when we click on the student we want in the combobox we convert the object class to a string to show in the combobox
-        cboStudent.getSelectionModel().selectedItemProperty().addListener((options, oldValue, student) -> {
-            onAddChangeTableViewModule(tableView, cboStudent);
-        });
-    }
-
-    public void onAddChangeTableViewModule(TableView<Module> tableView, ComboBox<Student> cboStudent){
         Student s = cboStudent.getValue();
         tableView.getItems().clear();
         if(s != null) // to avoid any problem we make sure that a student is well selected in the combobox

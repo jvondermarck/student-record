@@ -5,6 +5,7 @@ module com.student.student {
     requires org.junit.jupiter.api;
     //requires javafx.fxml;
     //requires org.controlsfx.controls;
+    requires org.junit.platform.commons;
     exports ie.mtu.application.student.controller;
     exports ie.mtu.application.student.view;
     exports ie.mtu.application.student.model;

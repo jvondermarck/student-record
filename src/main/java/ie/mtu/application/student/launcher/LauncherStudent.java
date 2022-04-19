@@ -8,8 +8,8 @@ import ie.mtu.application.student.view.MainGUI;
 public class LauncherStudent {
     public static void main(String[] args) {
         // Model
-        DBConnection database = new DBConnection();
         University universityMTU = new University();
+        DBConnection database = new DBConnection();
 
         // Controller
         SettingController controller = new SettingController(universityMTU, database);
