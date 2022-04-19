@@ -11,13 +11,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+/**
+ * The class AddStudentGUI from the View package will display all students from the application
+ * It will be also possible to create a student and update/delete an existing student
+ */
 public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
 
     private SettingController controller;
@@ -30,8 +33,6 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
     private BorderPane paneRoot;
     private GridPane gridInputField;
     private Label lblError;
-
-    public AddStudentGUI(){  }
 
     @Override
     public void setUpGUI(BorderPane paneRoot, SettingController controller) {
@@ -142,12 +143,12 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         loadStudent(); // we load automatically
 
         // we call the controller to add a student if everything is okay
-        btnAdd.setOnAction(event -> this.controller.insertStudent(txtFirstname, txtLastname, txtID, txtDateBirth, formatterDate));
+        btnAdd.setOnAction(event -> this.controller.insertStudent(txtFirstname, txtLastname, txtID, txtDateBirth));
 
         // We remove the Student which has been clicked-on, on the TableView
         btnRemove.setOnAction(event -> controller.deleteStudent(tableView));
 
-        btnUpdate.setOnAction(event -> controller.updateStudent(tableView, txtFirstname, txtLastname, txtID, txtDateBirth, formatterDate));
+        btnUpdate.setOnAction(event -> controller.updateStudent(tableView, txtFirstname, txtLastname, txtID, txtDateBirth));
 
         // When exiting the app, we ask the user to save, or quit without saving
         btnExit.setOnAction(event -> exitButton());
@@ -184,24 +185,20 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         this.paneRoot.getStyleClass().add("paneRoot-tab1");
     }
 
+    /**
+     * This function will reset the three main Textfields and DateTimePicker
+     */
     public void resetTable()
     {
-        if(tableView.getItems().isEmpty())
-        {
-            txtFirstname.setText("");
-            txtLastname.setText("");
-            txtID.setText("");
-            txtDateBirth.setValue(LocalDate.now());
-        } else {
-            Student selectedItems = tableView.getItems().get(0);
-            txtFirstname.setText(selectedItems.getFirstname());
-            txtLastname.setText(selectedItems.getLastname());
-            txtID.setText(Integer.toString(selectedItems.getId()));
-            //LocalDate lol = new java.sql.Date(selectedItems.getDateBirth().getTime()).toLocalDate();
-            txtDateBirth.setValue(LocalDate.parse(selectedItems.getDateBirth().toString(), formatterDate));
-        }
+        txtFirstname.setText("");
+        txtLastname.setText("");
+        txtID.setText("");
+        txtDateBirth.setValue(LocalDate.now());
     }
 
+    /**
+     * The method will ask the controller to get a list of all students and display them in the TableView panel
+     */
     public void loadStudent()
     {
         tableView.getItems().clear();
@@ -211,14 +208,18 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         displayMessage("Success : Database loaded.", ColorMsg.SUCCESS.getColor());
     }
 
-    // we check before adding a student in the arraylist if we all textfield and datepicker are not empty
+    /**
+     * We check before adding a student in the arraylist if we all textfield and datepicker are not empty
+     */
     public boolean checkTextfieldEmpty()
     {
         return !txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() &&
                 !txtID.getText().isEmpty() && (!(txtDateBirth.getValue() == null));
     }
 
-    // when a student will be added in the List of students in our model, this method will be automatically called
+    /**
+     * when a student will be added in the List of students in our model, this method will be automatically called
+     */
     public void displayListStudent()
     {
         List<Student> listStudent = this.controller.getStudentList();
@@ -240,7 +241,6 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
 
     @Override
     public void displayMessage(String errorMessage, String colorHexa) {
-        //ColorMsg.ERROR.getColor();
         showMessageTemplate(lblError, errorMessage, colorHexa);
     }
 }

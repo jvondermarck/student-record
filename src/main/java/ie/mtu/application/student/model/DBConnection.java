@@ -1,8 +1,5 @@
 package ie.mtu.application.student.model;
 
-import ie.mtu.application.student.view.AddStudentGUI;
-import ie.mtu.application.student.view.ColorMsg;
-import ie.mtu.application.student.view.RecordModuleGUI;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +30,8 @@ public class DBConnection {
                 System.out.println("Connected to database #1");
                 DatabaseMetaData dbm = connection.getMetaData();
 
-//                deleteModuleTable();
-//                deleteStudentTable();
+                //deleteTable("MODULE");
+                //deleteTable("STUDENT");
 
                 ResultSet tables = dbm.getTables(null, null, "STUDENT", null);
                 if (!tables.next()) {
@@ -53,30 +50,25 @@ public class DBConnection {
         }
     }
 
-    public void deleteStudentTable()
+    /**
+     * The method will delete a table
+     * @param tableName : the name of the table we want to delete
+     */
+    public void deleteTable(String tableName)
     {
         try {
             Statement stmt = connection.createStatement();
-            String sql = "DROP TABLE STUDENT";
+            String sql = "DROP TABLE " + tableName;
             stmt.executeUpdate(sql);
-            System.out.println("Deleted table Student in given database...");
+            System.out.println("Deleted table " + tableName + " in given database...");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteModuleTable()
-    {
-        try {
-            Statement stmt = connection.createStatement();
-            String sql = "DROP TABLE MODULE";
-            stmt.executeUpdate(sql);
-            System.out.println("Deleted table Module in given database...");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * The method will create the STUDENT table in the database
+     */
 	public void createStudentTable() {
 		try {
 		  Statement stmt = connection.createStatement();
@@ -96,8 +88,11 @@ public class DBConnection {
       } 
 	}
 
-    // because ON UPDATE CASCADE I won't declare the studentID as a foreign key, otherwise I'll get an error if I change the studentID
+    /**
+     * The method will create the MODULE table in the database
+     */
     public void createModuleTable() {
+        //because ON UPDATE CASCADE I won't declare the studentID as a foreign key, otherwise I'll get an error if I change the studentID
         try {
             Statement stmt = connection.createStatement();
             String sql = "CREATE TABLE MODULE (" +
@@ -116,19 +111,30 @@ public class DBConnection {
         }
     }
 
+    /**
+     * The method will check if from the given parameter the Student in the table STUDENT is already existing
+     * @param studentID : the student ID we want to check
+     * @return boolean value : true if the student exists, false if he doesn't exist
+     */
     public static boolean isStudentExist(int studentID){
         boolean isExist = false;
         try {
             Statement stmt = connection.createStatement();
             String sql = "SELECT studentID FROM STUDENT WHERE studentID = " + studentID;
             ResultSet resultSet = stmt.executeQuery(sql);
-            isExist = resultSet.next(); // return true or false if exist or not exist
+            isExist = resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return isExist;
     }
 
+    /**
+     * It checks if from the given parameters, in the MODULE table if module name from a specific student is already existing
+     * @param moduleName : the name of the module
+     * @param studentID : the student ID that we want to check the duplicated module name
+     * @return boolean value : true if found a duplicated module name, false if no duplicated module name
+     */
     public static boolean isDuplicatedModuleName(String moduleName, int studentID){
         boolean isDuplicated = false;
         try {
@@ -142,66 +148,55 @@ public class DBConnection {
         return isDuplicated;
     }
 
+    /**
+     * The method will insert a Student object in the STUDENT table
+     * @param student : a Student object
+     */
     public static void insertStudent(Student student) {
-        if(!isStudentExist(student.getId())) {
-            try {
-                Date date = new Date(student.getDateBirth().getTime());
-                Statement stmt = connection.createStatement();
-                String sql = "INSERT INTO STUDENT (studentID, firstname, lastname, dateBirth) VALUES ("
-                        + student.getId() + ", '" +
-                        student.getFirstname() + "', '" +
-                        student.getLastname() + "', '" +
-                        student.getDateBirth().toString() + "')" ;
+        try {
+            Date date = new Date(student.getDateBirth().getTime());
+            Statement stmt = connection.createStatement();
+            String sql = "INSERT INTO STUDENT (studentID, firstname, lastname, dateBirth) VALUES ("
+                    + student.getId() + ", '" +
+                    student.getFirstname() + "', '" +
+                    student.getLastname() + "', '" +
+                    student.getDateBirth().toString() + "')" ;
 
-                stmt.execute(sql);
-                for(Observer observer : University.listObserver){
-                    if(observer instanceof AddStudentGUI)
-                        observer.displayMessage("Success : Student added.", ColorMsg.SUCCESS.getColor());
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            for(Observer observer : University.listObserver){
-                if(observer instanceof AddStudentGUI)
-                    observer.displayMessage("This ID number is already existing.", ColorMsg.ERROR.getColor());
-            }
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
+    /**
+     * It will add a Module object in the MODULE table in the database
+     * @param module : the Module object we want to add in the database
+     */
     public static void insertModule(Module module) {
-        if(!isDuplicatedModuleName(module.getModuleName(), module.getId())) {
-            try {
-                Statement stmt = connection.createStatement();
-                String sql = "INSERT INTO MODULE (studentID, moduleName, grade) VALUES (" +
-                        module.getId() + ", '" +
-                        module.getModuleName() + "', " +
-                        module.getGradeModule() + ")" ;
+        try {
+            Statement stmt = connection.createStatement();
+            String sql = "INSERT INTO MODULE (studentID, moduleName, grade) VALUES (" +
+                    module.getId() + ", '" +
+                    module.getModuleName() + "', " +
+                    module.getGradeModule() + ")" ;
 
-                stmt.execute(sql);
-                for(Observer observer : University.listObserver){
-                    if(observer instanceof RecordModuleGUI)
-                        observer.displayMessage("Success : Module added.", ColorMsg.SUCCESS.getColor());
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            for(Observer observer : University.listObserver){
-                if(observer instanceof RecordModuleGUI)
-                    observer.displayMessage("Error : duplicated module.", ColorMsg.ERROR.getColor());
-            }
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
     }
 
+    /**
+     * It will delete a student in the database and all his modules
+     * @param student : the student object we want to delete
+     */
     public static void deleteStudent(Student student) {
         try {
             Statement stmt = connection.createStatement();
-            // we delete first all the modules
+            // we delete first all his modules in the MODULE table
             String sql = "DELETE FROM MODULE WHERE studentID = " + student.getId();
             stmt.executeUpdate(sql);
-
+            // Then we delete the student from the STUDENT table
             stmt = connection.createStatement();
             sql = "DELETE FROM STUDENT WHERE studentID = " + student.getId();
             stmt.executeUpdate(sql);
@@ -211,11 +206,15 @@ public class DBConnection {
         }
     }
 
+    /**
+     * The method will delete a specific module from the database from a specific student
+     * @param module : the module Object that we want to delete
+     */
     public static void deleteModule(Module module) {
         try {
             Statement stmt = connection.createStatement();
-            // we delete first all the modules
-            String sql = "DELETE FROM MODULE WHERE moduleName = " + module.getModuleName();
+            String sql = "DELETE FROM MODULE WHERE moduleName = '" + module.getModuleName() +
+                         "' AND studentID = " + module.getId();
             stmt.executeUpdate(sql);
             System.out.println("Delete module in given database...");
         } catch (SQLException e) {
@@ -223,6 +222,11 @@ public class DBConnection {
         }
     }
 
+    /**
+     * The method will update an existing Student in the STUDENT table
+     * @param student : the student with his new information
+     * @param oldId : his old ID integer (if we changed it, we will need his old id to update the student)
+     */
     public static void updateStudent(Student student, int oldId) {
         try {
             Statement stmt = connection.createStatement();
@@ -230,11 +234,10 @@ public class DBConnection {
             ResultSet resultSet = stmt.executeQuery(sql);
             int id = 0;
             while(resultSet.next()){
-                id = resultSet.getInt("id"); //IDTable
+                id = resultSet.getInt("id");
             }
 
-            System.out.println("id = " + id);
-
+            // We update the student information in the STUDENT table
             stmt = connection.createStatement();
             sql = "UPDATE STUDENT SET studentID = " + student.getId() +
                     ", firstname = '" + student.getFirstname() +
@@ -243,6 +246,7 @@ public class DBConnection {
                     "WHERE id=" + id ;
             stmt.executeUpdate(sql);
 
+            // If we changed the ID, we will update the modules of the students to change the ID column from the MODULE table
             if(oldId != student.getId()){
                 stmt = connection.createStatement();
                 sql = "UPDATE MODULE SET studentID = " + student.getId() +
@@ -255,6 +259,10 @@ public class DBConnection {
         }
     }
 
+    /**
+     * The function will run a SELECT query to get all the students in the database
+     * @return a List of type Student from all the students in the database
+     */
     public static List<Student> getStudent() {
         List<Student> studentList = new ArrayList<>();
         try {
@@ -264,11 +272,8 @@ public class DBConnection {
 
             while (res.next()) {
                 Student s1 = new Student(
-                        res.getString("firstname"),
-                        res.getString("lastname"),
-                        res.getInt("studentID"),
-                        res.getDate("dateBirth")
-                );
+                        res.getString("firstname"), res.getString("lastname"),
+                        res.getInt("studentID"), res.getDate("dateBirth"));
                 studentList.add(s1);
             }
             res.close();
@@ -278,6 +283,11 @@ public class DBConnection {
         return studentList;
     }
 
+    /**
+     * The function will run a SELECT query to get all the modules in the database from a specific student
+     * @param studentID : the student ID that we want to get all of his modules
+     * @return a List of type Module from all the modules in the database from a student
+     */
     public static List<Module> getModule(int studentID) {
         List<Module> moduleList = new ArrayList<>();
         try {
@@ -287,10 +297,8 @@ public class DBConnection {
 
             while (res.next()) {
                 Module m1 = new Module(
-                        res.getString("moduleName"),
-                        res.getInt("grade"),
-                        res.getInt("studentID")
-                );
+                        res.getString("moduleName"), res.getInt("grade"),
+                        res.getInt("studentID"));
                 moduleList.add(m1);
             }
             res.close();
@@ -300,6 +308,11 @@ public class DBConnection {
         return moduleList;
     }
 
+    /**
+     * The function will run a SELECT query to get all the modules in the database from a specific student where he got a grade >= 70%
+     * @param studentID : the student ID that we want to get all of his modules >= 70
+     * @return a List if Module
+     */
     public static List<Module> getHonourModule(int studentID){
         List<Module> honourList = new ArrayList<>();
         try {

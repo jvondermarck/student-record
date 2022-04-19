@@ -12,7 +12,7 @@ public class LauncherStudent {
         DBConnection database = new DBConnection();
 
         // Controller
-        SettingController controller = new SettingController(universityMTU, database);
+        SettingController controller = new SettingController(universityMTU);
 
         // View
         MainGUI mainView = new MainGUI();

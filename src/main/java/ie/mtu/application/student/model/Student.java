@@ -2,18 +2,21 @@ package ie.mtu.application.student.model;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * The class Student will contain some information such as his name, date of birth and an ID
+ */
 public class Student {
 
     private String firstName;
     private String lastName;
     private Date dateBirth;
-    private Integer id;
+    private int id;
 
-    public Student(String firstname, String lastname, int id, java.sql.Date dateBirth) {
+    public Student(String firstname, String lastname, int id, Date dateBirth) {
         setStudent(firstname, lastname, id, dateBirth);
     }
 
-    public void setStudent(String firstname, String lastname, int id, java.sql.Date dateBirth){
+    public void setStudent(String firstname, String lastname, int id, Date dateBirth){
         this.firstName = firstname;
         this.lastName = lastname;
         this.dateBirth = dateBirth;
@@ -38,9 +41,9 @@ public class Student {
 
     public String getLastname() { return this.lastName; }
 
-    public Integer getId() { return this.id; }//id;
+    public Integer getId() { return this.id; }
 
-    public java.sql.Date getDateBirth() { return this.dateBirth; }
+    public Date getDateBirth() { return this.dateBirth; }
 
     public String getFullname() { return this.firstName + " " + this.lastName; }
 

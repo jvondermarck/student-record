@@ -2,14 +2,10 @@ package ie.mtu.application.student.view;
 
 import ie.mtu.application.student.controller.SettingController;
 import ie.mtu.application.student.model.Observer;
-import ie.mtu.application.student.model.Student;
 import ie.mtu.application.student.model.University;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 

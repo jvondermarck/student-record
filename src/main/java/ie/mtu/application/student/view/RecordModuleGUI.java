@@ -168,16 +168,12 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         showMessageTemplate(lblError, errorMessage, colorHexa);
     }
 
+    /**
+     * The method will reset the two Textfields of the Module name and the Grade textfields
+     */
     public void resetTable()
     {
-        if(tableView.getItems().isEmpty())
-        {
-            txtModuleName.setText("");
-            txtGrade.setText("");
-        } else {
-            Module selectedItems = tableView.getItems().get(0);
-            txtModuleName.setText(selectedItems.getModuleName());
-            txtGrade.setText(Integer.toString(selectedItems.getGradeModule()));
-        }
+        txtModuleName.setText("");
+        txtGrade.setText("");
     }
 }
