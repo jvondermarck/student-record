@@ -13,10 +13,21 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
+/**
+ * This class is the main GUI controller that will create multiple GUI pane
+ */
 public class MainGUI extends Application {
 
-    private static SettingController controller; // Variable to communicate with the model, this need to be static otherwise when the JavaFX window will launch it won't acces to this variable
-    private TabPane tabPane; // The principal TabPane which will contains different tabs
+    /**
+     * Variable to communicate with the model, this need to be static otherwise when the JavaFX window will launch it won't acces to this variable
+     */
+    private static SettingController controller;
+
+    /**
+     * The principal TabPane which will contains different tabs
+     */
+    private TabPane tabPane;
+
     private AddStudentGUI addStudent;
     private RecordModuleGUI recordModule;
     private ViewRecordGUI viewRecord;
@@ -73,7 +84,11 @@ public class MainGUI extends Application {
         primaryStage.show();
     }
 
-    // Function which will create in a tab the specific window
+    /**
+     * Function which will create in a tab the specific window
+     * @param tabName : the title name of the Tab
+     * @param window : the class that immplemented the IGUI interface which will be in the GUI app
+     */
     public void addTab(String tabName, IGUI window)
     {
         Tab tab = new Tab(tabName); // Tab where we will add the window
@@ -89,14 +104,23 @@ public class MainGUI extends Application {
         tab.setContent(paneTab);
     }
 
+    /**
+     * @return the class AddStudentGUI
+     */
     public AddStudentGUI getAddStudent() {
         return this.addStudent;
     }
 
+    /**
+     * @return the class RecordModuleGUI
+     */
     public RecordModuleGUI getRecordModule() {
         return this.recordModule;
     }
 
+    /**
+     * @return the class ViewRecordGUI
+     */
     public ViewRecordGUI getViewRecord() {
         return this.viewRecord;
     }

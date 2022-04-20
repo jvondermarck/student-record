@@ -16,7 +16,8 @@ class ModuleTest {
 
     @BeforeEach
     void setUp(){
-        student = new Student("Firstname", "Lastname", 5, Date.valueOf(LocalDate.now()));
+        Name name = new Name("Firstname", "Lastname");
+        student = new Student(name, 5, Date.valueOf(LocalDate.now()));
         module = new Module("ModuleName", 78, student.getId());
     }
 

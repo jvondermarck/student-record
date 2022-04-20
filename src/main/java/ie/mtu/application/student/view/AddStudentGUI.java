@@ -128,17 +128,20 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         GridPane.setMargin(tableView, new Insets(30,0,30,0));
         gridAllStudentPanes.setAlignment(Pos.CENTER);
 
+        /*
         // The two last buttons : load, save and exit
         HBox boxFooter = new HBox();
         //Button btnLoad = new Button("Load");
         //Button btnSave = new Button("Save");
-        Button btnExit = new Button("Exit");
+        //Button btnExit = new Button("Exit");
         //HBox.setMargin(btnLoad, new Insets(0,0,0,250));
         //HBox.setMargin(btnSave, new Insets(0,0,0,0));
         HBox.setMargin(btnExit, new Insets(0,0,0,550));
         boxFooter.getChildren().addAll(btnExit);
         boxFooter.setAlignment(Pos.CENTER);
         boxFooter.setSpacing(15);
+        this.paneRoot.setBottom(boxFooter);
+         */
 
         loadStudent(); // we load automatically
 
@@ -151,7 +154,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         btnUpdate.setOnAction(event -> controller.updateStudent(tableView, txtFirstname, txtLastname, txtID, txtDateBirth));
 
         // When exiting the app, we ask the user to save, or quit without saving
-        btnExit.setOnAction(event -> exitButton());
+        //btnExit.setOnAction(event -> exitButton());
 
         // when we click on a row we update the list to show the data to the textfield
         tableView.setOnMouseClicked((MouseEvent event) -> {
@@ -181,7 +184,6 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         });
 
         this.paneRoot.setCenter(gridAllStudentPanes);
-        this.paneRoot.setBottom(boxFooter);
         this.paneRoot.getStyleClass().add("paneRoot-tab1");
     }
 

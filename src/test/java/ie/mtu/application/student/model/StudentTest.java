@@ -14,15 +14,17 @@ class StudentTest {
 
     @BeforeEach
     void setUp(){
+        Name name = new Name("Firstname", "Lastname");
         today = Date.valueOf(LocalDate.now());
-        testStudent = new Student("Firstname", "Lastname", 5, today);
+        testStudent = new Student(name, 5, today);
     }
 
     @DisplayName("createStudent()")
     @Test
     void createStudent() {
         String date = LocalDate.now().toString();
-        Student student = new Student("Julien", "Test", 79854, Date.valueOf(LocalDate.now()));
+        Name name = new Name("Julien", "Test");
+        Student student = new Student(name, 79854, Date.valueOf(LocalDate.now()));
         String expected = "Julien,Test,79854," + date;
         assertEquals(expected, student.toString());
     }

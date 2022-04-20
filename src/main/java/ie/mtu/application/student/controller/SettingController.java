@@ -1,10 +1,7 @@
 package ie.mtu.application.student.controller;
 
-import ie.mtu.application.student.model.DBConnection;
+import ie.mtu.application.student.model.*;
 import ie.mtu.application.student.model.Module;
-import ie.mtu.application.student.model.Observer;
-import ie.mtu.application.student.model.Student;
-import ie.mtu.application.student.model.University;
 import ie.mtu.application.student.view.*;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -65,9 +62,8 @@ public class SettingController {
             if(txtFirstname.getText().length() < 2 || txtLastname.getText().length() < 2) {
                 this.addStudentGUI.displayMessage("Error : Please name too short.", ColorMsg.ERROR.getColor());
             } else {
-                Student student = new Student(
-                        txtFirstname.getText(), txtLastname.getText(),
-                        Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
+                Name name = new Name(txtFirstname.getText(), txtLastname.getText());
+                Student student = new Student(name, Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
 
                 // we send the contact value to the model
                 if(!DBConnection.isStudentExist(student.getId())){ // check if the student with the same ID doesn't exist already
@@ -115,8 +111,8 @@ public class SettingController {
             int oldId = student.getId();
 
             // Because we want to update the student, we change its instance variables
-            student.setStudent(txtFirstname.getText(), txtLastname.getText(),
-                    Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
+            Name name = new Name(txtFirstname.getText(), txtLastname.getText());
+            student.setStudent(name, Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
 
             this.university.updateStudent(student, oldId);
 

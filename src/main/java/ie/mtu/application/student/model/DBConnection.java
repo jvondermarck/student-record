@@ -271,9 +271,8 @@ public class DBConnection {
             ResultSet res = stmt.executeQuery(sql);
 
             while (res.next()) {
-                Student s1 = new Student(
-                        res.getString("firstname"), res.getString("lastname"),
-                        res.getInt("studentID"), res.getDate("dateBirth"));
+                Name name = new Name(res.getString("firstname"), res.getString("lastname"));
+                Student s1 = new Student(name, res.getInt("studentID"), res.getDate("dateBirth"));
                 studentList.add(s1);
             }
             res.close();
