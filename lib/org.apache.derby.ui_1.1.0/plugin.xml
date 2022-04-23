@@ -18,14 +18,14 @@
 <?eclipse version="3.0"?>
 <plugin
    id="org.apache.derby.ui"
-   name="Apache Derby Ui Plug-in for Eclipse"
+   nameInfo="Apache Derby Ui Plug-in for Eclipse"
    version="1.1.0"
-   provider-name="The Apache Software Foundation"
+   provider-nameInfo="The Apache Software Foundation"
    class="org.apache.derby.ui.DerbyPlugin">
 
    <runtime>
-      <library name="ui.jar">
-         <export name="*"/>
+      <library nameInfo="ui.jar">
+         <export nameInfo="*"/>
       </library>
    </runtime>
 
@@ -50,10 +50,10 @@
                label="Apache Derby"
                path="additions"
                id="org.apache.derby.ui.menu1">
-            <separator name="separator1"/>
-            <separator name="separator2"/>
-            <separator name="separator3"/>
-            <separator name="separator4"/>
+            <separator nameInfo="separator1"/>
+            <separator nameInfo="separator2"/>
+            <separator nameInfo="separator3"/>
+            <separator nameInfo="separator4"/>
          </menu>
       </objectContribution>
       <objectContribution
@@ -63,7 +63,7 @@
             <not>
                <objectState
                      value="org.apache.derby.ui.derbyEngine"
-                     name="nature"/>
+                     nameInfo="nature"/>
             </not>
          </visibility>
          <action
@@ -80,7 +80,7 @@
          <visibility>
             <objectState
                   value="org.apache.derby.ui.derbyEngine"
-                  name="nature"/>
+                  nameInfo="nature"/>
          </visibility>
          <action
                enablesFor="1"
@@ -96,7 +96,7 @@
          <visibility>
             <objectState
                   value="org.apache.derby.ui.derbyEngine"
-                  name="nature"/>
+                  nameInfo="nature"/>
          </visibility>
          <action
                label="Stop Derby Network Server"
@@ -108,7 +108,7 @@
             <enablement>
                <objectState
                      value="org.apache.derby.ui.isrun"
-                     name="sessionProperty">
+                     nameInfo="sessionProperty">
                </objectState>
             </enablement>
          </action>
@@ -123,7 +123,7 @@
                <not>
                   <objectState
                         value="org.apache.derby.ui.isrun"
-                        name="sessionProperty">
+                        nameInfo="sessionProperty">
                   </objectState>
                </not>
             </enablement>
@@ -135,7 +135,7 @@
          <visibility>
             <objectState
                   value="org.apache.derby.ui.derbyEngine"
-                  name="nature"/>
+                  nameInfo="nature"/>
          </visibility>
          <action
                enablesFor="1"
@@ -151,7 +151,7 @@
          <visibility>
             <objectState
                   value="org.apache.derby.ui.derbyEngine"
-                  name="nature"/>
+                  nameInfo="nature"/>
          </visibility>
          <action
                enablesFor="1"
@@ -164,7 +164,7 @@
    </extension>
    <extension
          id="derbyEngine"
-         name="Apache Derby "
+         nameInfo="Apache Derby "
          point="org.eclipse.core.resources.natures">
       <requires-nature id="org.eclipse.jdt.core.javanature"/>
       <runtime>
@@ -181,7 +181,7 @@
          <menu
                label="Apache Derby"
                id="org.apache.derby.ui.menu2">
-            <separator name="separator4"/>
+            <separator nameInfo="separator4"/>
          </menu>
       </objectContribution>
       <objectContribution
@@ -206,10 +206,10 @@
                label="Apache Derby"
                path="additions"
                id="org.apache.derby.ui.menu2">
-            <separator name="separator1"/>
-            <separator name="separator2"/>
-            <separator name="separator3"/>
-            <separator name="separator4"/>
+            <separator nameInfo="separator1"/>
+            <separator nameInfo="separator2"/>
+            <separator nameInfo="separator3"/>
+            <separator nameInfo="separator4"/>
          </menu>
       </objectContribution>
       <objectContribution
@@ -219,7 +219,7 @@
             <not>
                <objectState
                      value="org.apache.derby.ui.derbyEngine"
-                     name="nature"/>
+                     nameInfo="nature"/>
             </not>
          </visibility>
          <action
@@ -236,7 +236,7 @@
          <visibility>
             <objectState
                   value="org.apache.derby.ui.derbyEngine"
-                  name="nature"/>
+                  nameInfo="nature"/>
          </visibility>
          <action
                enablesFor="1"
@@ -252,7 +252,7 @@
          <visibility>
             <objectState
                   value="org.apache.derby.ui.derbyEngine"
-                  name="nature"/>
+                  nameInfo="nature"/>
          </visibility>
          <action
                enablesFor="1"
@@ -264,7 +264,7 @@
             <enablement>
                <objectState
                      value="org.apache.derby.ui.isrun"
-                     name="sessionProperty"/>
+                     nameInfo="sessionProperty"/>
             </enablement>
          </action>
          <action
@@ -278,7 +278,7 @@
                <not>
                   <objectState
                         value="org.apache.derby.ui.isrun"
-                        name="sessionProperty"/>
+                        nameInfo="sessionProperty"/>
                </not>
             </enablement>
          </action>
@@ -289,7 +289,7 @@
          <visibility>
             <objectState
                   value="org.apache.derby.ui.derbyEngine"
-                  name="nature"/>
+                  nameInfo="nature"/>
          </visibility>
          <action
                enablesFor="1"
@@ -305,7 +305,7 @@
          <visibility>
             <objectState
                   value="org.apache.derby.ui.derbyEngine"
-                  name="nature"/>
+                  nameInfo="nature"/>
          </visibility>
          <action
                label="sysinfo (Derby System Information)"
@@ -321,11 +321,11 @@
             adaptable="true"
             objectClass="org.eclipse.core.resources.IProject"
             class="org.apache.derby.ui.properties.DerbyPropertiesPage"
-            name="Apache Derby"
+            nameInfo="Apache Derby"
             id="org.apache.derby.ui.properties.DerbyServerProperty">
          <filter
                value="org.apache.derby.ui.derbyEngine"
-               name="nature"/>
+               nameInfo="nature"/>
       </page>
    </extension>
    <extension
@@ -342,16 +342,16 @@
          <enablement>
             <or>
                <and>
-                  <objectClass name="org.eclipse.jdt.core.IJavaProject"/>
+                  <objectClass nameInfo="org.eclipse.jdt.core.IJavaProject"/>
                   <objectState
                         value="org.apache.derby.ui.derbyEngine"
-                        name="nature"/>
+                        nameInfo="nature"/>
                </and>
                <and>
-                  <objectClass name="org.eclipse.core.resources.IProject"/>
+                  <objectClass nameInfo="org.eclipse.core.resources.IProject"/>
                   <objectState
                         value="org.apache.derby.ui.derbyEngine"
-                        name="nature"/>
+                        nameInfo="nature"/>
                </and>
             </or>
          </enablement>
@@ -362,7 +362,7 @@
       <launchConfigurationType
             delegate="org.apache.derby.ui.launch.StartDerbyServerLaunchConfigurationDelegate"
             public="false"
-            name="Start Apache Derby Network Server"
+            nameInfo="Start Apache Derby Network Server"
             id="org.apache.derby.ui.startDerbyServerLaunchConfigurationType"
             modes="run, debug"/>
    </extension>
@@ -378,7 +378,7 @@
       <launchConfigurationType
             delegate="org.apache.derby.ui.launch.StopDerbyServerLaunchConfigurationDelegate"
             public="false"
-            name="Stop Apache Derby Network Server"
+            nameInfo="Stop Apache Derby Network Server"
             id="org.apache.derby.ui.stopDerbyServerLaunchConfigurationType"
             modes="run, debug"/>
    </extension>
@@ -394,7 +394,7 @@
       <launchConfigurationType
             delegate="org.apache.derby.ui.launch.IJDerbyLaunchConfigurationDelegate"
             public="false"
-            name="IJ"
+            nameInfo="IJ"
             id="org.apache.derby.ui.ijDerbyLaunchConfigurationType"
             modes="run, debug"/>         
    </extension>
@@ -410,7 +410,7 @@
       <launchConfigurationType
             delegate="org.apache.derby.ui.launch.SysInfoDerbyLaunchConfigurationDelegate"
             public="false"
-            name="SysInfo"
+            nameInfo="SysInfo"
             id="org.apache.derby.ui.sysinfoDerbyLaunchConfigurationType"
             modes="run, debug"/>
    </extension>

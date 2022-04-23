@@ -62,11 +62,11 @@ public class SettingController {
             if(txtFirstname.getText().length() < 2 || txtLastname.getText().length() < 2) {
                 this.addStudentGUI.displayMessage("Error : Please name too short.", ColorMsg.ERROR.getColor());
             } else {
-                Name name = new Name(txtFirstname.getText(), txtLastname.getText());
-                Student student = new Student(name, Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
+                NameInfo nameInfo = new NameInfo(txtFirstname.getText(), txtLastname.getText());
+                Student student = new Student(nameInfo, Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
 
                 // we send the contact value to the model
-                if(!DBConnection.isStudentExist(student.getId())){ // check if the student with the same ID doesn't exist already
+                if(!DBConnection.isStudentExist(student.getStudentID())){ // check if the student with the same ID doesn't exist already
                     this.university.insertStudent(student);
                     this.addStudentGUI.displayMessage("Success : Student added.", ColorMsg.SUCCESS.getColor());
                     this.addStudentGUI.resetTable();
@@ -108,11 +108,11 @@ public class SettingController {
         if(this.addStudentGUI.checkTextfieldEmpty()) // If not empty
         {
             Student student = tableView.getSelectionModel().getSelectedItems().get(0);
-            int oldId = student.getId();
+            int oldId = student.getStudentID();
 
             // Because we want to update the student, we change its instance variables
-            Name name = new Name(txtFirstname.getText(), txtLastname.getText());
-            student.setStudent(name, Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
+            NameInfo nameInfo = new NameInfo(txtFirstname.getText(), txtLastname.getText());
+            student.setStudent(nameInfo, Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
 
             this.university.updateStudent(student, oldId);
 
@@ -141,7 +141,7 @@ public class SettingController {
     public void insertModule(ComboBox<Student> cboStudent, TextField txtGrade, TextField txtModuleName, TableView<Module> tableView) {
         if(this.recordModuleGUI.checkTextfieldEmpty()){ // If not empty
             Student student = cboStudent.getSelectionModel().getSelectedItem();
-            Module module = new Module(txtModuleName.getText(), Integer.parseInt(txtGrade.getText()), student.getId());
+            Module module = new Module(txtModuleName.getText(), Integer.parseInt(txtGrade.getText()), student.getStudentID());
 
             if(!DBConnection.isDuplicatedModuleName(module.getModuleName(), module.getId())){
                 student.insertModule(module);

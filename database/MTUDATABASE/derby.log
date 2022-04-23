@@ -6,7 +6,7 @@ Loaded from file:/C:/Programmation/Derby/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=17.0.2+8-86
 user.dir=C:\Users\Julien\Documents\IT\Object Oriented Programming\Student GUI\database\MTUDATABASE
-os.name=Windows 11
+os.nameInfo=Windows 11
 os.arch=amd64
 os.version=10.0
 derby.system.home=null

@@ -25,13 +25,6 @@
             <artifactId>javafx-fxml</artifactId>
             <version>15.0.1</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -55,7 +48,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <!-- give full qualified name of your main class-->
+                            <!-- give full qualified nameInfo of your main class-->
                             <mainClass>ie.mtu.application.student.launcher.LauncherStudent</mainClass>
                         </manifest>
                     </archive>

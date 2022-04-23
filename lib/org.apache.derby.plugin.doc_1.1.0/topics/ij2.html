@@ -78,7 +78,7 @@ double click the restaurants.sql file to create an editor window to type in.)
 <pre>
 connect 'jdbc:derby://localhost:1527/myDB;create=true;user=me;password=mine;';
 insert into restaurants values (4, 'Grande Burrito', 'Oakland');
-update restaurants set city = 'Ukiah' where name = 'Irifunes';
+update restaurants set city = 'Ukiah' where nameInfo = 'Irifunes';
 select * from restaurants;
 disconnect;
 exit;
@@ -86,7 +86,7 @@ exit;
 <p>
 Now save the restaurants.sql file so we can run the script.  Use <b>Ctrl + S</b>
 in the windows environment to save an open file.  Once the file has been saved
-the asterisk will disappear next to the name of the file in the editor.
+the asterisk will disappear next to the nameInfo of the file in the editor.
 </p>
 <p>
 The last step is to run the SQL script.  Right-click the <b>restaurants.sql</b> 

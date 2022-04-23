@@ -16,9 +16,9 @@ class ModuleTest {
 
     @BeforeEach
     void setUp(){
-        Name name = new Name("Firstname", "Lastname");
-        student = new Student(name, 5, Date.valueOf(LocalDate.now()));
-        module = new Module("ModuleName", 78, student.getId());
+        NameInfo nameInfo = new NameInfo("Firstname", "Lastname");
+        student = new Student(nameInfo, 5, Date.valueOf(LocalDate.now()));
+        module = new Module("ModuleName", 78, student.getStudentID());
     }
 
     @DisplayName("getModuleName()")
@@ -35,12 +35,12 @@ class ModuleTest {
         assertEquals(expected, module.getGradeModule());
     }
 
-    @DisplayName("getId()")
+    @DisplayName("getStudentID()")
     @Test
-    void getId() {
+    void getStudentID() {
         int expected = 5;
         assertEquals(expected, module.getId());
-        assertEquals(expected, student.getId());
+        assertEquals(expected, student.getStudentID());
     }
 
     @DisplayName("testToString()")

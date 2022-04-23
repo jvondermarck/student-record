@@ -157,7 +157,7 @@ public class DBConnection {
             Date date = new Date(student.getDateBirth().getTime());
             Statement stmt = connection.createStatement();
             String sql = "INSERT INTO STUDENT (studentID, firstname, lastname, dateBirth) VALUES ("
-                    + student.getId() + ", '" +
+                    + student.getStudentID() + ", '" +
                     student.getFirstname() + "', '" +
                     student.getLastname() + "', '" +
                     student.getDateBirth().toString() + "')" ;
@@ -194,11 +194,11 @@ public class DBConnection {
         try {
             Statement stmt = connection.createStatement();
             // we delete first all his modules in the MODULE table
-            String sql = "DELETE FROM MODULE WHERE studentID = " + student.getId();
+            String sql = "DELETE FROM MODULE WHERE studentID = " + student.getStudentID();
             stmt.executeUpdate(sql);
             // Then we delete the student from the STUDENT table
             stmt = connection.createStatement();
-            sql = "DELETE FROM STUDENT WHERE studentID = " + student.getId();
+            sql = "DELETE FROM STUDENT WHERE studentID = " + student.getStudentID();
             stmt.executeUpdate(sql);
             System.out.println("Delete student in given database...");
         } catch (SQLException e) {
@@ -239,7 +239,7 @@ public class DBConnection {
 
             // We update the student information in the STUDENT table
             stmt = connection.createStatement();
-            sql = "UPDATE STUDENT SET studentID = " + student.getId() +
+            sql = "UPDATE STUDENT SET studentID = " + student.getStudentID() +
                     ", firstname = '" + student.getFirstname() +
                     "', lastname = '" + student.getLastname() +
                     "', dateBirth = '" + student.getDateBirth().toString() + "' " +
@@ -247,9 +247,9 @@ public class DBConnection {
             stmt.executeUpdate(sql);
 
             // If we changed the ID, we will update the modules of the students to change the ID column from the MODULE table
-            if(oldId != student.getId()){
+            if(oldId != student.getStudentID()){
                 stmt = connection.createStatement();
-                sql = "UPDATE MODULE SET studentID = " + student.getId() +
+                sql = "UPDATE MODULE SET studentID = " + student.getStudentID() +
                         " WHERE studentID=" + oldId ;
                 stmt.executeUpdate(sql);
             }
@@ -271,8 +271,8 @@ public class DBConnection {
             ResultSet res = stmt.executeQuery(sql);
 
             while (res.next()) {
-                Name name = new Name(res.getString("firstname"), res.getString("lastname"));
-                Student s1 = new Student(name, res.getInt("studentID"), res.getDate("dateBirth"));
+                NameInfo nameInfo = new NameInfo(res.getString("firstname"), res.getString("lastname"));
+                Student s1 = new Student(nameInfo, res.getInt("studentID"), res.getDate("dateBirth"));
                 studentList.add(s1);
             }
             res.close();

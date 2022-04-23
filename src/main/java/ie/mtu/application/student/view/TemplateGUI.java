@@ -115,7 +115,7 @@ public class TemplateGUI implements IGUI {
             public Student fromString(String idNumber) {
                 Student student = null;
                 for (Student student1 : cboStudent.getItems()) {
-                    if (student1.getId().equals(Integer.parseInt(idNumber))) {
+                    if (student1.getStudentID().equals(Integer.parseInt(idNumber))) {
                         student = student1;
                         break;
                     }

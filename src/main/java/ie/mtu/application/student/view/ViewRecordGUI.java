@@ -81,7 +81,7 @@ public class ViewRecordGUI extends TemplateGUI implements Observer, IGUI {
         cboStudent.getSelectionModel().selectedItemProperty().addListener((options, oldValue, student) -> {
             if(student != null) // to avoid any problem we make sure that a student is well selected in the combobox
             {
-                lblInfoStudent.setText("ID : " + student.getId() + " - Birth : " + student.getDateBirth());
+                lblInfoStudent.setText("ID : " + student.getStudentID() + " - Birth : " + student.getDateBirth());
             }
         });
     }

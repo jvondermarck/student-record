@@ -14,17 +14,17 @@ class StudentTest {
 
     @BeforeEach
     void setUp(){
-        Name name = new Name("Firstname", "Lastname");
+        NameInfo nameInfo = new NameInfo("Firstname", "Lastname");
         today = Date.valueOf(LocalDate.now());
-        testStudent = new Student(name, 5, today);
+        testStudent = new Student(nameInfo, 5, today);
     }
 
     @DisplayName("createStudent()")
     @Test
     void createStudent() {
         String date = LocalDate.now().toString();
-        Name name = new Name("Julien", "Test");
-        Student student = new Student(name, 79854, Date.valueOf(LocalDate.now()));
+        NameInfo nameInfo = new NameInfo("Julien", "Test");
+        Student student = new Student(nameInfo, 79854, Date.valueOf(LocalDate.now()));
         String expected = "Julien,Test,79854," + date;
         assertEquals(expected, student.toString());
     }
@@ -43,11 +43,11 @@ class StudentTest {
         assertEquals(expected, testStudent.getLastname());
     }
 
-    @DisplayName("getID()")
+    @DisplayName("getStudentId()")
     @Test
-    void getID() {
+    void getStudentId() {
         int expected = 5;
-        assertEquals(expected, testStudent.getId());
+        assertEquals(expected, testStudent.getStudentID());
     }
 
     @DisplayName("getDate()")

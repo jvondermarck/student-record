@@ -23,7 +23,13 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
     private TextField txtGrade;
     private BorderPane paneRoot;
     private TableView<Module> tableView;
+    /**
+     * Label that contains the text to display
+     */
     private Label lblError;
+    /**
+     * Boolean value to know if we display the Honour TableView or the normal TableView
+     */
     private boolean isHonourActivated;
 
     @Override
@@ -80,7 +86,6 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         Button btnAdd = new Button("Add the module");
         hboxModule.getChildren().add(btnAdd);
         hboxModule.setAlignment(Pos.CENTER);
-
          */
 
         tableView = new TableView<>();
@@ -139,7 +144,7 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
             }
         });
 
-                // when we click on a row we update the list to show the data to the textfield
+        // when we click on a row we update the list to show the data to the textfield
         tableView.setOnMouseClicked((MouseEvent event) -> {
             if(!tableView.getItems().isEmpty() && !tableView.getSelectionModel().getSelectedItems().isEmpty())
             {
@@ -151,7 +156,9 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
         });
     }
 
-    // we check before adding a module to the student if we all textfield and datepicker are not empty
+    /**
+     * we check before adding a module to the student if we all textfield and datepicker are not empty
+     */
     public boolean checkTextfieldEmpty()
     {
         return !cboStudent.getSelectionModel().isEmpty() && !txtModuleName.getText().isEmpty() &&

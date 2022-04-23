@@ -107,7 +107,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         tableLastname.setCellValueFactory(new PropertyValueFactory<>("lastname"));
 
         TableColumn<Student, Integer> tableId = new TableColumn<>("ID");
-        tableId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tableId.setCellValueFactory(new PropertyValueFactory<>("studentID"));
 
         TableColumn<Student, Date> tableDateBirth = new TableColumn<>("Date Birth");
         tableDateBirth.setCellValueFactory(new PropertyValueFactory<>("dateBirth"));
@@ -164,7 +164,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
                 // And we display in the four textfield the Student information
                 txtFirstname.setText(selectedItems.getFirstname());
                 txtLastname.setText(selectedItems.getLastname());
-                txtID.setText(Integer.toString(selectedItems.getId()));
+                txtID.setText(Integer.toString(selectedItems.getStudentID()));
                 //LocalDate lol = new java.sql.Date(selectedItems.getDateBirth().getTime()).toLocalDate();
                 txtDateBirth.setValue(LocalDate.parse(selectedItems.getDateBirth().toString(), formatterDate));
 
@@ -180,6 +180,13 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
                     txtDateBirth.getEditor().setText(txtDateBirth.getConverter().toString(txtDateBirth.getValue()));
                     displayMessage("Error : Enter valid date (dd/mm/yyyy).", ColorMsg.ERROR.getColor());
                 }
+            }
+        });
+
+        txtID.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9]*$")) { // if value is not a number in regex, we put empty string  (we use *$ to accept no digit like + or IDK)
+                txtID.setText(newValue.replaceAll("[^0-9]", "")); // replaces all occurrences of "non digit value" to "empty string"
+                displayMessage("Error : please only put numbers.", ColorMsg.ERROR.getColor());
             }
         });
 
