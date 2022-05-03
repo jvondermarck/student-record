@@ -18,6 +18,12 @@ public class Module {
      */
     private final int id;
 
+    /**
+     * Set up a module
+     * @param name of the moduke
+     * @param grade of the module
+     * @param id student
+     */
     public Module(String name, int grade, int id)
     {
         this.moduleName = name;

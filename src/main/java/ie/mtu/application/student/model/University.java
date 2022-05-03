@@ -14,6 +14,9 @@ public class University {
      */
     public static List<Observer> listObserver;
 
+    /**
+     * University set up the observers
+     */
     public University()
     {
         listObserver = new ArrayList<>();

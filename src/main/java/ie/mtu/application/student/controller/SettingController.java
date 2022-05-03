@@ -29,6 +29,10 @@ public class SettingController {
     private RecordModuleGUI recordModuleGUI;
     private ViewRecordGUI viewRecordGUI;
 
+    /**
+     * Set up the controller by adding the University instance
+     * @param university main university
+     */
     public SettingController(University university)
     {
         this.university = university;

@@ -1,11 +1,9 @@
 package ie.mtu.application.student.launcher;
 
 import ie.mtu.application.student.controller.SettingController;
-import ie.mtu.application.student.model.DBConnection;
-import ie.mtu.application.student.model.NameInfo;
-import ie.mtu.application.student.model.Student;
-import ie.mtu.application.student.model.University;
+import ie.mtu.application.student.model.*;
 import ie.mtu.application.student.view.MainGUI;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -21,15 +19,19 @@ public class LauncherStudent {
      * @param args arguments passed in the terminal
      */
     public static void main(String[] args) {
+          // JPA add a student : (not working :()
+//        StudentManager manager = new StudentManager();
+//        manager.setup();
+//        manager.create();
+//        manager.exit();
 
+//        EntityManagerFactory factory = Persistence.createEntityManagerFactory("mtudb");
+//        EntityManager em = factory.createEntityManager();
+//        em.getTransaction().begin();
 //        Student student = new Student(new NameInfo("JPAFirst", "JPALast"), 123456, Date.valueOf(LocalDate.now()));
-//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mtudb");
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        entityManager.getTransaction().begin();
-//        entityManager.persist(student);
-//        entityManager.getTransaction().commit();
-//        entityManager.close();
-//        entityManagerFactory.close();
+//        em.persist(student);
+//        em.getTransaction().commit();
+//        em.close();
 
         // Model
         University universityMTU = new University();
