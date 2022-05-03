@@ -14,6 +14,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+/**
+ * Class that will display student information and their grades, user will have to select in a combobox a student to show his information
+ */
 public class ViewRecordGUI extends TemplateGUI implements Observer, IGUI {
 
     private SettingController controller;
@@ -21,8 +24,6 @@ public class ViewRecordGUI extends TemplateGUI implements Observer, IGUI {
     private ComboBox<Student> cboStudent;
     private Label lblInfoStudent;
     private BorderPane paneRoot;
-
-    public ViewRecordGUI(){  }
 
     @Override
     public void setUpGUI(BorderPane paneRoot, SettingController controller) {
@@ -72,6 +73,9 @@ public class ViewRecordGUI extends TemplateGUI implements Observer, IGUI {
         paneRoot.getStyleClass().add("paneRoot-tab1");
     }
 
+    /**
+     * Set up the combobox with the Student class in it
+     */
     public void setUpCombobox()
     {
         createComboboxStudent(cboStudent); // we call the template class to avoid dupliacted code

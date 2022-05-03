@@ -10,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * Crash the application
+ */
 public class CrashView extends TemplateGUI implements Observer, IGUI {
 
     private SettingController controller;

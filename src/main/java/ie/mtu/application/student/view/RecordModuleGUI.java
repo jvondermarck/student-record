@@ -15,6 +15,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+/**
+ * For a student selected in a combobox, possibility to add a grade and a module, and it displays every module taken by the Student
+ */
 public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
 
     private SettingController controller;
@@ -158,6 +161,7 @@ public class RecordModuleGUI extends TemplateGUI implements Observer, IGUI {
 
     /**
      * we check before adding a module to the student if we all textfield and datepicker are not empty
+     * @return true if empty or not
      */
     public boolean checkTextfieldEmpty()
     {

@@ -128,21 +128,6 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
         GridPane.setMargin(tableView, new Insets(30,0,30,0));
         gridAllStudentPanes.setAlignment(Pos.CENTER);
 
-        /*
-        // The two last buttons : load, save and exit
-        HBox boxFooter = new HBox();
-        //Button btnLoad = new Button("Load");
-        //Button btnSave = new Button("Save");
-        //Button btnExit = new Button("Exit");
-        //HBox.setMargin(btnLoad, new Insets(0,0,0,250));
-        //HBox.setMargin(btnSave, new Insets(0,0,0,0));
-        HBox.setMargin(btnExit, new Insets(0,0,0,550));
-        boxFooter.getChildren().addAll(btnExit);
-        boxFooter.setAlignment(Pos.CENTER);
-        boxFooter.setSpacing(15);
-        this.paneRoot.setBottom(boxFooter);
-         */
-
         loadStudent(); // we load automatically
 
         // we call the controller to add a student if everything is okay
@@ -219,6 +204,7 @@ public class AddStudentGUI extends TemplateGUI implements Observer, IGUI {
 
     /**
      * We check before adding a student in the arraylist if we all textfield and datepicker are not empty
+     * @return boolean value true is empty or false if not empty
      */
     public boolean checkTextfieldEmpty()
     {

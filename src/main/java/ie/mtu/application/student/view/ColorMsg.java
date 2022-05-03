@@ -4,7 +4,13 @@ package ie.mtu.application.student.view;
  * This class is taking care of multiple enumeration color for different kind of situation to display a message
  */
 public enum ColorMsg {
+    /**
+     * ERROR enum with a red color
+     */
     ERROR("Error", "#d74343"),
+    /**
+     * SUCCESS enum with a green color
+     */
     SUCCESS("Success", "#60d93b");
 
     private final java.lang.String msg;

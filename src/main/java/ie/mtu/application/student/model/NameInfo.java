@@ -1,8 +1,5 @@
 package ie.mtu.application.student.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Transient;
-
 /**
  * Class that will have the information of a person like his firstname and lastname and his fullname
  */
@@ -11,12 +8,20 @@ public class NameInfo {
     private String firstname;
     private String lastname;
 
+    /**
+     * Set up to null the name of the student
+     */
     public NameInfo()
     {
         this.firstname = "";
         this.lastname = "";
     }
 
+    /**
+     * Set up the full name of a student
+     * @param firstname string
+     * @param lastname string
+     */
     public NameInfo(String firstname, String lastname)
     {
         this.firstname = firstname;
@@ -39,6 +44,7 @@ public class NameInfo {
 
     /**
      * Change the firstname
+     * @param firstname his name
      */
     public void setFirstname(String firstname) {
         this.firstname = firstname;
@@ -46,6 +52,7 @@ public class NameInfo {
 
     /**
      * Change the lastname
+     * @param lastname his lastname
      */
     public void setLastname(String lastname) {
         this.lastname = lastname;
@@ -53,6 +60,7 @@ public class NameInfo {
 
     /**
      * Get the fullname with the firstname + a space + the lastname
+     * @return the full name string
      */
     public String getFullname() {
         String fullname = "";
@@ -61,6 +69,4 @@ public class NameInfo {
         }
         return fullname;
     }
-
-
 }

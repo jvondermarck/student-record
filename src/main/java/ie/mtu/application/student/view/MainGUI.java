@@ -33,11 +33,19 @@ public class MainGUI extends Application {
     private ViewRecordGUI viewRecord;
     private CrashView crashView;
 
+    /**
+     * Set the controller
+     * @param control the main controller class
+     */
     public void setController(SettingController control)
     {
         controller = control;
     }
 
+    /**
+     * Run the Java FX application
+     * @param args the args to make run the Java FX
+     */
     public void main(String[] args) {
         launch(args);
     }
