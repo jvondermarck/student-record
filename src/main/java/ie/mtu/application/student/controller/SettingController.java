@@ -112,16 +112,21 @@ public class SettingController {
         if(this.addStudentGUI.checkTextfieldEmpty()) // If not empty
         {
             Student student = tableView.getSelectionModel().getSelectedItems().get(0);
-            int oldId = student.getStudentID();
+            // we send the contact value to the model
+            if((Integer.parseInt(txtID.getText()) == student.getStudentID()) || !DBConnection.isStudentExist(Integer.parseInt(txtID.getText()))){ // check if the student with the same ID doesn't exist already
+                int oldId = student.getStudentID();
 
-            // Because we want to update the student, we change its instance variables
-            NameInfo nameInfo = new NameInfo(txtFirstname.getText(), txtLastname.getText());
-            student.setStudent(nameInfo, Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
+                // Because we want to update the student, we change its instance variables
+                NameInfo nameInfo = new NameInfo(txtFirstname.getText(), txtLastname.getText());
+                student.setStudent(nameInfo, Integer.parseInt(txtID.getText()), Date.valueOf(txtDateBirth.getValue()));
 
-            this.university.updateStudent(student, oldId);
+                this.university.updateStudent(student, oldId);
 
-            this.addStudentGUI.resetTable();
-            this.addStudentGUI.displayMessage("Success : Student updated.", ColorMsg.SUCCESS.getColor());
+                this.addStudentGUI.resetTable();
+                this.addStudentGUI.displayMessage("Success : Student updated.", ColorMsg.SUCCESS.getColor());
+            } else {
+                this.addStudentGUI.displayMessage("This ID number is already existing.", ColorMsg.ERROR.getColor());
+            }
         } else {
             this.addStudentGUI.displayMessage("Error : Please select a student.", ColorMsg.ERROR.getColor());
         }

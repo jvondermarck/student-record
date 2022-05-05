@@ -1,0 +1,65 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Student:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Student_Executable_jar</output-path>
+    <root id="archive" name="Student.jar">
+      <element id="module-output" name="Student" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derby.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.annotation.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.resource.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.ejb.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.servlet.jsp.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.servlet.jsp.jstl.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.servlet.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.transaction.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.jms.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.persistence.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/openjfx/javafx-fxml/15.0.1/javafx-fxml-15.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyrun.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_de_DE.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_pt_BR.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_es.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbytools.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/openjfx/javafx-base/15.0.1/javafx-base-15.0.1-win.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/controlsfx-11.1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_zh_CN.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbynet.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_hu.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_cs.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/openjfx/javafx-fxml/15.0.1/javafx-fxml-15.0.1-win.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_fr.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/hibernate-core-5.2.2.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jboss-logging-3.3.0.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javassist-3.20.0-GA.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/antlr-2.7.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/geronimo-jta_1.1_spec-1.1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jandex-2.0.0.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/classmate-1.3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/dom4j-1.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/hibernate-commons-annotations-5.0.1.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/cdi-api-1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/el-api-2.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jboss-interceptors-api_1.1_spec-1.0.0.Beta1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jsr250-api-1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.inject-1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyshared.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_ja_JP.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.8.2/junit-jupiter-api-5.8.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_it.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_ru.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_zh_TW.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/openjfx/javafx-graphics/15.0.1/javafx-graphics-15.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyoptionaltools.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/openjfx/javafx-graphics/15.0.1/javafx-graphics-15.0.1-win.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/openjfx/javafx-base/15.0.1/javafx-base-15.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_pl.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/openjfx/javafx-controls/15.0.1/javafx-controls-15.0.1-win.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyclient.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/openjfx/javafx-controls/15.0.1/javafx-controls-15.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/junit/platform/junit-platform-commons/1.8.2/junit-platform-commons-1.8.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DerbyJdbcDriver/derbyLocale_ko_KR.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

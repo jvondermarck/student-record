@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Tue May 03 15:56:20 BST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0180-8a6c-113a-00000eb8e1b8 
+on database directory C:\database\MTUDATABASE with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2a139a55 
+Loaded from file:/C:/Users/Julien/Documents/IT/Object%20Oriented%20Programming/Student%20GUI/out/artifacts/Student_Executable_jar/Student.jar
+java.vendor=Oracle Corporation
+java.runtime.version=17.0.2+8-86
+user.dir=C:\Users\Julien\Documents\IT\Object Oriented Programming\Student GUI\out\artifacts\Student_Executable_jar
+os.name=Windows 11
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

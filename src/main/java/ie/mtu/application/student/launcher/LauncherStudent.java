@@ -19,12 +19,14 @@ public class LauncherStudent {
      * @param args arguments passed in the terminal
      */
     public static void main(String[] args) {
-          // JPA add a student : (not working :()
+        // JPA test to add a student : (not working because of the persistence.xml, bad configuration and many errors :()
+        // first method :
 //        StudentManager manager = new StudentManager();
 //        manager.setup();
 //        manager.create();
 //        manager.exit();
 
+        // second method :
 //        EntityManagerFactory factory = Persistence.createEntityManagerFactory("mtudb");
 //        EntityManager em = factory.createEntityManager();
 //        em.getTransaction().begin();
