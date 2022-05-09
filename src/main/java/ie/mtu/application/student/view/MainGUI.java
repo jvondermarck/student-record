@@ -31,7 +31,6 @@ public class MainGUI extends Application {
     private AddStudentGUI addStudent;
     private RecordModuleGUI recordModule;
     private ViewRecordGUI viewRecord;
-    private CrashView crashView;
 
     /**
      * Set the controller
@@ -66,7 +65,6 @@ public class MainGUI extends Application {
         addStudent = new AddStudentGUI();
         recordModule = new RecordModuleGUI();
         viewRecord = new ViewRecordGUI();
-        crashView = new CrashView();
         controller.setUpView(this);
 
         // We create the first tab which is to add a student
@@ -77,9 +75,6 @@ public class MainGUI extends Application {
 
         // The third tab is to view the information of a specific student
         addTab("View module", viewRecord);
-
-        // The last tab is to make the application crash
-        addTab("Crash app", crashView);
 
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ie/mtu/application/student/img/logo-mtu.jpg")));
         primaryStage.getIcons().add(icon);
