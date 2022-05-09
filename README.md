@@ -3,10 +3,6 @@
 </h1>
 <p align="center">Your best record app.</p>
 
-![Size](https://img.shields.io/spiget/download-size/14400)
-![License](https://img.shields.io/badge/License-MIT-red)
-![](https://img.shields.io/badge/Open%20JDK-17-red)
-
 # Project Title
 
 An application that stores student records at the university.
@@ -31,15 +27,32 @@ The records consist of information about each student and information about the 
 - Download the game <a href="https://git.unistra.fr/jvondermarck/student-record/-/blob/main/out/artifacts/Student_jar/Student.jar">here</a>, run, and here you go!
 
 > If you have a problem running the `.jar` file, please follow the instructions to update Java [here](https://www.java.com/fr/download/)
+> Don't forget to download [Derby](https://db.apache.org/derby/derby_downloads.html)
 
 ## Compiling the project
-- TODO
+
+- In a terminal, type the following command `java -jar Student.jar`
+
+Open the .JAR file in the same folder as the database path which sould be `database/MTUDATABASE`.
+
+> If you don't have a JDK version greater than 15 it won't work 
+> And don't forget to install Derby first
 
 # Features
-- TODO
+
+- Use of MVC
+- [Java Doc](docs) created
+- Use of JDBC Derby database
+- Implementation of JPA (need to be finish)
+- JUnit test cases
+- Display error messages to the user if something is going wrong
+
+![Main](img/tab2.png)
+![Main](img/tab3.png)
 
 # License
-- TODO
+- Check the following licence [here](LICENSE)
+
 # Authors
 
 - Developped by : **Julien Von Der Marck**

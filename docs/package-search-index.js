@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ie.mtu.application.student.controller"},{"l":"ie.mtu.application.student.launcher"},{"l":"ie.mtu.application.student.model"},{"l":"ie.mtu.application.student.view"}];updateSearchResults();
